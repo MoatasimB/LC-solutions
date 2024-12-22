@@ -1,30 +1,13 @@
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
         
-        def check(mid):
+        n = [0] * (len(citations) + 1)
 
-            ans = 0 
-
-            for i in range(len(citations)):
-                if mid <= citations[i]:
-                    ans +=1
-            
-            return mid <= ans
-
-
-        l = 0
-        r = max(citations)
-        ans = 0
-
-        while l <= r:
-
-            mid = (l+r) // 2
-            print(l,r,mid)
-
-            if check(mid):
-                ans = mid
-                l = mid + 1
-            else:
-                r = mid - 1
-        
-        return ans
+        for i in range(len(citations)):
+            n[min(citations[i], len(citations))] += 1
+        print(n)
+        curr = 0
+        for i in range(len(n) - 1, -1, - 1):
+            curr += n[i]
+            if curr >= i:
+                return i
