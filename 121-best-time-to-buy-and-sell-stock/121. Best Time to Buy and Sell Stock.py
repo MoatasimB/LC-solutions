@@ -6,7 +6,6 @@ class Solution:
         for i in range(len(prices)):
             if prices[i] < currMin:
                 currMin = prices[i]
-                continue
             else:
                 ans = max(ans, prices[i]-currMin)
         return ans
