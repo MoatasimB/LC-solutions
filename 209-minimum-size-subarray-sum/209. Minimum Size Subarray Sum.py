@@ -8,14 +8,12 @@ class Solution:
         for r in range(len(nums)):
             curr += nums[r]
 
-            while curr > target:
+            while curr >= target:
                 length = min(length, r-l+1)
                 curr -= nums[l]
                 l +=1
             
-            if curr == target and length > r -l + 1:
-                length = r-l+1
-                start = l
+
         
         return length if length != float("inf") else 0
 
