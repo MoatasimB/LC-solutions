@@ -21,6 +21,8 @@ class Solution:
 
         while i < n:
             curr = nums[i]
+            if curr > 0:
+                break
             i+=1
             tSum(i, n-1, curr)
             while i < len(nums) - 1 and nums[i] == nums[i-1]:
