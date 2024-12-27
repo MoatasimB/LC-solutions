@@ -18,30 +18,29 @@ class Solution:
                 newr = r + dx
                 newc = c + dy
 
-                if valid(newr, newc) and copy[newr][newc] == 1:
+                if valid(newr, newc) and abs(board[newr][newc]) == 1 :
                     count +=1
             return count
         
-        copy = [[0]*n for _ in range(m)]
-
-        for i in range(m):
-            for j in range(n):
-                copy[i][j] = board[i][j]
+    
 
 
         for i in range(m):
             for j in range(n):
-                val = copy[i][j]
+                val = board[i][j]
                 count = checkN(i,j)
+                if val == 1 and (count < 2 or count > 3):
+                    board[i][j] = -1
                 if val == 0 and count == 3:
-                    board[i][j] = 1
-                elif val == 1 and (count < 2 or count > 3):
-                    board[i][j] = 0
-                # elif val == 1 and count > 3:
-                #     board[i][j] == 0
-                # elif val == 1 and count == 2 or count == 3:
-                #     board[i][j] == 1
-        
+                    board[i][j] = 2
 
+              
+        
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] > 0:
+                    board[i][j] = 1
+                else:
+                    board[i][j] = 0
 
 
