@@ -3,19 +3,13 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        
-        for i in range(len(matrix)):
-            for j in range(i, len(matrix[0])):
+        n = len(matrix)
+        for i in range(n):
+            for j in range(i+1, n):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-            
-        for row in range(len(matrix)):
-            i = 0
-            j = len(matrix[0]) - 1
 
-            while i <= j:
-                matrix[row][i],matrix[row][j] = matrix[row][j],matrix[row][i]
-                i +=1
-                j -=1
+        for i in range(n):
+            for j in range(n//2):
+                matrix[i][j], matrix[i][-j-1] = matrix[i][-j-1], matrix[i][j]
         
-
-
+        return matrix
