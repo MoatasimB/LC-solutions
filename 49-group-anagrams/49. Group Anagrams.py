@@ -10,11 +10,11 @@ class Solution:
         return res.values()
 
 
-        # # from collections import defaultdict
-        # anagrams = defaultdict(list)
+        # from collections import defaultdict
+        anagrams = defaultdict(list)
 
-        # for word in strs:
-        #     key = "".join(sorted(word))
-        #     anagrams[key].append(word)
+        for word in strs:
+            key = "".join(sorted(word))
+            anagrams[key].append(word)
 
-        # return anagrams.values()
+        return anagrams.values()
