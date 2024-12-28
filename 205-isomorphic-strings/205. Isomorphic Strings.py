@@ -1,20 +1,17 @@
 class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
-
-
-        map = {}
-        map2 = {}
-        for ch in range(len(t)):
-            map2[t[ch]] = map2.get(t[ch], 0) + 1
+        mapping_s_t = {}
+        mapping_t_s = {}
 
         for i in range(len(s)):
-            if s[i] not in map:
-                map[s[i]] = t[i]
+
+            sch = s[i]
+            tch = t[i]
+
+            if s[i] not in mapping_s_t and t[i] not in mapping_t_s:
+                mapping_s_t[s[i]] = t[i]
+                mapping_t_s[t[i]] = s[i]
             else:
-                if map[s[i]] != t[i]:
+                if mapping_s_t.get(s[i]) != t[i] or mapping_t_s.get(t[i]) != s[i]:
                     return False
-            
-        if len(map) != len(map2):
-            return False
         return True
-        
