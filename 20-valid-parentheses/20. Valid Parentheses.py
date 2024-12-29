@@ -1,23 +1,26 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        
-        stack = []
-        dic = {
-            ')' : '(',
-            ']' : '[',
-            '}' : '{',
-        }
-
-        for ch in s:
-            if ch in dic:
-                if stack and stack[-1] != dic[ch]:
-                    return False
+        answer= []
+        for symbol in s:
+            if symbol == "(" or symbol == "{" or symbol == "[":
+                answer.append(symbol)
+            elif symbol == ")":
+                if answer and answer[-1] == "(":
+                    answer.pop()
                 else:
-                    if stack:
-                        stack.pop()
-                        continue
-                    else:
-                        return False
-            stack.append(ch)
-        
-        return len(stack) == 0
+                    answer.append(symbol)
+            elif symbol == "}":
+                if answer and answer[-1] == "{":
+                    answer.pop()
+                else:
+                    answer.append(symbol)
+            elif symbol == "]":
+                if answer and answer[-1] == "[":
+                    answer.pop()
+                else:
+                    answer.append(symbol)
+
+        if len(answer) == 0:
+            return True
+        else:
+            return False
