@@ -21,6 +21,7 @@ class Solution:
             NewNode = Node(dummy.val)
             new.next = NewNode
             nodes[dummy] = NewNode
+            
             new = new.next
             dummy = dummy.next
         
@@ -30,8 +31,7 @@ class Solution:
         while dummy:
             if dummy.random in nodes:
                 new.random = nodes[dummy.random]
-            else:
-                new.random = None
+
             dummy = dummy.next
             new = new.next
         
