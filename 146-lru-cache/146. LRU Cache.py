@@ -1,80 +1,71 @@
 class Node:
-    def __init__(self, key, val):
+    def __init__(self,key, val, next, prev):
         self.val = val
         self.key = key
-        self.prev = None
-        self.next = None
+        self.next = next
+        self.prev = prev
 
 class LRUCache:
 
     def __init__(self, capacity: int):
         self.cap = capacity
-        self.head = Node(-1, -1)
-        self.tail = Node(-1, -1)
-        self.map = {}
-        self.count = 0
+        self.dic = {}
+        self.size = 0
+        self.head = Node(-1,-1, None, None)
+        self.tail = Node(-1,-1, None, None)
 
         self.head.next = self.tail
         self.tail.prev = self.head
-        
+
 
     def get(self, key: int) -> int:
-        if key not in self.map:
+        if key not in self.dic:
             return -1
         
-        node = self.map[key]
+        node = self.dic[key]
+        ans = node.val
 
-        val = node.val
-        
         self.delete(node)
-        self.addFront(node)
+        self.add(node)
 
-        return val
+        return ans
+
         
 
     def put(self, key: int, value: int) -> None:
-        if key in self.map:
-            nodeToDelete = self.map[key]
-            self.count -=1
-            self.delete(nodeToDelete)
-            del self.map[key] 
+        if key in self.dic:
+            node = self.dic[key]
+            self.delete(node)
+            self.size -= 1
         
-        node = Node(key, value)
+        self.dic[key] = Node(key,value, None, None)
+        node = self.dic[key]
 
-        self.map[key] = node
+        self.add(node)
 
-        self.addFront(node)
+        self.size +=1
 
-        self.count +=1
-
-        if self.count > self.cap:
-            LRUNODE = self.tail.prev
-
-            del self.map[LRUNODE.key]
-            self.delete(LRUNODE)
-            self.count -= 1
-
-
+        if self.size > self.cap:
+            del self.dic[self.tail.prev.key]
+            self.delete(self.tail.prev)
+            self.size -= 1
 
     
-
-    def addFront(self, node):
-
+    def add(self, node):
         nextNode = self.head.next
-
         self.head.next = node
         node.next = nextNode
+        node.prev = self.head
 
         nextNode.prev = node
-        node.prev = self.head
     
-    def delete(self, node):
 
-        prevNode = node.prev
+    def delete(self, node):
+        PrevNode = node.prev
         nextNode = node.next
 
-        prevNode.next = nextNode
-        nextNode.prev = prevNode
+        PrevNode.next = nextNode
+        nextNode.prev = PrevNode
         
 
 
