@@ -16,19 +16,18 @@ class Solution:
 
         while curr:
             nextNode = curr.next
+            
             if curr.val < x:
                 X.next = curr
-                
-                curr.next = None
                 X = curr
-                curr = nextNode
             else:
-
                 y.next = curr
-                
-                curr.next = None
                 y = curr
-                curr = nextNode
+
+            curr.next = None
+            curr = nextNode
+
+
         X.next = larger.next
 
         return smaller.next
