@@ -16,7 +16,6 @@ class Solution:
         def rev(n):
             prev = None
             for _ in range(k):
-                # print(n.val)
                 nextNode = n.next
                 n.next = prev
                 prev = n
@@ -24,7 +23,6 @@ class Solution:
             connection = None
             if n:
                 connection = n
-            # print(prev.val, connection.val)
             return [prev, connection]
         
         curr = head
