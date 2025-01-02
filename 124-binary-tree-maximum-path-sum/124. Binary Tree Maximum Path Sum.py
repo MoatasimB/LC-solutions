@@ -22,11 +22,7 @@ class Solution:
             right = max(right, 0)
 
             return max(0,max(left, right) + root.val)
-            next = max(0,left,right)
-            if next == 0:
-                return max(0,root.val)
-            else:
-                return max(0,next + root.val)
+
         
         dfs(root)
         return ans
