@@ -17,6 +17,11 @@ class Solution:
             right = dfs(root.right)
 
             ans = max(ans, root.val + left + right)
+
+            left = max(left, 0)
+            right = max(right, 0)
+
+            return max(0,max(left, right) + root.val)
             next = max(0,left,right)
             if next == 0:
                 return max(0,root.val)
