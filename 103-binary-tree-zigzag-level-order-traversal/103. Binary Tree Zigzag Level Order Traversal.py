@@ -10,6 +10,9 @@ class Solution:
             return []
         q = deque([root])
 
+        level = deque()
+        regular = True
+
         ans = []
 
         while q:
@@ -18,16 +21,23 @@ class Solution:
             for i in range(size):
                 node = q.popleft()
 
+                if regular:
+                    level.append(node.val)
+                else:
+                    level.appendleft(node.val)
+
                 if node.left:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
                 
-                curr.append(node.val)
-            ans.append(curr)
+                # curr.append(node.val)
+            ans.append(level)
+            regular = not regular
+            level = deque()
         
-        for i in range(len(ans)):
-            if i % 2:
-                ans[i].reverse()
+        # for i in range(len(ans)):
+        #     if i % 2:
+        #         ans[i].reverse()
         
-        return ans
+        return [list(x) for x in ans]
