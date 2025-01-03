@@ -9,25 +9,31 @@ class BSTIterator:
     def __init__(self, root: Optional[TreeNode]):
         self.root = root
 
-        self.inorder = [-1]
-        self.dfs(self.root)
-        self.pos = 0
+        self.inorder = []
+        self.getLeft(self.root)
 
     def next(self) -> int:
-        self.pos +=1
-        return self.inorder[self.pos]
+
+        smallestNode = self.inorder.pop()
+        smallestVal = smallestNode.val
+
+        if smallestNode.right:
+            self.getLeft(smallestNode.right)
+        return smallestVal
         
 
     def hasNext(self) -> bool:
-        return self.pos + 1 < len(self.inorder)
-    
-    def dfs(self, root):
+        return len(self.inorder) > 0
+    def getLeft(self, root):
 
         if not root:
             return
-        self.dfs(root.left)
-        self.inorder.append(root.val)
-        self.dfs(root.right)
+        
+        while root:
+            self.inorder.append(root)
+            root = root.left
+
+        
 
 
         
