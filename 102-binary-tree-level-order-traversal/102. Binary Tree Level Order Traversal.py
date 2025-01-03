@@ -9,20 +9,25 @@ class Solution:
         if not root:
             return []
         q = deque([root])
-
         ans = []
-
         while q:
-            size = len(q)
+            # print(q)
+            # print("____________")
+            
             curr = []
-            for i in range(size):
+            for _ in range(len(q)):
                 node = q.popleft()
+                # if not node:
+                #     print(q)
+                # if node:
+                curr.append(node.val)
 
-                if node.left:
+                if node and node.left:
                     q.append(node.left)
-                if node.right:
+                if node and node.right:
                     q.append(node.right)
                 
-                curr.append(node.val)
             ans.append(curr)
         return ans
+
+        
