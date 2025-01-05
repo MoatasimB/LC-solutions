@@ -9,35 +9,38 @@ class Solution:
         print(adj)
         ans = []
 
-        def bfs(currentNode,finalNode,curr,seen):
+        def dfs(currentNode,finalNode,curr,seen):
 
-            q = deque([(currentNode, curr)])
+            # q = deque([(currentNode, curr)])
+            
+            # while q:
+            #     node, currValue = q.popleft()
+
+            #     if node == finalNode:
+            #         return currValue
+            #     seen.add(node)
+            #     for nei,val in adj[node]:
+            #         if nei not in seen:
+            #             q.append((nei, currValue * val))
+            
+            # return -1
+
+
+
+
+
+            if currentNode == finalNode:
+                return curr
             seen.add(currentNode)
+            ans = -1
+            for nei,val in adj[currentNode]:
+                if nei not in seen:
+                    ans = dfs(nei, finalNode, curr*val, seen)
+                    if ans != -1:
+                        break
+
             
-            while q:
-                node, currValue = q.popleft()
-
-                if node == finalNode:
-                    return currValue
-                for nei,val in adj[node]:
-                    if nei not in seen:
-                        seen.add(nei)
-                        q.append((nei, currValue * val))
-            
-            return -1
-
-
-
-
-
-            # if currentNode == finalNode:
-            #     return curr
-            # seen.add(currentNode)
-            # for nei,val in adj[currentNode]:
-            #     if nei not in seen:
-            #         return dfs(nei, finalNode, curr*val, seen)
-            
-            # return -1.00000
+            return ans
 
 
 
@@ -46,6 +49,6 @@ class Solution:
             if (start not in adj) or (end not in adj):
                 ans.append(-1.00000)
                 continue
-            ans.append(bfs(start, end, 1, set()))
+            ans.append(dfs(start, end, 1, set()))
         
         return ans
