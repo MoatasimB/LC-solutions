@@ -5,11 +5,18 @@ class Solution:
         mpp = [None] * ((n**2) + 1)
         label = 1
         columns = list(range(0,n))
+        front = True
         for row in range(n-1, -1, -1):
-            for col in columns:
-                mpp[label] = (row ,col)
-                label +=1
-            columns.reverse()
+            if front:
+                for col in columns:
+                    mpp[label] = (row ,col)
+                    label +=1
+            else:
+                for col in columns[::-1]:
+                    mpp[label] = (row ,col)
+                    label +=1
+            front = not front
+            # columns.reverse()
         
         q = deque()
         q.append((1, 0))
