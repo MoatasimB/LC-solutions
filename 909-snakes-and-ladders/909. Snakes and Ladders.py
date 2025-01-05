@@ -10,7 +10,6 @@ class Solution:
                 mpp[label] = (row ,col)
                 label +=1
             columns.reverse()
-        print(mpp)
         
         q = deque()
         q.append((1, 0))
