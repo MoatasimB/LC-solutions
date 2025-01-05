@@ -1,53 +1,34 @@
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         
-        def conversion(square):
-            
-            row = (square - 1) // n
-            
-            col = (square - 1) % n
-            
-            if n % 2 == 0:
-                if (n-row-1) % 2 == 0:
-                    col = n - 1 - col
-            else:
-                if (n-row-1) % 2 != 0:
-                    col = n - 1 - col
-                
-            
-            return [n-row -1, col]
-                
-            
-   
-
-
         n = len(board)
+        mpp = [None] * ((n**2) + 1)
+        label = 1
+        columns = list(range(0,n))
+        for row in range(n-1, -1, -1):
+            for col in columns:
+                mpp[label] = (row ,col)
+                label +=1
+            columns.reverse()
+        print(mpp)
         
-        seen = {1}
-        q = deque([(1, 0)])
+        q = deque()
+        q.append((1, 0))
+        seen = set()
+        seen.add(1)
         
         while q:
-            
-            square, steps = q.popleft()
-            
-            if square == n**2:
-                print(square, steps)
-                return steps
-            
-            for next_square in range(square + 1, min(square + 6, n**2) + 1):
-                row, col = conversion(next_square)
-                
-                print(row, col, next_square)
-                if board[row][col] != -1:
-                    if board[row][col] not in seen:
-                        seen.add(board[row][col])
-                        q.append((board[row][col], steps + 1))
-                else:
-                    if next_square not in seen:
-                        seen.add(next_square)
-                        q.append((next_square, steps + 1))
-            
+            sq, moves = q.popleft()
+            if sq == n**2:
+                return moves
+
+            for nextSq in range(sq + 1, min(sq + 6, n*n) + 1):
+                r,c = mpp[nextSq]
+                if nextSq not in seen:
+                    seen.add(nextSq)
+                    if board[r][c] != -1:
+                        q.append((board[r][c], moves +1))
+                    else:
+                        q.append((nextSq, moves + 1))
         
         return -1
-                
-                
