@@ -1,7 +1,7 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         indegree = [0] * numCourses
-        adj = defaultdict(list)
+        adj = [[] for _ in range(numCourses)]
         for second, first in prerequisites:
             indegree[second] +=1
             adj[first].append(second)
