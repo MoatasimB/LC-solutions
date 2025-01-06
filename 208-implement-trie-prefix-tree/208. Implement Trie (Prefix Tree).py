@@ -1,6 +1,6 @@
 class Node:
     def __init__(self):
-        self.children = {}
+        self.children = [None] * 26
         self.end = False
 class Trie:
 
@@ -12,9 +12,12 @@ class Trie:
         curr = self.root
 
         for ch in word:
-            if ch not in curr.children:
-                curr.children[ch] = Node()
-            curr = curr.children[ch]
+            if not curr.children[ord(ch) - ord('a')]:
+                curr.children[ord(ch) - ord('a')] = Node()
+
+            # if ch not in curr.children:
+            #     curr.children[ch] = Node()
+            curr = curr.children[ord(ch) - ord('a')]
 
         curr.end = True
         
@@ -24,9 +27,9 @@ class Trie:
         curr = self.root
 
         for ch in word:
-            if ch not in curr.children:
+            if not curr.children[ord(ch) - ord('a')]:
                 return False
-            curr = curr.children[ch]
+            curr = curr.children[ord(ch) - ord('a')]
         
         return curr.end
 
@@ -35,9 +38,9 @@ class Trie:
         curr = self.root
 
         for ch in prefix:
-            if ch not in curr.children:
+            if not curr.children[ord(ch) - ord('a')]:
                 return False
-            curr = curr.children[ch]
+            curr = curr.children[ord(ch) - ord('a')]
         
         return True
         
