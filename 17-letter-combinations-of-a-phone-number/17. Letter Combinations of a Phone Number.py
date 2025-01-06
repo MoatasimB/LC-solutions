@@ -1,30 +1,30 @@
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
-        
-        mpp = {
-            "2":"abc",
-            "3":"def",
-            "4":"ghi",
-            "5":"jkl",
-            "6":"mno",
-            "7":"pqrs",
-            "8":"tuv",
-            "9":"wxyz",
+        dic = {
+            "2": ["a", "b", "c"],
+            "3": ["d", "e", "f"],
+            "4": ["g", "h", "i"],
+            "5": ["j", "k", "l"],
+            "6": ["m", "n", "o"],
+            "7": ["p", "q", "r", "s"],
+            "8": ["t", "u", "v"],
+            "9": ["w", "x", "y", "z"],
         }
-        if not digits:
+        if digits =="":
             return []
-        ans = []
-        def dfs(i, curr):
-            if i == len(digits):
+        def backtrack(curr,i):
+            
+            if len(curr) == len(digits):
                 ans.append("".join(curr[:]))
                 return
             
-            # for j in range(i, len(digits)):
-            for ch in mpp[digits[i]]:
-                curr.append(ch)
-
-                dfs(i+1, curr)
-
+            letters = dic[digits[i]]
+            # for n in range(i,len(digits)):
+            for l in letters:
+                curr.append(l)
+                backtrack(curr, i+1)
                 curr.pop()
-        dfs(0,[])
-        return ans
+        ans = []
+        backtrack([],0)
+        # print(ans)
+        return(ans)
