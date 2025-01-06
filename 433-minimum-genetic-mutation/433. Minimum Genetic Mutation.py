@@ -1,38 +1,30 @@
 class Solution:
     def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
-        
         bank = set(bank)
-        
-        def neighbors(gene):
+        def neighbors(word):
             ans = []
-            for i in range(8):
-                char = gene[i]
-                for ch in "ACTG":
-                    stringGene = "".join(gene[:i] + ch + gene[i+1:])
-                    # ans.append(stringGene)
-                    ans.append(gene[:i] + ch + gene[i+1:])
-
-            
-
+            for i in range(len(word)):
+                for ch in "ACGT":
+                    new = word[:i] + ch + word[i+1:]
+                    if new in bank:
+                        ans.append(new)
             return ans
         
+        q = deque()
+        seen = set()
 
-        q = deque([(startGene,0)])
-        seen = {startGene}
-        
+        q.append((startGene,0))
+        seen.add(startGene)
         while q:
-            currGene, steps = q.popleft()
-            
-            if currGene == endGene:
+            word, steps = q.popleft()
+
+            if word == endGene:
                 return steps
-            
-            for neighbor in neighbors(currGene):
-                if neighbor in bank and neighbor not in seen:
-                    seen.add(neighbor)
-                    q.append((neighbor, steps + 1))
-            
+
+            for nei in neighbors(word):
+                if nei not in seen:
+                    seen.add(nei)
+                    q.append((nei, steps +1))
         
-        return -1 
-            
-                
-        
+        return -1
+
