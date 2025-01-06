@@ -19,7 +19,6 @@ class Solution:
                 ans.append("".join(curr[:]))
                 return
             
-            # for j in range(i, len(digits)):
             for ch in mpp[digits[i]]:
                 curr.append(ch)
 
