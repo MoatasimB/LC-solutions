@@ -36,6 +36,9 @@ class Solution:
         def dfs(r,c, curr, w, seen):
             if curr.end:
                 ans.add(w)
+                curr.end = False
+
+
 
             for dx, dy in dirs:
                 nr = dx + r
