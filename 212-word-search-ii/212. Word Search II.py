@@ -35,7 +35,7 @@ class Solution:
         
         def dfs(r,c, curr, w, seen):
             if curr.end:
-                ans.add(w)
+                ans.append(w)
                 curr.end = False
 
 
@@ -51,7 +51,7 @@ class Solution:
                     seen.remove((nr,nc))
         
         # curr = t.root
-        ans = set()
+        ans = []
         for i in range(m):
             for j in range(n):
                 if board[i][j] in t.root.children:
@@ -59,4 +59,4 @@ class Solution:
                     seen.add((i,j))
                     dfs(i,j,t.root.children[board[i][j]], board[i][j], seen)
         
-        return list(ans)
+        return ans
