@@ -1,24 +1,39 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         
+        par = ["(", ")"]
+        
 
-        ans = []
-
-        def dfs(left, right, curr):
-
-            if left == n and right == n:
+        
+        def backtrack(curr, right, left):
+            
+            if len(curr) == n*2:
                 ans.append("".join(curr[:]))
                 return
             
-            if left < n:
-                curr.append("(")
-                dfs(left + 1, right, curr)
-                curr.pop()
-            
-            if right < left:
-                curr.append(")")
-                dfs(left, right + 1, curr)
-                curr.pop()
-            
-        dfs(0,0,[])
+            for p in par:
+                if p == ")" and right >= left:
+                    continue
+                if p == "(" and left >= n:
+                    continue
+                curr.append(p)
+                if p == "(":
+                    left += 1
+                else:
+                    right +=1
+                backtrack(curr, right, left)
+                x = curr.pop()
+                if x == "(":
+                    left -= 1
+                else:
+                    right -=1
+ 
+        
+        ans = []
+        backtrack([],0,0)
         return ans
+        
+        
+        
+        
+        
