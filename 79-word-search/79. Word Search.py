@@ -9,26 +9,24 @@ class Solution:
         
         dirs = [(0,1), (0,-1), (1,0), (-1,0)]
 
-        def dfs(r, c, i, curr, seen):
-            if "".join(curr) == word:
+        def dfs(r, c, i, seen):
+            if i == len(word):
                 return True
             for dx, dy in dirs:
                 nr = dx + r
                 nc = dy + c
                 if valid(nr,nc) and (nr,nc) not in seen and board[nr][nc] == word[i]:
                     seen.add((nr,nc))
-                    curr.append(board[nr][nc])
-                    if dfs(nr,nc,i+1, curr, seen):
+                    if dfs(nr,nc,i+1, seen):
                         return True
                     
                     seen.remove((nr,nc))
-                    curr.pop()
         
 
         for i in range(m):
             for j in range(n):
                 if board[i][j] == word[0]:
-                    if dfs(i,j,1, [board[i][j]], set([(i,j)])):
+                    if dfs(i,j,1, set([(i,j)])):
                         return True
         
         return False
