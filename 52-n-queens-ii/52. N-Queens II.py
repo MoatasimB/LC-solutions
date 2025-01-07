@@ -1,27 +1,30 @@
 class Solution:
     def totalNQueens(self, n: int) -> int:
         
-        cols = set()
-        posD = set()
-        negD = set()
+        COLS = set()
+        PD = set()
+        ND = set()
 
-        ans = 0
-        def dfs(r):
-            nonlocal ans
+        def backtrack(r):
+
             if r == n:
-                ans += 1
+                return 1
             
-            for col in range(n):
-                if (col not in cols) and (r + col not in posD) and (r - col not in negD):
-                    cols.add(col)
-                    posD.add(r+col)
-                    negD.add(r-col)
+            sols = 0
 
-                    dfs(r+1)
+            for c in range(n):
+                if c not in COLS and (r-c) not in ND and (r+c) not in PD:
 
-                    cols.remove(col)
-                    posD.remove(r+col)
-                    negD.remove(r-col)
-        
-        dfs(0)
-        return ans
+                    COLS.add(c)
+                    PD.add(r+c)
+                    ND.add(r-c)
+
+                    sols += backtrack(r+1)
+
+                    COLS.remove(c)
+                    PD.remove(r+c)
+                    ND.remove(r-c)
+            
+            return sols
+        return backtrack(0)
+
