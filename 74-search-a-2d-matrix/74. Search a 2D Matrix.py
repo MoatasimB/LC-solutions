@@ -22,11 +22,9 @@ class Solution:
         
         l = 0
         r = n - 1
-        print(row)
         while l<=r:
             mid = (l+r) // 2
-            print(matrix[row][mid])
-            print(l,r)
+
 
             if target > matrix[row][mid]:
                 l = mid + 1
@@ -34,7 +32,6 @@ class Solution:
                 r = mid - 1
             else:
                 return True
-            print(l,r)
         return False
 
 
