@@ -27,7 +27,7 @@ class Solution:
         
         def mergeS(left, right):
             if left >=right:
-                return lists[left]
+                return lists[right]
             
             mid = (left + right) // 2
 
