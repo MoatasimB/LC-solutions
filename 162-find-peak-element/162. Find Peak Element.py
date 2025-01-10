@@ -3,8 +3,7 @@ class Solution:
         n = len(nums)
         l = 0
         r = len(nums) - 1
-        if len(nums) == 1:
-            return 0
+     
         while l<=r:
             mid = (l+r) // 2
             if mid == n - 1:
@@ -26,4 +25,4 @@ class Solution:
                 elif nums[mid-1] > nums[mid]:
                     r = mid - 1
         
-
+        return 0
