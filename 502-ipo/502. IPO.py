@@ -4,31 +4,26 @@ class Solution:
         comb = []
 
         for i in range(len(capital)):
-            comb.append([-profits[i], capital[i]])
+            comb.append([capital[i], profits[i]])
         
-        heapq.heapify(comb)
+        comb.sort()
+        heap = []
 
-        curr = w
-
+        i = 0
         while k:
-            waitlist = []
-            while comb and comb[0][1] > curr:
-                waitlist.append(heapq.heappop(comb))
+            
+            while i < len(comb) and comb[i][0] <= w:
+                heapq.heappush(heap, -comb[i][1])
+                i+=1
 
-            if not comb:
-                return curr
-            projectProfit, cost  = heapq.heappop(comb)
-
-            projectProfit *= -1
-
-            curr  += projectProfit
-
-            for i in range(len(waitlist)):
-                heapq.heappush(comb, waitlist[i])
+            if not heap:
+                break
+            
+            w += -heapq.heappop(heap)
 
             k -= 1
         
-        return curr
+        return w
 
 
         [ [-1,0]]
