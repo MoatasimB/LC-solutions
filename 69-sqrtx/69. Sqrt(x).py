@@ -10,4 +10,3 @@ class Solution:
                 if i*i == x:
                     return i
                 return i-1
-        return 0
