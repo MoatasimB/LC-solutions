@@ -6,8 +6,8 @@ class Solution:
 
             if s[i:] in wordDict:
                 return True
-            if i == len(s):
-                return False
+            # if i == len(s):
+            #     return False
             if i in dp:
                 return dp[i]
             for j in range(i, len(s)):
