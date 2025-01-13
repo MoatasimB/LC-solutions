@@ -1,19 +1,19 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        dp = {}
-        def dfs(i):
-            if i == 0:
-                return nums[0]
-            
-            if i == 1:
-                return max(nums[1], nums[0])
 
-            if i in dp:
-                return dp[i]
-            
-            dp[i] = max(nums[i] + dfs(i-2), dfs(i-1))
+        dp = [0] * len(nums)
 
-            return dp[i]
+        if len(nums) == 1:
+            return nums[0]
         
-        return dfs(len(nums) - 1)
+        if len(nums) == 2:
+            return max(nums[0], nums[1])
+        
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+
+        for i in range(2, len(nums)):
+            dp[i] = max(nums[i] + dp[i-2], dp[i-1])
+        
+        return dp[len(nums) - 1]
 
