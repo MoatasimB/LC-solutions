@@ -15,13 +15,8 @@ class Solution:
                 if nums[j] < nums[i]:
                     curr = max(curr, 1 + dfs(j))
             
-            if curr != float("-inf"):
-                dp[i] = curr
+            dp[i] = curr if curr != float('-inf') else 1
             
-            if i in dp:
-                return dp[i]
-            
-            dp[i] = 1
             return dp[i]
         
         for i in range(len(nums)-1, -1,-1):
