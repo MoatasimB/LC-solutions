@@ -26,11 +26,11 @@ class Solution:
 
         dp = {}
         for i in range(len(nums)):
-            curr = float("-inf")
+            curr = 1
             for j in range(i):
                 if nums[j] < nums[i]:
                     curr = max(curr, 1 + dp[j])
 
-            dp[i] = curr if curr != float('-inf') else 1
-        
+            dp[i] = curr
+            
         return max(dp.values())
