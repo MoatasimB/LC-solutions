@@ -30,5 +30,4 @@ class Solution:
                 if i > 0:
                     up = dp[i-1][j]
                 dp[i][j] = grid[i][j] + min(up, left)
-        print(dp)
         return dp[len(grid) - 1][len(grid[0])-1]
