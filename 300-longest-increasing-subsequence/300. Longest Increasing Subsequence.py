@@ -2,11 +2,11 @@ class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         
         dp = {}
+        dp[0] = 1
 
         def dfs(i):
 
             if i == 0:
-                dp[0] = 1
                 return 1
             if i in dp:
                 return dp[i]
