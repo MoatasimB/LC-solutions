@@ -3,7 +3,6 @@ class Solution:
         
         ans = 1
         for i in range(len(points)):
-            # curr = 0 
             dic = defaultdict(int)
             for j in range(i + 1, len(points)):
                 curr = 1
@@ -16,7 +15,6 @@ class Solution:
                 if slope not in dic:
                     curr += 1
                     dic[slope] = 2
-                    # seen.add(slope)
                 else:
                     dic[slope] += 1
                     curr = dic[slope]
