@@ -2,10 +2,10 @@ class Solution:
     def climbStairs(self, n: int) -> int:
         dp = {}
         def dfs(n):
-            if n == 1:
+            if n == 1 or n == 0:
                 return 1
-            if n == 2:
-                return 2
+            if n < 0:
+                return 0
             
             if n in dp:
                 return dp[n]
