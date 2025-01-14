@@ -3,24 +3,26 @@ class Solution:
         dp = {}
         if len(s1) + len(s2) != len(s3):
             return False
-        def dfs(i,j,c):
-            if (i,j,c) in dp:
-                return dp[(i,j,c)]       
-            
-            if i == -1 and j == -1 and c == -1:
-                dp[(i,j,c)] = True
+        def dfs(i,j):
+            if (i,j) in dp:
+                return dp[(i,j)]
+  
+  
+            if i == -1 and j == -1 :
+                dp[(i,j)] = True
                 return True
-            if i >=0 and s1[i] == s3[c]:
-                if dfs(i-1, j, c-1):
-                    dp[(i,j,c)] = True
+            
+            if i >=0 and s1[i] == s3[i + j + 1]:
+                if dfs(i-1, j):
+                    dp[(i,j)] = True
                     return True
             
-            if j>=0 and s2[j] == s3[c]:
-                if dfs(i, j-1, c-1):
-                    dp[(i,j,c)] = True
+            if j>=0 and s2[j] == s3[i + j + 1]:
+                if dfs(i, j-1):
+                    dp[(i,j)] = True
                     return True
             
-            dp[(i,j,c)] = False
+            dp[(i,j)] = False
             return False
             
-        return dfs(len(s1)-1, len(s2)-1, len(s3)-1)
+        return dfs(len(s1)-1, len(s2)-1)
