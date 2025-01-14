@@ -31,20 +31,26 @@ class Solution:
         dp = [[False] * (len(s2) + 1) for _ in range(len(s1) + 1)]
 
         dp[0][0] = True
-
-        for i in range(len(s1)+1):
-            for j in range(len(s2)+1):
-                if i==0 and j == 0:
-                    continue
-                
-                up = False
-                if i > 0 and s1[i-1] == s3[i+j-1]:
-                    up = dp[i-1][j]
-                
-                left = False
-                if j > 0 and s2[j-1] == s3[i+j-1]:
-                    left = dp[i][j-1]
-                
-                dp[i][j] = left or up
         
-        return dp[len(s1)][len(s2)]
+        prev = [False] * (len(s2) + 1)
+        prev[0] = True
+        
+        for i in range(1, len(s2) + 1):
+            if s2[i-1] == s3[i-1] and prev[i-1]:
+                prev[i] = True
+        for i in range(1, len(s1)+1):
+            curr = [False] * (len(s2) + 1)
+            # if s1[i-1] == s3[i-1]:
+            #     curr[0] = True
+            for j in range(len(s2)+1):
+                up = False
+                if s1[i-1] == s3[i+j-1]:
+                    up = prev[j]
+                left = False
+                if j>0 and s2[j-1] == s3[i+j-1]:
+                    left = curr[j-1]
+                
+                curr[j] = left or up
+            print(curr)
+            prev = curr
+        return prev[len(s2)]
