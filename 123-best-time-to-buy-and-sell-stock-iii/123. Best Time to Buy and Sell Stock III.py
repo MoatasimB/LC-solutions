@@ -2,8 +2,8 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         
         bestLeft = [0] * len(prices)
-        bestRight = [0] * (len(prices)
-)
+        bestRight = [0] * len(prices)
+
         left = prices[0]
         for i in range(1, len(bestLeft)):
             if prices[i] > left:
