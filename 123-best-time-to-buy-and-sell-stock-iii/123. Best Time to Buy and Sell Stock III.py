@@ -2,7 +2,7 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         
         bestLeft = [0] * len(prices)
-        bestRight = [0] * (len(prices) + 1
+        bestRight = [0] * (len(prices)
 )
         left = prices[0]
         for i in range(1, len(bestLeft)):
@@ -25,7 +25,7 @@ class Solution:
         ans = 0
 
         for i in range(len(bestLeft)):
-            ans = max(ans, bestLeft[i] + bestRight[i+1])
+            ans = max(ans, bestLeft[i] + bestRight[i])
         
         return ans
         
