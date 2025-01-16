@@ -1,5 +1,24 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
+        
+        prev = [1] * n
+
+        for i in range(1,m):
+            curr = [0] * n
+            for j in range(n):
+         
+                up = prev[j]
+                left = 0
+                if j > 0:
+                    left = curr[j-1]
+        
+                curr[j] = up + left
+            prev = curr
+        
+        return prev[n-1]
+        
+        
+        
         dp = [[0]*n for _ in range(m)]
 
         dp[0][0] = 1
