@@ -1,8 +1,6 @@
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
 
-        carry = 0
-        padding = 1
         total = 0
         paddingj=1
         for j in range(len(num2)-1, -1, -1):
