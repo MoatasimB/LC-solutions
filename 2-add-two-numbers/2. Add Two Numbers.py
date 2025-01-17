@@ -6,50 +6,43 @@
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         
-        i = l1
-        j = l2
+        dummy = ListNode(-1)
+        curr = dummy
         carry = 0
+        while l1 and l2:
+            s = l1.val + l2.val + carry
 
-        dummy = ListNode(0,None)
-        head = dummy
+            carry = s // 10
+            s = s% 10
 
-        while i and j:
-            num = (i.val + j.val + carry) % 10
-            if (i.val + j.val + carry) >=10:
-                carry = 1
-            else:
-                carry = 0
+            curr.next = ListNode(s)
 
-            dummy.next = ListNode(num, None)
-            dummy = dummy.next
+            curr = curr.next
+            l1 = l1.next
+            l2 = l2.next
         
-            i = i.next
-            j = j.next
-        
-        while i:
-            num = (i.val  + carry) % 10
-            if (i.val  + carry) >=10:
-                carry = 1
-            else:
-                carry = 0
 
-            dummy.next = ListNode(num, None)
-            dummy = dummy.next
-        
-            i = i.next
-        while j:
-            num = (j.val  + carry) % 10
-            if (j.val  + carry) >=10:
-                carry = 1
-            else:
-                carry = 0
+        while l1:
+            s = l1.val + carry
+            carry = s // 10
+            s = s % 10
 
-            dummy.next = ListNode(num, None)
-            dummy = dummy.next
-        
-            j = j.next
+            curr.next = ListNode(s)
 
+            curr = curr.next
+            l1 = l1.next
+
+        while l2:
+            s = l2.val + carry
+            carry = s // 10
+            s = s% 10
+
+            curr.next = ListNode(s)
+
+            curr = curr.next
+            l2 = l2.next
+        
         if carry:
-            dummy.next = ListNode(carry, None)
-        return head.next
-
+            curr.next = ListNode(carry)
+        
+        return dummy.next
