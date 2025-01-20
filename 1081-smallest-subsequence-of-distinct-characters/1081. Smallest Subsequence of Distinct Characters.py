@@ -10,7 +10,7 @@ class Solution:
 
         for i in range(len(s)):
             if s[i] not in seen:
-                while stack and stack[-1] >= s[i] and i < lastOcc[stack[-1]]:
+                while stack and stack[-1] > s[i] and i < lastOcc[stack[-1]]:
                     x = stack.pop()
                     seen.remove(x)
                 
