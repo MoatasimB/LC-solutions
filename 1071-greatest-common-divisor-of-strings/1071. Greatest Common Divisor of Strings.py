@@ -6,7 +6,7 @@ class Solution:
         
 
         ans = ""
-        for i in range(len(str2)):
+        for i in range(len(str2)-1, -1, -1):
             curr = str1.split(f"{str2[:i+1]}")
             curr2 = str2.split(f"{str2[:i+1]}")
             flag = True
@@ -19,6 +19,6 @@ class Solution:
                     flag = False
                     break
             if flag:
-                ans = str2[:i+1]
+                return str2[:i+1]
         
         return ans
