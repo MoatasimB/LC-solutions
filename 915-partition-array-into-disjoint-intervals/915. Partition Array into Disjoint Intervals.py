@@ -1,16 +1,18 @@
 class Solution:
     def partitionDisjoint(self, nums: List[int]) -> int:
-        n = len(nums)
-        rightMin = [nums[-1]] * n
-
         
-        
-        for i in range(n-2, -1, -1):
-            rightMin[i] = min(nums[i], rightMin[i+1])
-        
-        curr = nums[0]
-        for i in range(1, n):
-            if curr <= rightMin[i]:
-                return i
+        largestWeSeen = nums[0]
+        largest = nums[0]
+        ans = 0
+        for i in range(1, len(nums)):
+            if nums[i] < largest:
+                ans = i
+                largest = largestWeSeen
             else:
-                curr = max(curr, nums[i])
+                largestWeSeen = max(largestWeSeen, nums[i])
+
+        return ans + 1
+        
+        
+        
+        
