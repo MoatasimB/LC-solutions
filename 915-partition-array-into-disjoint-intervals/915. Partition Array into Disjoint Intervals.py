@@ -11,7 +11,9 @@ class Solution:
             rightMin[i] = min(nums[i], rightMin[i+1])
         
         # print(leftMax, rightMin)
-
+        curr = nums[0]
         for i in range(1, n):
-            if leftMax[i-1] <= rightMin[i]:
+            if curr <= rightMin[i]:
                 return i
+            else:
+                curr = max(curr, nums[i])
