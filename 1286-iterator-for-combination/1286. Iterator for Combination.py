@@ -19,7 +19,6 @@ class CombinationIterator:
             dfs(i+1, curr)
         
         dfs(0, [])
-        print(self.all)
         self.pos = 0
 
     def next(self) -> str:
