@@ -9,9 +9,9 @@ class Solution:
         dp = {}
         def dfs(i, k):
 
-            if i >= n:
+            if i == n:
                 return 0
-            if k <= 0:
+            if k == 0:
                 return 0
             if (i,k) in dp:
                 return dp[(i,k)]
