@@ -14,18 +14,39 @@ class Solution:
 
         while curr:
             s += curr.val
-            mpp[s] = curr
-            curr = curr.next
-        
-        s = 0
-        curr = dummy
 
-        while curr:
-            s += curr.val
-            curr.next = mpp[s].next
+
+            if s in mpp:
+                prev = mpp[s]
+                curr = prev.next
+
+
+                p = s + curr.val
+
+                while p!= s:
+                    del mpp[p]
+                    curr = curr.next
+                    p += curr.val
+                
+                prev.next = curr.next
+            
+            else:
+                mpp[s] = curr
+            
             curr = curr.next
-        
         return dummy.next
+        #     mpp[s] = curr
+        #     curr = curr.next
+        
+        # s = 0
+        # curr = dummy
+
+        # while curr:
+        #     s += curr.val
+        #     curr.next = mpp[s].next
+        #     curr = curr.next
+        
+        # return dummy.next
 
         
 
