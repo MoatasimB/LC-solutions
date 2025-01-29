@@ -14,11 +14,12 @@ class Solution:
         for i in range(1, len(diff)):
             diff[i] = diff[i] + diff[i-1]
         
-        print(diff)
         for i in range(len(nums)):
             nums[i] = nums[i] + diff[i]
 
-            if nums[i] < 0:
+            if nums[i] <= 0:
                 nums[i] = 0
+            else:
+                return False
         
-        return sum(nums) == 0
+        return True
