@@ -14,16 +14,21 @@ class Solution:
             if inDeg[i] == 0:
                 q.append(i)
 
-        ans = []
+        ans = [False] * len(graph)
         while q:
 
             node = q.popleft()
 
-            ans.append(node)
+            ans[node] = True
 
             for nei in adj[node]:
                 inDeg[nei] -= 1
                 if inDeg[nei] == 0:
                     q.append(nei)
         
-        return sorted(ans)
+        final = []
+
+        for i in range(len(ans)):
+            if ans[i]:
+                final.append(i)
+        return final
