@@ -40,7 +40,7 @@ class Solution:
 
                 for nei in adj[node]:
                     if nei in seen:
-                        if (seen[nei] == group):
+                        if (seen[nei] != group + 1 and seen[nei] != group - 1):
                             return -1
                         continue
                     seen[nei] = group + 1
@@ -56,7 +56,6 @@ class Solution:
                 continue
             visited.add(node)
             components = get_components(node)
-            print(components)
             for n in components:
                 x = bfs(n)
                 if x == -1:
