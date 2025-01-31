@@ -4,14 +4,11 @@ class Solution:
 
 
         adj = defaultdict(list)
-        ed = defaultdict(list)
         mmax = 0
         for x, y, w in edges:
             mmax = max(mmax, w)
             adj[y].append((x, w))
-            ed[w].append((y,x))
         
-        print(adj)
         def check(mid):
             seen = set()
             seen.add(0)
@@ -30,18 +27,9 @@ class Solution:
         
         l = 0
         r = mmax + 1
-        # removable = float('-inf')
-
-        # while mmax > 0:
-        #     if check(mmax):
-        #         removable = max(removable, mmax)
-        #         break
-        #     mmax -= 1
-
         removable = float('inf')
         while l <= r:
             mid = (l+r) // 2
-            # print(mid)
             if check(mid):
                 removable = min(mid, removable)
                 r = mid - 1
@@ -50,12 +38,7 @@ class Solution:
 
         if removable == float('inf'):
             return -1 
-        
-        # ans = 0
-        # for key, val in ed.items():
-        #     if key >= removable:
-        #         continue
-        #     ans = max(ans, key)
+ 
         
         return removable
 
