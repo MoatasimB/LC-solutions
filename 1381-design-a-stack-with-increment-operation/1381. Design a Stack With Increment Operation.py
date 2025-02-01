@@ -27,7 +27,7 @@ class CustomStack:
             return
         
         n = len(self.stack)
-        index = n - (n-k) - 1
+        index = k - 1
 
         self.stack[index][1] += val
 
