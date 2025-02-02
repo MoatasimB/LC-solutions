@@ -7,6 +7,7 @@ class Solution:
                 self.roots = [i for i in range(size)]
                 self.ranks = [0] * size
                 self.name = name
+                self.components = size
             
             def find(self, x):
                 if x == self.roots[x]:
@@ -29,18 +30,21 @@ class Solution:
                     else:
                         self.roots[rootY] = rootX
                         self.ranks[rootX] += 1
+                    self.components -= 1
                     return True
                 
                 return False
             
             def traversable(self):
-                for i in range(len(self.roots) - 1):
-                    if not self.isConnected(i, i+1):
-                        return False
+                # for i in range(len(self.roots) - 1):
+                #     if not self.isConnected(i, i+1):
+                #         return False
 
-                print(self.roots)
-                # return len(x) <= 1 
-                return True
+                # print(self.roots)
+                # # return len(x) <= 1 
+                # return True
+                print(self.components)
+                return self.components == 1
             
             def isConnected(self, x, y):
                 return self.find(x) == self.find(y)
