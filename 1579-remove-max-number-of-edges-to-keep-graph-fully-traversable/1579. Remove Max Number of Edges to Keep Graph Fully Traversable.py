@@ -59,10 +59,9 @@ class Solution:
                 if not x and not y:
                     ans +=1
         
-        if not alice.traversable():
+        if not alice.traversable() or not bob.traversable():
             return -1
-        if not bob.traversable():
-            return -1
+ 
         return ans
 
 
