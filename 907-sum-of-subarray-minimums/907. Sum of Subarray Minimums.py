@@ -1,22 +1,25 @@
 class Solution:
     def sumSubarrayMins(self, arr: List[int]) -> int:
+        
 
         stack = []
-        answer  = 0
-        n = len(arr)
+        ans = 0
+        for i in range(len(arr) + 1):
 
-        for right in range(n + 1):
-            while stack and (right ==n or arr[stack[-1]] >= arr[right]):
+            while stack and (i == len(arr) or arr[stack[-1]] >=arr[i]):
+
                 mid = stack.pop()
+
+                right = i
                 if stack:
                     left = stack[-1]
                 else:
                     left = -1
                 
-                numSubs = (mid - left) * (right - mid)
-
-                answer += numSubs * arr[mid]
-
-            stack.append(right)
+                num_of_subs = (mid - left) * (right - mid)
+                total = num_of_subs * arr[mid]
+                ans += total
         
-        return answer % ((10**9) + 7)
+            stack.append(i)
+        
+        return ans % ((10**9) + 7)
