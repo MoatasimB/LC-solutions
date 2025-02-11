@@ -7,8 +7,8 @@ class Solution:
         for i in range(len(nums)):
             while stack and nums[stack[-1]] < nums[i]:
                 idx = stack.pop()
-                if ans[idx] == -1:
-                    ans[idx] = nums[i]
+                # if ans[idx] == -1:
+                ans[idx] = nums[i]
             
             stack.append(i)
         
