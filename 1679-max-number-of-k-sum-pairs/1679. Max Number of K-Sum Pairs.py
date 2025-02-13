@@ -1,24 +1,22 @@
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
         
-        nums.sort()
-        ans = 0
+        # nums.sort()
+        # ans = 0
 
-        i = 0
-        j = len(nums) - 1
+        # i = 0
+        # j = len(nums) - 1
 
-        while i < j:
-            if nums[i] + nums[j] == k:
-                ans += 1
-                i += 1
-                j -= 1
-                continue
-            elif nums[i] + nums[j] > k:
-                j -= 1
-                continue
-            else:
-                i += 1
-        return ans
+        # while i < j:
+        #     if nums[i] + nums[j] == k:
+        #         ans += 1
+        #         i += 1
+        #         j -= 1
+        #     elif nums[i] + nums[j] > k:
+        #         j -= 1
+        #     else:
+        #         i += 1
+        # return ans
         # seen = [False] * len(nums)
         # dic = {}
         # ans = 0
@@ -47,11 +45,11 @@ class Solution:
             if (k - key) in counts and (k - key) not in used:
                 print(key, k-key)
                 if key == k - key:
-                    ans += (val * val - 1) // 2
+                    ans += (val) // 2
                     used.add(key)
                     continue
                 ans += min(val, counts[k-key])
                 used.add(key)
                 used.add(k-key)
         
-        return ans if k not in counts else ans - counts[k]
+        return ans
