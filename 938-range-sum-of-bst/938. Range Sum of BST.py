@@ -10,13 +10,15 @@ class Solution:
         def dfs(root):
             if not root:
                 return 0
-            # if root.val < low or root.val > high:
-            #     return 0
+   
             ans = 0
             if low <= root.val <= high:
                 ans += root.val
             
-            ans += dfs(root.left) + dfs(root.right)
+            if low < root.val:
+                ans += dfs(root.left)
+            if root.val < high:
+                ans += dfs(root.right)
 
             return ans
         
