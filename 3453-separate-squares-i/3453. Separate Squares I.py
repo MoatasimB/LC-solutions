@@ -16,7 +16,6 @@ class Solution:
 
                     bottomLength = mid - y
                     areaBelow += bottomLength * l
-            print(areaAbove, areaBelow)
             if areaAbove - areaBelow == 0:
                 return 1
             if areaAbove > areaBelow:
@@ -28,7 +27,6 @@ class Solution:
         ans = float('inf')
         while r - l > 10**(-5):
             mid = (l+r) / 2.0
-            print(l, mid, r)
             x = check(mid)
             if x == 1:
                 ans = min(ans, mid)
