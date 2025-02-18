@@ -20,14 +20,14 @@ class Solution:
                     ans += dfs(nr,nc,group)
             
             return ans
-        
+        final = 1
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == 1:
                     x = dfs(i,j, group)
+                    final = max(final, x)
                     islands[group] = x
                     group += 1
-        final = 1
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == 0:
@@ -40,11 +40,11 @@ class Solution:
                             curr += islands[grid[nr][nc]]
                     
                     final = max(curr, final)
-        maxNoChange = 0
-        if islands:
-            maxNoChange = max(islands.values())
+        # maxNoChange = 0
+        # if islands:
+        #     maxNoChange = max(islands.values())
 
-        return max(final, maxNoChange)
+        return final
 
 
 
