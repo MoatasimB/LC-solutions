@@ -5,19 +5,10 @@ class NumberContainers:
         self.num_to_indices = defaultdict(list)
 
     def change(self, index: int, number: int) -> None:
-        prevVal = None
-        if index in self.idx_to_num:
-            prevVal = self.idx_to_num[index]
         
         self.idx_to_num[index] = number
-
-
-
-        # if prevVal:
-        #     self.num_to_indices[prevVal].remove(index)
         
         heapq.heappush(self.num_to_indices[number], index)
-        # self.num_to_indices[number].append(index)
 
 
     def find(self, number: int) -> int:
