@@ -1,40 +1,43 @@
 class MyStack:
-
+    # [.     1 2 3 4.     ]  pop -> 4
     def __init__(self):
-        self.q1 = deque()
-        self.q2 = deque()
+        self.q1 = collections.deque()
+        self.q2 = collections.deque()
+        self.tops = 0
         
 
     def push(self, x: int) -> None:
+        self.tops = x
+
         self.q1.append(x)
         
 
     def pop(self) -> int:
-        for _ in range(len(self.q1)-1):
+        for _ in range(len(self.q1) - 1):
+            print(self.q1)
             self.q2.append(self.q1.popleft())
-        
-        x = self.q1.popleft()
+            print(self.q1)
 
-        for _ in range(len(self.q2 )):
-            self.q1.append(self.q2.popleft())
         
-    
+        x = self.q1.pop()
+
+        for _ in range(len(self.q2)):
+            y = self.q2.popleft()
+            self.q1.append(y)
+            self.tops = y
+        
+        # self.top = self.q1[len(self.q1) - 1]
 
         return x
-  
+
         
 
     def top(self) -> int:
-        j = None
-        for i in range(len(self.q1)):
-            j = self.q1[i]
+        return self.tops
         
-        return j
 
     def empty(self) -> bool:
-
-        return len(self.q1) == 0
-
+        return not self.q1
         
 
 
