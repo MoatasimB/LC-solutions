@@ -2,7 +2,6 @@ class FileSystem:
 
     def __init__(self):
         self.paths = {}
-        self.parents = {}
 
     def createPath(self, path: str, value: int) -> bool:
         if not path or path == '/':
@@ -28,16 +27,6 @@ class FileSystem:
         self.paths[curr] = value
 
         return True
-
-
-        # print(lst)
-        # if len(lst) > 1:
-        #     for item in lst:
-        #         if item not in self.paths:
-        #             return False
-        # self.paths["".join(lst)] = value
-        # print(self.paths)
-        # return True
         
     def get(self, path: str) -> int:
         lst = path.split('/')
