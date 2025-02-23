@@ -14,8 +14,8 @@ class FindSumPairs:
     def add(self, index: int, val: int) -> None:
         num = self.idx_num[index]
         self.num_counts[num] -= 1
-        if self.num_counts[num] == 0:
-            del self.num_counts[num]
+        # if self.num_counts[num] == 0:
+        #     del self.num_counts[num]
         self.idx_num[index] = num + val
         self.num_counts[num + val] += 1
     
