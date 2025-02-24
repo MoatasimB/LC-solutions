@@ -6,21 +6,21 @@ class Solution:
             return 0<=r<rows and 0<=c<cols
         
         dirs = [(0,1), (1,0), (0,-1), (-1,0)]
-
+        visited  = [[False] * cols for _ in range(rows)]
         def dfs(r,c):
-            grid[r][c] = "0"
+            visited[r][c] = True
 
             for dx, dy in dirs:
                 nr = dx + r
                 nc = dy + c
 
-                if valid(nr,nc) and grid[nr][nc] == "1":
+                if valid(nr,nc) and not visited[nr][nc] and grid[nr][nc] == "1":
                     dfs(nr,nc)
         
         ans = 0
         for r in range(rows):
             for c in range(cols):
-                if grid[r][c] == "1":
+                if grid[r][c] == "1" and not visited[r][c]:
                     dfs(r,c)
                     ans += 1
         
