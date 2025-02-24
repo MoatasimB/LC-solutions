@@ -3,22 +3,17 @@ class DataStream:
     def __init__(self, value: int, k: int):
         self.value = value
         self.k = k
-        self.stack = []
+        self.count = 0
         self.lastFalse = -1
 
     def consec(self, num: int) -> bool:
-        # print(self.stack, self.lastFalse)
-        # if len(self.stack) + 1 < self.k:
-        #     self.stack
-        #     return False
-        
         if num != self.value:
-            self.lastFalse = len(self.stack)
+            self.lastFalse = self.count
         
-        self.stack.append(num)
-        if len(self.stack) < self.k:
+        self.count += 1
+        if self.count < self.k:
             return False
-        if len(self.stack) - self.k > self.lastFalse:
+        if self.count - self.k > self.lastFalse:
             return True
         
         return False
