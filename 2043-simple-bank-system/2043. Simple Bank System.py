@@ -2,31 +2,37 @@ class Bank:
 
     def __init__(self, balance: List[int]):
         self.balance = balance
+        self.n = len(balance)
+        
 
     def transfer(self, account1: int, account2: int, money: int) -> bool:
-        if not self.check(account1) or not self.check(account2) or money > self.balance[account1-1]:
-            return False
+        if self.withdraw(account1, money):
+            if self.deposit(account2, money):
+                return True
+            else:
+                self.deposit(account1, money)
         
-        self.balance[account1-1] -= money
-        self.balance[account2-1] += money
-        return True
+        return False
+
+        
 
     def deposit(self, account: int, money: int) -> bool:
-        if not self.check(account):
-            return False
+        if 1 <= account <= self.n:
+            self.balance[account - 1] += money
+            return True
         
-        self.balance[account-1] += money
-        return True
+        return False
+        
 
     def withdraw(self, account: int, money: int) -> bool:
-        if not self.check(account) or money > self.balance[account-1]:
-            return False
+        if 1<=account<=self.n and self.balance[account - 1] >= money:
+            self.balance[account - 1] -= money
+            return True
         
-        self.balance[account -1] -= money
-        return True
+        return False
+        
 
-    def check(self, account):
-        return 0<account<=len(self.balance)
+
 # Your Bank object will be instantiated and called as such:
 # obj = Bank(balance)
 # param_1 = obj.transfer(account1,account2,money)
