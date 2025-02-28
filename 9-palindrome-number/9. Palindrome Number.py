@@ -1,22 +1,13 @@
 class Solution:
     def isPalindrome(self, x: int) -> bool:
-        if x < 0:
+        if x < 0 or (x % 10 == 0 and x != 0):
             return False
         
-        curr = []
-        while x:
-            digit = x % 10
+
+        curr =0 
+
+        while x > curr:
+            curr = (curr * 10) + (x % 10)
             x = x // 10
-            curr.append(digit)
         
-        i = 0
-        j = len(curr) - 1
-
-
-        while i<=j:
-            if curr[i] != curr[j]:
-                return False
-            i +=1
-            j-=1
-        
-        return True
+        return x == curr or (curr // 10) == x
