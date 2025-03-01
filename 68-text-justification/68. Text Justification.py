@@ -1,47 +1,44 @@
 class Solution:
     def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
-        def getWords(i):
-
-            line = []
-            curr_length = 0
-
-            while i<len(words) and curr_length + len(words[i])<=maxWidth:
-                line.append(words[i])
-                curr_length += len(words[i]) + 1
-                i+=1
-            
-            return line
         
+        def getLine(i):
 
-        def create(line, i):
+            ans = []
+            currL = 0
+            while i < len(words) and len(words[i]) + currL <= maxWidth:
+                currL += len(words[i]) + 1
+                ans.append(words[i])
+                i += 1
+            return ans
+        
+        def makeLine(line, i):
             totalCh = -1
-            for w in line:
-                totalCh+=len(w) + 1
+            for word in line:
+                totalCh += len(word) + 1
             
-            spaces = maxWidth - totalCh
-            if len(line)==1 or i==len(words):
-                return " ".join(line) + " " * spaces
+            s = maxWidth - totalCh
 
-            betweenWords = spaces // (len(line) - 1)
-            extraSpaces = spaces % (len(line) - 1)
 
+            if len(line) == 1 or i == len(words):
+                return " ".join(line) + " " * s
             
-       
+            spaces = s // (len(line) - 1)
+            extraSpaces = s % (len(line) - 1)
+            
             for j in range(extraSpaces):
                 line[j] += " "
             
-                        
-       
             for j in range(len(line) - 1):
-                line[j] += " "*betweenWords
+                line[j] += " " * spaces
             
             return " ".join(line)
+
+        final = []
+
+        i = 0
+        while i <len(words):
+            line = getLine(i)
+            i += len(line)
+            final.append(makeLine(line,i))
         
-        ans = []
-        i=0
-        while i<len(words):
-            line = getWords(i)
-            i+= len(line)
-            ans.append(create(line, i))
-        
-        return ans
+        return final
