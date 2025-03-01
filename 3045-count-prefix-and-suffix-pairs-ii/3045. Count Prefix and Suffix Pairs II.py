@@ -1,26 +1,28 @@
 class Solution:
     def countPrefixSuffixPairs(self, words: List[str]) -> int:
-        ans = 0
-        hashes = defaultdict(int)
+        
         p = 31
-        MOD = 10**9 + 7
+        mod = 10**9 + 7
+        hashes = defaultdict(int)
+
+        ans = 0
 
         for word in words:
             n = len(word)
             preH = 0
             sufH = 0
             mult = 1
+
             for i in range(n):
-                preChar = ord(word[i]) - ord('a') + 1
-                sufChar = ord(word[n- i - 1]) - ord('a') + 1
-                preH = (preH*p + preChar) % MOD
-                sufH = (sufH + sufChar*mult) % MOD
-                mult = (mult * p) % MOD
-
+                preC = ord(word[i]) - ord('a') + 1
+                suffC = ord(word[n-i-1]) - ord('a') + 1
+                preH = (preH*p + preC) % mod
+                sufH = (sufH + suffC*mult) %mod
+                mult = (mult * p) % mod
+            
                 if preH == sufH and preH in hashes:
-                    ans+= hashes[preH]
-                
+                    ans += hashes[preH]
+            
             hashes[preH] += 1
+        
         return ans
-
-  
