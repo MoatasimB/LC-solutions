@@ -17,8 +17,7 @@ class RandomizedCollection:
         if not self.indices[val]:
             return False
         idx_to_remove = self.indices[val].pop()
-        if len(self.indices[val]) == 0:
-            del self.indices[val]
+ 
         last_val = self.lst[-1]
         last_idx = len(self.lst) - 1
         self.indices[last_val].add(idx_to_remove)
