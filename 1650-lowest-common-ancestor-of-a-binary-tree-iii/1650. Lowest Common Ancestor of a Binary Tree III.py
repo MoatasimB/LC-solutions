@@ -25,11 +25,9 @@ class Solution:
                 return [True, root]
             if (left[0] or right[0]) and (root == p or root == q):
                 return [True, root]
-       
-            if root == p or root == q:
+            if left[0] or right[0] or root == p or root == q:
                 return [True, None]
-            if left[0] or right[0]:
-                return [True, None]
+  
             
             return [False, None]
         
