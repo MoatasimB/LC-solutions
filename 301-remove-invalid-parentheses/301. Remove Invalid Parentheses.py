@@ -3,9 +3,9 @@ class Solution:
         ans = []
         def dfs(i, left, right, curr):
 
-            if i == len(s) and left == right:
-                ans.append("".join(curr[:]))
-                return
+            # if i == len(s) and left == right:
+            #     ans.append("".join(curr[:]))
+            #     return
             while i<len(s) and s[i] != "(" and s[i] != ")":
                 curr.append(s[i])
                 i += 1
