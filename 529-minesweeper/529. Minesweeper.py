@@ -27,9 +27,9 @@ class Solution:
         
 
 
-        if (click[0], click[1]) in cells_adj_bomb:
-            board[click[0]][click[1]] = str(cells_adj_bomb[click[0], click[1]])
-            return board
+        # if (click[0], click[1]) in cells_adj_bomb:
+        #     board[click[0]][click[1]] = str(cells_adj_bomb[click[0], click[1]])
+        #     return board
         
 
         q = deque()
