@@ -1,46 +1,26 @@
 class Solution:
     def tictactoe(self, moves: List[List[int]]) -> str:
-        # if len(moves) == 9:
-        #     return "Draw"
-        rows = {0: [],
-                1 : [], 
-                2 : []}
-        cols = {0: [],
-                1 : [], 
-                2 : []}
-        
-        diagonals = {0 : [], 2: []}
+        rows = [0] * 3
+        cols = [0] * 3
+        d = 0
+        ad = 0
+
+        player = 1
 
         for i in range(len(moves)):
             r,c = moves[i]
-            choice = "X" if i % 2 == 0 else "O"
-            rows[r].append(choice)
-            cols[c].append(choice)
-            if (r-c) == 0:
-                diagonals[r-c].append(choice)
-            if (r + c) == 2:
-                diagonals[r+c].append(choice)
-        
-        print(rows)
-        print(cols)
-        print(diagonals)
-        for key, val in rows.items():
-            if len(val) == 3 and len(set(val)) == 1:
-                ans = "A" if val[0] == "X" else "B"
-                return ans
-        for key, val in cols.items():
-            if len(val) == 3 and len(set(val)) == 1:
-                ans = "A" if val[0] == "X" else "B"
-                return ans
-        for key, val in diagonals.items():
-            if len(val) == 3 and len(set(val)) == 1:
-                ans = "A" if val[0] == "X" else "B"
-                return ans
+
+            rows[r] += player
+            cols[c] += player
+
+            if r-c == 0:
+                d += player
+            if r+c == 2:
+                ad += player
+            
+            if abs(rows[r]) == 3 or abs(cols[c]) == 3 or abs(d) == 3 or abs(ad) == 3:
+                return "A" if player == 1 else "B"
+            
+            player *= -1
         
         return "Pending" if len(moves) < 9 else "Draw"
-
-
-
-
-
-        
