@@ -2,9 +2,7 @@ class Solution:
     def minOperations(self, nums: List[int], k: int) -> int:
         
         minHeap = []
-        curr = 0
         for num in nums:
-            curr += num
             heapq.heappush(minHeap, num)
         
 
@@ -14,11 +12,7 @@ class Solution:
             x = heapq.heappop(minHeap)
             y = heapq.heappop(minHeap)
 
-            curr -= x
-            curr -= y
-
             new = min(x,y)*2 + max(x,y)
-            curr += new
             heapq.heappush(minHeap, new)
             count += 1
         
