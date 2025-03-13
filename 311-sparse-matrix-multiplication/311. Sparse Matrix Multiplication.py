@@ -10,7 +10,6 @@ class Solution:
             ans = 0
             for i in range(k):
                 ans += (mat1[r][i] * mat2[i][c])
-                print(mat1[r][i], mat2[i][c])
             return ans
         
         final = [[0] * n for _ in range(m)]
