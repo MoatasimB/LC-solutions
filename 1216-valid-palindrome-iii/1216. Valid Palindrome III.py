@@ -12,10 +12,7 @@ class Solution:
                     return 1
             if i > j:
                 return 0
-            if i == n:
-                return n - j - 1
-            if j == 0:
-                return n - i - 1
+
             ans = float('inf')
             if s[i] == s[j]:
                 ans = dfs(i+1, j-1)
