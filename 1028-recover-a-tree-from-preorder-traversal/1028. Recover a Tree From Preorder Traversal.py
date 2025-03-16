@@ -12,6 +12,7 @@ class Solution:
         n = len(traversal)
 
         while i < n:
+
             depth = 0
             while i < n and traversal[i] == "-":
                 depth += 1
@@ -23,10 +24,10 @@ class Solution:
                 i += 1
             
             node = TreeNode(val)
-            if depth < len(levels):
-                levels[depth] = node
-            else:
+            if depth >= len(levels):
                 levels.append(node)
+            else:
+                levels[depth] = node
             
             if depth > 0:
                 parent = levels[depth - 1]
@@ -35,6 +36,4 @@ class Solution:
                 else:
                     parent.right = node
             
-
-        
         return levels[0]
