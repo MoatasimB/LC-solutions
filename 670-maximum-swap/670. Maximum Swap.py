@@ -1,16 +1,24 @@
 class Solution:
     def maximumSwap(self, num: int) -> int:
-        nums_lst = list(str(num))
-
-        last_seen = [-1] * 10
-
-        for i in range(len(nums_lst)):
-            last_seen[int(nums_lst[i])] = i
         
-        for i in range(len(nums_lst)):
-            for d in range(9, int(nums_lst[i]), -1):
-                if last_seen[d] > i:
-                    nums_lst[i], nums_lst[last_seen[d]] = nums_lst[last_seen[d]], nums_lst[i]
-                    return int("".join(nums_lst))
+        str_num = list(str(num))
 
+        nextLargest = [0] * len(str_num)
+        nextLargest[-1] = len(str_num) - 1
+        
+        for i in range(len(str_num)-2, -1, -1):
+            if int(str_num[nextLargest[i+1]]) >= int(str_num[i]):
+                nextLargest[i] = nextLargest[i+1]
+            else:
+                nextLargest[i] = i
+        
+        
+        
+        print(nextLargest)
+        for i in range(len(str_num)):
+            if int(str_num[i]) < int(str_num[nextLargest[i]]):
+                str_num[i], str_num[nextLargest[i]] = str_num[nextLargest[i]],str_num[i]
+            
+
+                return int("".join(str_num))
         return num
