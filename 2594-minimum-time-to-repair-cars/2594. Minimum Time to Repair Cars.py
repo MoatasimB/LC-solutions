@@ -1,26 +1,26 @@
 class Solution:
     def repairCars(self, ranks: List[int], cars: int) -> int:
         
-        def check(mid):
-            count = 0
-            for r in ranks:
-                x = int(math.sqrt(mid / r))
-                # print(x, mid, r)
-                count += x
-            
-            return count >= cars
+        # time taken = rank * (carfinished)^2
 
+        def check(mid):
+
+            c = 0
+            for rank in ranks:
+                c += int(math.sqrt(mid // rank ))
+
+            return c >= cars
         
-        l = 1
-        r = max(ranks) * (cars**2)
-        ans = float('inf')
-        while l <= r:
-            mid = (l+r) // 2
+        left = 0
+        right = max(ranks) * (cars**2)
+
+        while left <= right:
+            mid = (left + right) // 2
 
             if check(mid):
-                ans = min(mid,ans)
-                r = mid - 1
+                right = mid -1
             else:
-                l = mid + 1
+                left = mid + 1
+            
         
-        return ans if ans else -1
+        return left
