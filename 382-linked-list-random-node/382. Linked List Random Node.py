@@ -6,22 +6,23 @@
 class Solution:
 
     def __init__(self, head: Optional[ListNode]):
-        self.len = 0
-        curr = head
-        while curr:
-            self.len +=1 
-            curr = curr.next
         self.head = head
     def getRandom(self) -> int:
-        x = random.randint(0, self.len - 1)
-        # print(x)
-        count = 0
+        node = None
+
         curr = self.head
-        while count < x and curr:
+        i = 1
+        while curr:
+            x = random.randint(0, i - 1)
+
+            if x == i - 1:
+                node = curr
+            
             curr = curr.next
-            count += 1
+            i +=1 
         
-        return curr.val
+        return node.val
+
 
 
 
