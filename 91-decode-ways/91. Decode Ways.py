@@ -3,15 +3,22 @@ class Solution:
         dp = [0] * (len(s) + 1)
         dp[len(s)] = 1
 
+        one = 1
+        two = 1
+        if s[0] == '0':
+            return 0
         for i in range(len(s) - 1, - 1, -1):
             ans = 0
             if s[i] != '0':
-                ans += dp[i + 1]
+                ans = one
             if i < len(s) - 1 and s[i] != '0' and  int(s[i:i+2]) <= 26:
-                ans += dp[i + 2]
-            dp[i] = ans
+                ans += two
+            # dp[i] = ans
+            two = one
+            one = ans
+
         
-        return dp[0]
+        return one
         dp = {}
         def dfs(i):
 
