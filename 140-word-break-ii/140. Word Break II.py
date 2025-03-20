@@ -1,7 +1,6 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         wordDict = set(wordDict)
-        dp = {}
         ans = []
         def dfs(i, curr, prev):
             if i == len(s):
