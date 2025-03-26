@@ -34,14 +34,12 @@ class Solution:
                         q.append((nei))
             
         final = bfs(bob)
-        # print(final)
         times = [float('inf')] * len(amount)
         for i in range(len(final)):
             times[final[i]] = i
 
         seen = set()
         seen.add(0)
-        print(times)
         ret = float('-inf')
         def dfs(node, time, curr):
             nonlocal ret
@@ -53,7 +51,6 @@ class Solution:
                 ans += amount[node] // 2
             
             if len(adj[node]) == 1 and node != 0:
-                print(f"leaf node = {node} returning: {ans}")
                 ret = max(ret, ans + curr)
                 return
             
