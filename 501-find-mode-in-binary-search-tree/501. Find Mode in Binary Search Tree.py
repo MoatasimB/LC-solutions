@@ -7,35 +7,39 @@
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
         
-
-        curr_num = None
-        mode = 0
-        max_mode = 0
         ans = []
-        def dfs(node):
-            nonlocal curr_num
-            nonlocal max_mode
-            nonlocal mode
-            nonlocal ans
-        
-            if not node:
-                return
-            
-            dfs(node.left)
-            
-            if node.val == curr_num:
-                mode += 1
-            else:
-                mode = 1
-                curr_num = node.val
-            
-            if mode > max_mode:
-                ans = [node.val]
-                max_mode = mode
-            elif mode == max_mode:
-                ans.append(node.val)
+        mode = 0
+        curr_num = 0
+        max_mode = 0
 
-            dfs(node.right)
+        curr = root
+
+        while curr:
+            if curr.left:
+
+                friend = curr.left
+                while friend.right:
+                    friend = friend.right
+                
+                friend.right = curr
+
+                left_node = curr.left
+                curr.left = None
+                curr = left_node
+            
+            else:
+                if curr.val == curr_num:
+                    mode +=1
+                else:
+                    mode = 1
+                    curr_num = curr.val
+                
+                if mode > max_mode:
+                    ans = [curr_num]
+                    max_mode = mode
+                elif mode == max_mode:
+                    ans.append(curr_num)
+                
+                curr = curr.right
         
-        dfs(root)
         return ans
