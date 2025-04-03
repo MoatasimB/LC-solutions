@@ -7,39 +7,36 @@
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
         
-        ans = []
-        mode = 0
-        curr_num = 0
-        max_mode = 0
 
         curr = root
+        max_mode = 0
+        curr_node = None
+        mode = 0
+        ans = []
 
         while curr:
             if curr.left:
-
                 friend = curr.left
                 while friend.right:
                     friend = friend.right
                 
                 friend.right = curr
-
-                left_node = curr.left
+                leftNode = curr.left
                 curr.left = None
-                curr = left_node
-            
+                curr = leftNode
             else:
-                if curr.val == curr_num:
+                print(curr.val)
+                if curr.val == curr_node:
                     mode +=1
                 else:
                     mode = 1
-                    curr_num = curr.val
+                    curr_node = curr.val
                 
                 if mode > max_mode:
-                    ans = [curr_num]
                     max_mode = mode
+                    ans = [curr.val]
                 elif mode == max_mode:
-                    ans.append(curr_num)
-                
+                    ans.append(curr.val)
+            
                 curr = curr.right
-        
         return ans
