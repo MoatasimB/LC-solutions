@@ -16,13 +16,17 @@ class Solution:
             while curr.left:
                 curr = curr.left
             return curr
-        # if node.parent.right == node:
-        #     return None
         
-        curr = node
-        while curr.parent:
+        prev = node
+        curr = node.parent
+
+        if curr and curr.left == prev:
+            return curr
+        
+        while curr and curr.parent:
+            prev = curr
             curr = curr.parent
-            if curr.val > node.val:
+            if curr.left == prev:
                 return curr
         
         return None
