@@ -7,39 +7,25 @@
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
         
+        counts = defaultdict(int)
+
+        def dfs(node):
+            if not node:
+                return
+            
+            counts[node.val] += 1
+            dfs(node.left)
+            dfs(node.right)
+        
+
+        dfs(root)
         ans = []
         mode = 0
-        curr_num = 0
-        max_mode = 0
-
-        curr = root
-
-        while curr:
-            if curr.left:
-
-                friend = curr.left
-                while friend.right:
-                    friend = friend.right
-                
-                friend.right = curr
-
-                left_node = curr.left
-                curr.left = None
-                curr = left_node
-            
-            else:
-                if curr.val == curr_num:
-                    mode +=1
-                else:
-                    mode = 1
-                    curr_num = curr.val
-                
-                if mode > max_mode:
-                    ans = [curr_num]
-                    max_mode = mode
-                elif mode == max_mode:
-                    ans.append(curr_num)
-                
-                curr = curr.right
+        for key, val in counts.items():
+            if val > mode:
+                mode = val
+                ans = [key]
+            elif val == mode:
+                ans.append(key)
         
         return ans
