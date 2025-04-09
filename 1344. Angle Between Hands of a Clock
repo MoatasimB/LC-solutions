@@ -1,0 +1,8 @@
+        hour_angle = (hour % 12) * 30
+
+        minute_angle = minutes * 6
+        elapsed = minutes / 60
+
+        hour_angle += elapsed * 30
+
+        return min(abs(hour_angle - minute_angle), 360 - abs(minute_angle - hour_angle))
