@@ -25,7 +25,7 @@ class Solution:
                     curr_max = curr
                 elif curr > prev:
                     prev = curr
-            ans = max(ans, curr_max + prev)
+                ans = max(ans, curr_max + prev)
             
             return curr_max
         
