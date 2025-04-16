@@ -15,7 +15,7 @@ class Solution:
             seen.add(node)
             curr_max = 0
             prev = 0
-            curr = 0
+            # curr = 0
             for nei in adj[node]:
                 if nei in seen:
                     continue
