@@ -9,28 +9,28 @@ class Solution:
         
         ans = 0
         seen = set()
-        A = None
-        farthest = 0
-        def dfs(node, dist):
-            nonlocal A, farthest
+        def dfs(node):
+            nonlocal ans
+
             seen.add(node)
-            if dist > farthest:
-                farthest = dist
-                A = node
+            curr_max = 0
+            prev = 0
+            curr = 0
             for nei in adj[node]:
-                if nei not in seen:
-                    dfs(nei, dist + 1)
-        
-        
-
-        dfs(0, 0)
-        print(A)
-        start = A
-        A = None
-        farthest = 0
-        seen = set()
-        dfs(start, 0)
-        print(A)
-        return farthest
+                if nei in seen:
+                    continue
+                curr = 1 + dfs(nei)
+                if curr > curr_max:
+                    prev = curr_max
+                    curr_max = curr
+                elif curr > prev:
+                    prev = curr
+            ans = max(ans, curr_max + prev)
             
+            return curr_max
+        
+        dfs(0)
+        return ans
 
+
+        
