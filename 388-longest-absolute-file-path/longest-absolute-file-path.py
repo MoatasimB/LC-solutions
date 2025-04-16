@@ -5,7 +5,7 @@ class Solution:
         depth = {0:0}
 
         def count_tabs_and_word(word):
-            d = 0
+            d = 1
             i = 0
             while word[i] == '\t':
                 d += 1
@@ -17,9 +17,9 @@ class Solution:
             d, word = count_tabs_and_word(line)
 
             if '.' in word:
-                ans = max(ans, depth[d] + len(word))
+                ans = max(ans, depth[d - 1] + len(word))
             else:
-                depth[d + 1] = depth[d] + len(word) + 1
+                depth[d] = depth[d - 1] + len(word) + 1
         
         return ans
 
