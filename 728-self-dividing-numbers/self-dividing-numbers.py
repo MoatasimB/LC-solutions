@@ -5,17 +5,13 @@ class Solution:
         for num in range(left, right + 1):
             n = num
             digits = []
-            while n:
-                digits.append(n % 10)
-                n = n // 10
-            
-            if 0 in digits:
-                continue
             flag = True
-            for digit in digits:
-                if num % digit:
+            while n > 0:
+                if (n % 10) == 0 or num % (n % 10) :
                     flag = False
                     break
+                n = n // 10
+        
             if flag:
                 ans.append(num)
         return ans
