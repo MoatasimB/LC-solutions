@@ -11,12 +11,12 @@ class Solution:
             start1, end1 = slots1[i]
             start2, end2 = slots2[j]
 
-            if end1 < start2:
-                i += 1
-                continue
-            if end2 < start1:
-                j += 1
-                continue
+            # if end1 < start2:
+            #     i += 1
+            #     continue
+            # if end2 < start1:
+            #     j += 1
+            #     continue
             
             beg = max(start1, start2)
             end = min(end1, end2)
@@ -28,8 +28,6 @@ class Solution:
                 i += 1
             else:
                 j += 1
-            # i += 1
-            # j += 1
         
         return []
 
