@@ -7,24 +7,31 @@ class Solution:
         i = 0
         j = 0
 
-        ans = []
         while i < len(slots1) and j < len(slots2):
-            start1, end1 = slots1[i][0], slots1[i][1]
-            start2, end2 = slots2[j][0], slots2[j][1]
+            start1, end1 = slots1[i]
+            start2, end2 = slots2[j]
 
+            if end1 < start2:
+                i += 1
+                continue
+            if end2 < start1:
+                j += 1
+                continue
+            
             beg = max(start1, start2)
-            fin = min(end1, end2)
+            end = min(end1, end2)
 
-            if fin - beg >= duration:
+            if end - beg >= duration:
                 return [beg, beg + duration]
-
-   
+            
+            if end1 < end2:
+                i += 1
             else:
-                if end2 < end1:
-                    j +=1
-                else:
-                    i+=1
+                j += 1
+            # i += 1
+            # j += 1
+        
         return []
 
-
-
+    #    ------------------------------------
+    #      ---------         
