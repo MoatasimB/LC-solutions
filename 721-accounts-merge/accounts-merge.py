@@ -77,8 +77,8 @@ class Solution:
         
         components = defaultdict(list)
 
-        for email in emails_to_idx:
-            components[uf.find(emails_to_idx[email])].append(email)
+        for email, idx in emails_to_idx.items():
+            components[uf.find(idx)].append(email)
         
         final = []
 
