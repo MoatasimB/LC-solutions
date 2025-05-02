@@ -1,19 +1,21 @@
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
 
-        graph = defaultdict(set)
-        owners = {}
+        graph = defaultdict(list)
         for account in accounts:
-            owner = account[0]
-            for i in range(1, len(account)):
-                if account[i] not in graph:
-                    graph[account[i]] = set()
-                owners[account[i]] = owner
-                for j in range(i + 1, len(account)):
-                    graph[account[i]].add(account[j])
-                    graph[account[j]].add(account[i])
+            first_email = account[1]
+            for i in range(2, len(account)):
+                graph[first_email].append(account[i])
+                graph[account[i]].append(first_email)
 
-                    owners[account[j]] = owner
+                # if account[i] not in graph:
+                #     graph[account[i]] = set()
+                # owners[account[i]] = owner
+                # for j in range(i + 1, len(account)):
+                #     graph[account[i]].add(account[j])
+                #     graph[account[j]].add(account[i])
+
+                    # owners[account[j]] = owner
 
         
         def dfs(node):
@@ -25,20 +27,21 @@ class Solution:
         
         seen = set()
         final = []
-        for node, neighbors in graph.items():
-            lst = []
+        for account in accounts:
+            account_name = account[0]
+            node = account[1]
+            lst = [account_name]
             if node not in seen:
                 dfs(node)
-            if lst:
+                lst[1:] = sorted(lst[1:])
                 final.append(lst)
-        # print(final)
-        ans = []
-        for emails in final:
-            # print(emails)
-            owner = owners[emails[0]]
-            # print(owner)
-            sorted_emails = sorted(emails)
-            ans.append([owner] + sorted_emails)
+
+        return final
+        # ans = []
+        # for emails in final:
+        #     owner = owners[emails[0]]
+        #     sorted_emails = sorted(emails)
+        #     ans.append([owner] + sorted_emails)
         
         return ans
 
