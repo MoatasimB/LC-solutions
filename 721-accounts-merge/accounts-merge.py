@@ -69,7 +69,6 @@ class Solution:
         for i in range(n):
             for j in range(1, len(accounts[i])):
                 email = accounts[i][j]
-                print(email)
 
                 if email not in emails_to_idx:
                     emails_to_idx[email] = i
