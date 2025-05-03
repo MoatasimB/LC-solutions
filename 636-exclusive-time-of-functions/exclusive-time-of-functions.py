@@ -12,7 +12,6 @@ class Solution:
             if ex == "start":
                 if stack:
                     prev_fid, prev_timestamp = stack[-1]
-                    print(prev_fid, prev_timestamp)
                     ans[prev_fid] += timestamp - prev_timestamp
                 stack.append([fid, timestamp])
             else:
