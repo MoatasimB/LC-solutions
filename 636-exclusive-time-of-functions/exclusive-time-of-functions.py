@@ -2,7 +2,6 @@ class Solution:
     def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
         ans = [0] * n
         stack = []
-        last_time = -1
         for i in range(len(logs)):
             log = logs[i].split(":")
             fid = int(log[0])
