@@ -65,7 +65,7 @@ class Solution:
         uf = UF(n)
 
         emails_to_idx = {}
-
+        #Assign email to its respective idx -> email : i (0..len(accounts))
         for i in range(n):
             for j in range(1, len(accounts[i])):
                 email = accounts[i][j]
@@ -76,7 +76,7 @@ class Solution:
                     uf.union(i, emails_to_idx[email])
         
         components = defaultdict(list)
-
+        #assign idx to its emails -> idx : [emails]
         for email, idx in emails_to_idx.items():
             components[uf.find(idx)].append(email)
         
