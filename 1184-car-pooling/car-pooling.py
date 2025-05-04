@@ -1,9 +1,9 @@
 class Solution:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
         
-        trips.sort(key = lambda x : x[1])
+        # trips.sort(key = lambda x : x[1])
 
-        arr = [0] * trips[-1][2]
+        arr = [0] * 1001
 
         for num, start, end in trips:
             if num > capacity:
