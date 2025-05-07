@@ -36,16 +36,4 @@ class Solution:
         
         return dfs()
 
-# i = 0
-
-# 4
-
-#         i = 1
-#             i = 2
-#             2
-#                 i = 3
-#                 i = 4
-#                     3
-
-#                     lefr = None
 
