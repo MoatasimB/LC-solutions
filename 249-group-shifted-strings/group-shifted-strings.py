@@ -1,35 +1,29 @@
 class Solution:
     def groupStrings(self, strings: List[str]) -> List[List[str]]:
         
-        seen = set()
+        # Create a hash value
+        def get_hash(string: str):
+            key = []
+            for i in range(1, len(string)):
+                #a b c
 
-        counts = defaultdict(int)
+                curr = string[i] #b
+                prev = string[i - 1] #a
+                new = chr(((ord(curr) - ord(prev) )% 26) + ord('a'))
+                key.append(new)
 
-        for word in strings:
-            counts[word] += 1
+
+            # for a, b in zip(string, string[1:]):
+            #     key.append(chr((ord(b) - ord(a)) % 26 + ord('a')))
+            return ''.join(key)
         
-        strings = set(strings)
-
-        def getNei(word):
-            neighbors = []
-            for i in range(26):
-                curr = []
-                for ch in word:
-                    ch_idx = ord(ch) - ord('a') # 0 .. 26
-                    new_ch = chr((ch_idx + i) % 26 + ord('a'))
-                    curr.append(new_ch)
-                new_word = "".join(curr)
-                if new_word in strings:
-                    for _ in range(counts[new_word]):
-                        neighbors.append(new_word)
-                    seen.add(new_word)
-            return neighbors
+        # Create a hash value (hash_key) for each string and append the string
+        # to the list of hash values i.e. mapHashToList["cd"] = ["acf", "gil", "xzc"]
+        groups = collections.defaultdict(list)
+        for string in strings:
+            hash_key = get_hash(string)
+            print(hash_key)
+            groups[hash_key].append(string)
         
-        dic = defaultdict(list)
-
-        for word in strings:
-            if word not in seen:
-                neighbors = getNei(word)
-                dic[word] = neighbors
-        
-        return list(dic.values())
+        # Return a list of all of the grouped strings
+        return list(groups.values())
