@@ -1,59 +1,34 @@
 class Solution:
-    def canPartitionKSubsets(self, arr: List[int], k: int) -> bool:
-        n = len(arr)
-    
-        total_array_sum = sum(arr)
-        
-        # If the total sum is not divisible by k, we can't make subsets.
-        if total_array_sum % k != 0:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        total = sum(nums)
+
+        if total % k != 0:
             return False
-
-        target_sum = total_array_sum // k
-
-        # Sort in decreasing order.
-        arr.sort(reverse=True)
-
-        taken = ['0'] * n
         
+        goal = total // k
+        nums.sort(reverse = True)
+        taken = ['0'] * len(nums)
         memo = {}
-        
-        def backtrack(index, count, curr_sum):
-            n = len(arr)
-            
-            taken_str = ''.join(taken)
-      
-            # We made k - 1 subsets with target sum and the last subset will also have target sum.
-            if count == k - 1:
+        def dfs(i, subsets, curr_sum):
+            taken_memo = "".join(taken)
+            if taken_memo in memo:
+                return memo[taken_memo]
+            if subsets == k - 1:
                 return True
-            
-            # No need to proceed further.
-            if curr_sum > target_sum:
+            if curr_sum > goal:
                 return False
-            
-            # If we have already computed the current combination.
-            if taken_str in memo:
-                return memo[taken_str]
-            
-            # When curr sum reaches target then one subset is made.
-            # Increment count and reset current sum.
-            if curr_sum == target_sum:
-                memo[taken_str] = backtrack(0, count + 1, 0)
-                return memo[taken_str]
-            
-            # Try not picked elements to make some combinations.
-            for j in range(index, n):
+            if curr_sum == goal:
+                memo[taken_memo] = dfs(0,subsets + 1, 0)
+                return memo[taken_memo]
+
+            for j in range(i, len(nums)):
                 if taken[j] == '0':
-                    # Include this element in current subset.
                     taken[j] = '1'
-                    # If using current jth element in this subset leads to make all valid subsets.
-                    if backtrack(j + 1, count, curr_sum + arr[j]):
-                        return True
-                    # Backtrack step.
-                    taken[j] = '0'
-                    
-            # We were not able to make a valid combination after picking 
-            # each element from the array, hence we can't make k subsets.
-            memo[taken_str] = False
-            return memo[taken_str] 
-        
-        return backtrack(0, 0, 0)
+                    if dfs(j + 1, subsets, curr_sum + nums[j]):
+                        memo[taken_memo] = True
+                        return memo[taken_memo]
+                    taken[j] ='0'
+            memo[taken_memo] = False
+            return memo[taken_memo]        
+        return dfs(0,0,0)
+
