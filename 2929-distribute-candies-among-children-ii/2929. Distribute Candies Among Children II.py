@@ -31,7 +31,6 @@ class Solution:
         extra_triple = (w * (w - 1)) // 2
         return max(0,total - (3 * extra_single) + (3 * extra_double) - extra_triple)
 
-        #if candies < people than some will have 0
 
 
         '''
