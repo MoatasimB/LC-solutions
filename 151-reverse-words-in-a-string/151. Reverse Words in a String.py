@@ -1,16 +1,22 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
         
-        words = s.split()
+        s_list = s.split()
 
-        arr = [0] * len(words)
-        l = 0
-        r = len(words) - 1
+        i = 0
+        j = len(s_list) - 1
 
-        while l<=r:
-            words[l], words[r] = words[r], words[l]
+        while i <= j:
+            if s_list[i] == " ":
+                i += 1
+                continue
+            if s_list[j] == " ":
+                j -= 1
+                continue
+            
+            s_list[i], s_list[j] = s_list[j], s_list[i]
 
-            l +=1
-            r -=1
+            i += 1
+            j -= 1
         
-        return " ".join(words)
+        return " ".join(s_list)
