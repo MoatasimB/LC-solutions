@@ -13,7 +13,6 @@ class Solution:
 
             while l < r:
                 s = curr + nums[l] + nums[r]
-                print(s)
                 diff = abs(target - s)
                 if diff < minDiff:
                     minDiff = diff
