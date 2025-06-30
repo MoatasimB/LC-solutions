@@ -28,11 +28,9 @@ class Solution:
 
         l = 0
         r = n - 1
-        print(row)
         while l <= r:
 
             mid = (l + r) // 2
-            print(mid)
             if matrix[row][mid] == target:
                 return True
             elif matrix[row][mid] < target:
