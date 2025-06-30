@@ -8,20 +8,17 @@ class Solution:
         row = None
         while l < r:
             mid = (l + r) // 2
-            if matrix[mid][-1] > target:
-                if matrix[mid][0] > target:
-                    r = mid - 1
-                else:
-                    row = mid 
-                    break
-            elif matrix[mid][-1] < target:
-                if matrix[mid][0] < target:
-                    l = mid + 1
-                else:
-                    row = mid
-                    break
-            else:
+            if matrix[mid][-1] > target and matrix[mid][0] > target :
+                r = mid - 1
+    
+            elif matrix[mid][-1] < target and matrix[mid][0] < target:
+                l = mid + 1
+                
+            elif matrix[mid][-1] == target:
                 return True
+            else:
+                row = mid
+                break
         if row == None:
             row = l
         
