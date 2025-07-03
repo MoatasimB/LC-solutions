@@ -1,19 +1,18 @@
 class Solution:
     def totalFruit(self, fruits: List[int]) -> int:
         
-        ans = 0
         l = 0
-        mpp = defaultdict(int)
-
+        holding = defaultdict(int)
+        ans = 0
         for r in range(len(fruits)):
-            mpp[fruits[r]] += 1
-
-            while len(mpp) > 2:
-                mpp[fruits[l]] -= 1
-                if mpp[fruits[l]] == 0:
-                    del mpp[fruits[l]]
-                l += 1
+            holding[fruits[r]] += 1
+            while len(holding) > 2:
+                holding[fruits[l]] -= 1
+                if holding[fruits[l]] == 0:
+                    del holding[fruits[l]]
+                l+=1
             
             ans = max(ans, r - l + 1)
-
+            print(r, l)
+        
         return ans
