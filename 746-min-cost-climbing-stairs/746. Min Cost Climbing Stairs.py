@@ -3,15 +3,16 @@ class Solution:
         n = len(cost)
 
 
-        memo = [float('inf')] * (n + 1)
 
-        memo[0] = 0
-        memo[1] = 0
-
+        one_back = 0
+        two_back = 0
+        curr = 0
         for i in range(2, n + 1):
-            memo[i] = min(cost[i - 1] + memo[i-1], cost[i-2] + memo[i-2])
+            curr = min(cost[i - 1] + one_back, cost[i-2] + two_back)
+            two_back = one_back
+            one_back = curr
         
-        return memo[n]
+        return curr
 
 
         #C(n) = min cost to reach stair n
