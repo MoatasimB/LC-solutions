@@ -3,18 +3,16 @@ class Solution:
         
         ans = []
 
-        def dfs(i,curr):
-
+        def dfs(curr):
             if len(curr) == len(nums):
                 ans.append(curr[:])
                 return
             
             for i in range(len(nums)):
-                if nums[i] in curr:
-                    continue
-                curr.append(nums[i])
-                dfs(i, curr)
-                curr.pop()
+                if nums[i] not in curr:
+                    curr.append(nums[i])
+                    dfs(curr)
+                    curr.pop()
         
-        dfs(0,[])
+        dfs([])
         return ans
