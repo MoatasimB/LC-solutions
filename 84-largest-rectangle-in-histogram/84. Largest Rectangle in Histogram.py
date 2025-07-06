@@ -1,25 +1,22 @@
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
-        
-        stack = [] #[i, h]
-        ans = float('-inf')
-        for i, h in enumerate(heights):
-            prev_idx = i
-            while stack and h <= stack[-1][1]:
-                idx, height = stack.pop()
-
-                length = height
-                width = i - idx
-                ans = max(ans, length * width)
-                prev_idx = idx
-            
-            stack.append([prev_idx, h])
-        
+        stack = []
+        ans = 0
         n = len(heights)
-        for i in range(len(stack)):
-            idx, h = stack[i]
-            length = h
-            width = n - idx
-            ans = max(ans, length*width)
+        for i in range(len(heights)):
+            start = i
+            while stack and heights[stack[-1][0]] > heights[i]:
+                idx, left = stack.pop()
+                start = min(start, left)
+                ans = max(ans, (i - left) * heights[idx])
+            
+            stack.append((i, start))
+
+        
+        while stack:
+            idx, left = stack.pop()
+            ans = max(ans, (n - left) * heights[idx])
         
         return ans
+
+
