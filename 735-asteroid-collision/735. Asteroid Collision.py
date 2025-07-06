@@ -11,12 +11,16 @@ class Solution:
             ast = asteroids[i]
 
             while stack and ast < 0 and stack[-1] > 0:
-                prev = stack.pop()
-                if prev == abs(ast):
+                if stack[-1] > abs(ast):
                     ast = 0
-                elif prev > abs(ast):
-                    stack.append(prev)
+                elif stack[-1] == abs(ast):
+                    stack.pop()
                     ast = 0
+                    continue
+                else:
+                    stack.pop()
+
+
             if ast != 0:
                 stack.append(ast)
         
