@@ -11,19 +11,22 @@ class Solution:
             "8":"tuv",
             "9":"wxyz",
         }
+
+
+        ans = []
         if not digits:
             return []
-        ans = []
         def dfs(i, curr):
-            if i == len(digits):
+
+            if len(curr) == len(digits):
                 ans.append("".join(curr[:]))
                 return
             
-            for ch in mpp[digits[i]]:
-                curr.append(ch)
-
+            for d in mpp[digits[i]]:
+                curr.append(d)
                 dfs(i+1, curr)
-
                 curr.pop()
+    
+
         dfs(0,[])
         return ans
