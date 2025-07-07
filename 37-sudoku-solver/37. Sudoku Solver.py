@@ -35,7 +35,7 @@ class Solution:
                         col_mpp[c].add(val)
                         box_mpp[(r//3, c//3)].add(val)
 
-                        if c == n - 1 and r <= m - 1:
+                        if c == n - 1:
                             if dfs(r + 1, 0):
                                 return True
                         else:
@@ -47,7 +47,7 @@ class Solution:
                         col_mpp[c].remove(val)
                         box_mpp[(r//3, c//3)].remove(val)
 
-            elif c == n - 1 and r <= m - 1:
+            elif c == n - 1:
                 if dfs(r + 1, 0):
                     return True
             else:
