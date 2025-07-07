@@ -22,11 +22,12 @@ class Solution:
                 ans.append("".join(curr[:]))
                 return
             
-            for d in mpp[digits[i]]:
-                curr.append(d)
-                dfs(i+1, curr)
-                curr.pop()
-    
+            for j in range(i, len(digits)):
+                for d in mpp[digits[j]]:
+                    curr.append(d)
+                    dfs(j+1, curr)
+                    curr.pop()
+        
 
         dfs(0,[])
         return ans
