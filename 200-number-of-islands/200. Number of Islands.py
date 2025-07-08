@@ -11,22 +11,18 @@ class Solution:
         
         def dfs(r, c):
             
-            if (r,c) in seen:
-                return
-            
-            seen.add((r,c))
-
+            grid[r][c] = '0'
+        
             for dx, dy in dirs:
                 nr = dx + r
                 nc = dy + c
-                if valid(nr, nc) and (nr, nc) not in seen and grid[nr][nc] == "1":
+                if valid(nr, nc) and grid[nr][nc] == "1":
                     dfs(nr,nc)
         
-        seen = set()
         ans = 0
         for r in range(m):
             for c in range(n):
-                if grid[r][c] == '1' and (r,c) not in seen:
+                if grid[r][c] == '1':
                     ans += 1
                     dfs(r,c)
         
