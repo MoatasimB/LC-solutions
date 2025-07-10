@@ -13,13 +13,9 @@ class Solution:
             l1_val = l1.val if l1 else 0
             l2_val = l2.val if l2 else 0
 
-            s = (l1_val + l2_val + carry)
-            
-            if s >= 10:
-                carry = 1
-                s %= 10
-            else:
-                carry = 0
+            s = (l1_val + l2_val + carry) % 10
+            carry = (l1_val + l2_val + carry) // 10
+
 
             new_node = ListNode(s)
 
