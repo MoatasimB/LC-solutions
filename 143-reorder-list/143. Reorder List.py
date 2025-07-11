@@ -10,18 +10,15 @@ class Solution:
         """
         slow = head
         fast = head
-        slow_pre = ListNode(-1, slow)
 
 
         while fast and fast.next:
             slow = slow.next
-            slow_pre = slow_pre.next
             fast = fast.next.next
         if fast == slow:
             return head
 
         prev = None
-        slow_pre.next = None
         while slow:
             nextNode = slow.next
             slow.next = prev
@@ -29,26 +26,20 @@ class Solution:
             slow = nextNode
         
 
-        dummy = ListNode(-1)
-        curr = dummy
+        first, second = head, prev
 
+        while second.next:
+            nextP = second.next
+            nextH = first.next
 
-        while prev:
-            nextP = prev.next
+            first.next = second
+            first = first.next
+            first = nextH
+            
 
-            nextH = None
-            if head:
-                nextH = head.next
-                curr.next = head
-                curr = curr.next
-
-            curr.next = prev
-            curr = curr.next
-
-
-            prev = nextP
-            head = nextH
+            second.next = first
+            second = nextP
         
-        return dummy.next
+        return head
 
 
