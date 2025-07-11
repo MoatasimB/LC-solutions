@@ -8,38 +8,47 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        
-        dummy = ListNode(-1, head)
-
-        slow = dummy
+        slow = head
         fast = head
+        slow_pre = ListNode(-1, slow)
+
 
         while fast and fast.next:
             slow = slow.next
+            slow_pre = slow_pre.next
             fast = fast.next.next
-        if fast == head:
+        if fast == slow:
             return head
-        start = slow.next
-        slow.next = None
+
         prev = None
+        slow_pre.next = None
+        while slow:
+            nextNode = slow.next
+            slow.next = prev
+            prev = slow
+            slow = nextNode
+        
 
-        while start:
-            nextNode = start.next
-            start.next = prev
-            prev = start
-            start = nextNode
-
-        start = head
+        dummy = ListNode(-1)
+        curr = dummy
 
 
-        while start and prev:
-            nextNode = start.next
-            nextPrev = prev.next
-            start.next = prev
-            if not nextNode:
-                break
-            prev.next = nextNode
-            prev = nextPrev
-            start = nextNode
+        while prev:
+            nextP = prev.next
+
+            nextH = None
+            if head:
+                nextH = head.next
+                curr.next = head
+                curr = curr.next
+
+            curr.next = prev
+            curr = curr.next
+
+
+            prev = nextP
+            head = nextH
         
         return dummy.next
+
+
