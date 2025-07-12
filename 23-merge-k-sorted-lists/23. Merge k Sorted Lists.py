@@ -1,40 +1,47 @@
 # Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-    
-class HeapNode:
-    def __init__(self, node):
-        self.node = node
-    def __lt__(self, other):
-        return self.node.val < other.node.val
-
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+
+        if not lists:
+            return None
+        def merge(l1, l2):
+
+            dummy = ListNode(-1)
+            curr = dummy
+
+            while l1 and l2:
+                if l1.val < l2.val:
+                    curr.next = l1
+                    l1 = l1.next
+                else:
+                    curr.next = l2
+                    l2 = l2.next
+                
+                curr = curr.next
+            
+            if l1:
+                curr.next = l1
+            if l2:
+                curr.next = l2
+            
+            return dummy.next
         
 
-        minH = []
+        def mergeSort(left, right):
+            print(left, right)
+            if left >= right:
+                return lists[left]
+            
+            mid = (left + right) // 2
 
-        for head in lists:
-            if head:
-                heapNode = HeapNode(head)
-                heapq.heappush(minH, heapNode)
+            l = mergeSort(left, mid)
+            r = mergeSort(mid + 1, right)
+
+            return merge(l,r)
         
 
-        dummy = ListNode(-1)
-
-        curr = dummy
-
-        while minH:
-
-            smallestNode = heapq.heappop(minH)
-
-            if smallestNode.node.next:
-                heapNode = HeapNode(smallestNode.node.next)
-                heapq.heappush(minH, heapNode)
-
-            curr.next = smallestNode.node
-            curr = curr.next
-        
-        return dummy.next
+        return mergeSort(0, len(lists) - 1)
