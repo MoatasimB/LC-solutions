@@ -7,34 +7,33 @@ class Solution:
             mpp[num] += 1
         
         arr = list(mpp.keys())
+        n = len(arr)
         
-        
-        def quickSelect(left, right, kth):
+        def quickSelect(left, right):
 
-            if left == right:
+            if left >= right:
                 return
             
-            index = random.randint(left, right)
+            rand_pivot = random.randint(left, right)
 
-            pivot_index = partition(left, right, index)
+            piv_idx = partition(left, right, rand_pivot)
 
-            if pivot_index > kth:
-                quickSelect(left, pivot_index - 1, kth)
-            elif pivot_index < kth:
-                quickSelect(pivot_index + 1, right, kth)
+            if piv_idx > n - k:
+                quickSelect(left, piv_idx - 1)
+            elif piv_idx < n-k:
+                quickSelect(piv_idx + 1, right)
             else:
                 return
         
-        def partition(left, right, p_idx):
+        def partition(left, right, pivot_index):
 
-            #move piv to end
 
-            freq = mpp[arr[p_idx]]
+            val = mpp[arr[pivot_index]]
 
-            arr[p_idx], arr[right] = arr[right], arr[p_idx]
+            arr[pivot_index], arr[right] = arr[right], arr[pivot_index]
             store_index = left
             for i in range(left, right):
-                if mpp[arr[i]] < freq:
+                if mpp[arr[i]] < val:
                     arr[i], arr[store_index] = arr[store_index], arr[i]
                     store_index += 1
             
@@ -42,7 +41,7 @@ class Solution:
             return store_index
         
 
-        quickSelect(0, len(arr) - 1, len(arr) - k)
+        quickSelect(0, n - 1)
 
-        return arr[len(arr)-k:]
+        return arr[n-k:]
 
