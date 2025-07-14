@@ -7,24 +7,24 @@
 class Solution:
     def largestValues(self, root: Optional[TreeNode]) -> List[int]:
         
-        if not root:
-            return []
-        q = deque([root])
-        ans = []
-        while q:
-            q_len = len(q)
-            
-            max_node = float('-inf')
-            for _ in range(q_len):
-                node = q.popleft()
 
-                max_node = max(max_node, node.val)
+        depths = {}
 
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
+        def dfs(root, depth):
+
+            if not root:
+                return 
             
-            ans.append(max_node)
+            if depth in depths:
+                val = depths[depth]
+                depths[depth] = max(val, root.val)
+            else:
+                depths[depth] = root.val
+            
+            dfs(root.left, depth + 1)
+            dfs(root.right, depth + 1)
         
-        return ans
+
+        dfs(root, 0)
+
+        return list(depths.values())
