@@ -7,26 +7,37 @@
 class Solution:
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
         
-        depth_x = 0
-        depth_y = 0
+
+        q = deque()
+        q.append([root, -1])
+
+        found_x = False
         par_x = None
+        found_y = False
         par_y = None
+        while q:
+            q_length = len(q)
+            for _ in range(q_length):
+                node, parent = q.popleft()
 
-        def dfs(root, depth, parent):
-            nonlocal depth_x, depth_y, par_x, par_y
-            if not root:
-                return
-            
-            if root.val == x:
-                depth_x = depth
-                par_x = parent
-            if root.val == y:
-                depth_y = depth
-                par_y = parent
 
-            left = dfs(root.left, depth + 1, root)
-            right = dfs(root.right, depth + 1, root)
-
-        dfs(root, 0, -1)
-
-        return depth_x == depth_y and par_x != par_y
+                if node.val == x:
+                    found_x = True
+                    par_x = parent
+                
+                if node.val == y:
+                    found_y = True
+                    par_y = parent
+                
+                if node.left:
+                    q.append([node.left, node])
+                
+                if node.right:
+                    q.append([node.right, node])
+            if found_x and found_y and (par_y != par_x):
+                    return True
+                
+            if found_x or found_y:
+                    return False
+        
+        return False
