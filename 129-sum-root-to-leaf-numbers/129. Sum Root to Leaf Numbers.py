@@ -7,24 +7,20 @@
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
         
-
-        paths = []
-
+        ans = 0
         def dfs(root, curr):
+            nonlocal ans
             if not root:
                 return
-            
+    
+            curr = (curr * 10) + root.val
 
-            new_curr = (curr * 10) + root.val
+            dfs(root.left, curr)
+            dfs(root.right, curr)
 
+                    
             if not root.left and not root.right:
-                paths.append(new_curr)
-            
-            dfs(root.left, new_curr)
-            dfs(root.right, new_curr)
+                ans += curr
         
-
         dfs(root, 0)
-        return sum(paths)
-            
-            
+        return ans
