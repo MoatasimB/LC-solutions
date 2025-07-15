@@ -1,20 +1,15 @@
 class Solution:
     def numTrees(self, n: int) -> int:
         
+        F = [0] * (n + 1)
+        F[1] = 1
+        F[0] = 1
 
-        return int((1 / ((2*n )+ 1)) * math.comb(2*n + 1, n))
-
-        # count = 0
-        # for i in range(n):
-        #     left = i
-        #     right = n - i - 1
-
-        #     count += left * right
+        for i in range(2, n + 1):
+            for j in range(1, i+1):
+                F[i] += F[j - 1] * F[i - j]
         
-        # memo = {}
-        # def dfs(n):
+        return F[n]
 
-        #     if n == 1:
-        #         return 1
-            
-        #     left = 
+
+        
