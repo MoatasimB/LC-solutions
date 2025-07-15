@@ -5,10 +5,6 @@ class Solution:
     #     return int((1 / (n + 1)) * math.comb(2*n, n))
 
     
-    #        i
-    #  1 2 3 4 5 6 7
-    #        j
-
         g = [0] * (n + 1)
         g[0] = 1
         g[1] = 1
