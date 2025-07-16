@@ -7,13 +7,14 @@ class Node(object):
         self.val = val
         self.children = children
 """
-class WrapInt:
+class Wint:
     def __init__(self, val):
         self.val = val
+    def inc(self):
+        self.val +=1
     def get_val(self):
         return self.val
-    def inc_val(self):
-        self.val += 1
+
 class Codec:
     def serialize(self, root: 'Node') -> str:
         """Encodes a tree to a single string.
@@ -21,34 +22,28 @@ class Codec:
         :type root: Node
         :rtype: str
         """
-        
-	# 1 3 5 ?????? 6 ????? ???
-
-    # [1, [3, [5], [6]],  [2], [4]]
-        #1 # 3 # 2 # 4 ## 5 ## 6
-        
         string = []
+
         def dfs(root, id, parent):
+
             if not root:
                 return
             
-            node_id = chr(id.get_val() + 48)
             node_val = chr(root.val + 48)
+            node_id = id.get_val()
             node_par = chr(parent + 48) if parent else 'N'
 
-            string.append(node_id)
+            string.append(chr(node_id + 48))
             string.append(node_val)
             string.append(node_par)
 
-            curr = id.get_val()
             for child in root.children:
-                id.inc_val()
-                dfs(child, id, curr)
-        dfs(root, WrapInt(1), None)
-        print(string)
-        return "".join(string)
-      
+                id.inc()
+                dfs(child, id, node_id)
 
+        dfs(root, Wint(1), None)
+        return "".join(string)
+	
     def deserialize(self, data: str) -> 'Node':
         """Decodes your encoded data to tree.
         
@@ -57,26 +52,26 @@ class Codec:
         """
         if not data:
             return None
-
-        node_par = {}
+        parent_node_dic = {}
 
         for i in range(0, len(data), 3):
+
             node_id = ord(data[i]) - 48
             node_val = ord(data[i+1]) - 48
-            par_node = ord(data[i+2]) - 48
-            node_par[node_id] = (par_node, Node(node_val, []))
+            node_par = ord(data[i+2]) - 48
+
+            parent_node_dic[node_id] = [node_par, Node(node_val, [])]
         
         for i in range(3, len(data), 3):
-
-            curr_node_id = ord(data[i]) - 48
-            node = node_par[curr_node_id][1]
-
-            par_node_id = ord(data[i + 2]) - 48
-            par_node = node_par[par_node_id][1]
-
-            par_node.children.append(node)
+            node_id = ord(data[i]) - 48
+            node_val = ord(data[i+1]) - 48
+            node_par = ord(data[i+2]) - 48
+            
+            child = parent_node_dic[node_id][1]
+            parent = parent_node_dic[node_par][1]
+            parent.children.append(child)
         
-        return node_par[ord(data[0]) - 48][1]
+        return parent_node_dic[ord(data[0]) - 48][1]
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
