@@ -36,7 +36,7 @@ class Solution:
         uf = UnionFind(n)
 
         for i in range(n):
-            for j in range(n):
+            for j in range(i):
                 if isConnected[i][j]:
                     uf.union(i,j)
         
