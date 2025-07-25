@@ -8,6 +8,15 @@
 class Solution:
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
         
+
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+                self.parent = None
+
+
         parents = {} #node, parent
         startNode = None
         def dfs(node, parent):
@@ -15,7 +24,7 @@ class Solution:
             if not node:
                 return
             
-            parents[node] = parent
+            node.parent = parent
             dfs(node.left, node)
             dfs(node.right, node)
 
@@ -44,8 +53,8 @@ class Solution:
             if node.right:
                 q.append([node.right, time + 1])
 
-            if parents[node].val > 0:
-                q.append([parents[node], time + 1])
+            if node.parent and node.parent.val > 0:
+                q.append([node.parent, time + 1])
         
         return ans
 
