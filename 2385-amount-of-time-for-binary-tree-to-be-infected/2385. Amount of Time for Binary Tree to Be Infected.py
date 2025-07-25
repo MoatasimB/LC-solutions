@@ -4,60 +4,33 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
         
+        ans = 0
+        distance = 0
+        def dfs(root):
+            nonlocal ans
+            nonlocal distance
+            depth = 0
 
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-                self.parent = None
-
-
-        parents = {} #node, parent
-        startNode = None
-        def dfs(node, parent):
-            nonlocal startNode
-            if not node:
-                return
+            if not root:
+                return 0
             
-            node.parent = parent
-            dfs(node.left, node)
-            dfs(node.right, node)
+            left = dfs(root.left)
+            right = dfs(root.right)
 
-            if node.val == start:
-                startNode = node
+            if root.val == start:
+                distance = max(left, right)
+                ans = max(ans, distance )
+                depth = -1
+            elif left >=0 and right >=0:
+                depth = max(left, right) + 1
+            else:
+                ans = max(ans, abs(left) + abs(right))
+                depth = min(left, right) - 1
+
+            return depth
         
-
-        dfs(root, TreeNode(-1))
-
-        seen = set()
-
-        q = deque()
-        q.append([startNode, 0])
-        ans = float("-inf")
-        while q:
-            node, time = q.popleft()
-
-            if node in seen:
-                continue
-            
-            ans = max(ans, time)
-            seen.add(node)
-
-            if node.left:
-                q.append([node.left, time + 1])
-            if node.right:
-                q.append([node.right, time + 1])
-
-            if node.parent and node.parent.val > 0:
-                q.append([node.parent, time + 1])
-        
+        dfs(root)
         return ans
-
-        
-
-
