@@ -1,39 +1,42 @@
 class Solution:
     def alienOrder(self, words: List[str]) -> str:
-        inDeg = {c:0 for word in words for c in word}
-        neighbors = {c:[] for word in words for c in word}
+        graph = {ch : set() for word in words for ch in word}
+        inDeg = {ch:0 for ch in graph.keys()}
 
         for i in range(len(words) - 1):
-            w1 = words[i]
-            w2 = words[i+1]
-            minLen = min(len(w1), len(w2))
+            word1 = words[i]
+            word2 = words[i+1]
 
-            if len(w1) > len(w2) and w1[:minLen] == w2[:minLen]:
+            word1_len = len(word1)
+            word2_len = len(word2)
+
+            n= min(word1_len, word2_len)
+            
+            if word1[:n] == word2[:n] and word1_len > word2_len:
                 return ""
-            for j in range(minLen):
-                if w1[j] != w2[j]:
-                    if w2[j] not in neighbors[w1[j]]:
-                        inDeg[w2[j]] += 1
-                        neighbors[w1[j]].append(w2[j])
+            
+            for ch in range(n):
+                if word1[ch] != word2[ch]:
+                    if word2[ch] not in graph[word1[ch]]:
+                        graph[word1[ch]].add(word2[ch])
+                        inDeg[word2[ch]] += 1
                     break
 
-            
         q = deque()
-        print(inDeg)
-        print(neighbors)
 
-        for k, v in inDeg.items():
-            if v == 0:
-                q.append(k)
-
+        for ch, indeg in inDeg.items():
+            if indeg == 0:
+                q.append(ch)
+        
         ans = []
         while q:
             node = q.popleft()
             ans.append(node)
-            for nei in neighbors[node]:
+            for nei in graph[node]:
                 inDeg[nei] -= 1
                 if inDeg[nei] == 0:
                     q.append(nei)
-                
+                    del inDeg[nei]
 
         return "".join(ans) if sum(inDeg.values()) == 0 else ""
+
