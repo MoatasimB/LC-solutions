@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/shortest-distance-from-all-buildings">Shortest Distance from All Buildings</a></h2> <img src='https://img.shields.io/badge/Difficulty-Hard-red' alt='Difficulty: Hard' /><hr><p>You are given an <code>m x n</code> grid <code>grid</code> of values <code>0</code>, <code>1</code>, or <code>2</code>, where:</p>
+<p>You are given an <code>m x n</code> grid <code>grid</code> of values <code>0</code>, <code>1</code>, or <code>2</code>, where:</p>
 
 <ul>
 	<li>each <code>0</code> marks <strong>an empty land</strong> that you can pass by freely,</li>
