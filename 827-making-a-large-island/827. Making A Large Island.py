@@ -1,50 +1,52 @@
 class Solution:
     def largestIsland(self, grid: List[List[int]]) -> int:
         
-        islands = {}
 
-        dirs = [(0,1), (1,0), (0,-1), (-1,0)]
-        
+        islands = {} #id:size
+        m = len(grid)
+        n = len(grid[0])
+
+        dirs = [(0,1), (0,-1), (1,0), (-1,0)]
+
         def valid(r,c):
-            return 0<=r<len(grid) and 0<=c<len(grid[0])
+            return 0<=r<m and 0<=c<n
 
-        group = 2
-
-        def dfs(r, c, group):
-            ans = 1
-            grid[r][c] = group
+        def dfs(r,c, id):
+            size = 1
             for dx, dy in dirs:
-                nr, nc = r + dx, c + dy
-
+                nr = r + dx
+                nc = c + dy
                 if valid(nr, nc) and grid[nr][nc] == 1:
-                    ans += dfs(nr,nc,group)
-            
-            return ans
-        final = 1
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 1:
-                    x = dfs(i,j, group)
-                    final = max(final, x)
-                    islands[group] = x
-                    group += 1
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 0:
-                    curr = 1
-                    nei = set()
-                    for dx, dy in dirs:
-                        nr,nc = i+ dx, j + dy
-                        if valid(nr, nc) and grid[nr][nc] in islands and grid[nr][nc] not in nei:
-                            nei.add(grid[nr][nc])
-                            curr += islands[grid[nr][nc]]
-                    
-                    final = max(curr, final)
-        # maxNoChange = 0
-        # if islands:
-        #     maxNoChange = max(islands.values())
+                    grid[nr][nc] = id
+                    size += dfs(nr,nc,id)
+    
+            return size
+        
+        current_id = -1
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == 1:
+                    grid[r][c] = current_id
+                    s = dfs(r,c, current_id)
+                    islands[current_id] = s
+                    current_id -= 1
 
-        return final
+        ans = max(islands.values()) if len(islands) > 0 else 0
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == 0:
+                    curr = 1
+                    nei = set() #contains id's that this island is apart of
+                    for dx, dy in dirs:
+                        nr, nc = r + dx, c + dy
+
+                        if valid(nr,nc) and grid[nr][nc] in islands and grid[nr][nc] not in nei :
+                            curr += islands[grid[nr][nc]]
+                            nei.add(grid[nr][nc])
+                    
+                    ans = max(ans, curr)
+
+        return ans
 
 
 
