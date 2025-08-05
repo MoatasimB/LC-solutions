@@ -1,33 +1,31 @@
 class TimeMap:
 
     def __init__(self):
-        self.dic  = defaultdict(list) #key : [time, val]
-
-        
+        self.dic = {} #(key,timestamp) : val
+        self.times = defaultdict(list)#key : [sorted list of most recent timestamp]
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.dic[key].append([timestamp, value])
+        self.dic[(key,timestamp)] = value
+        self.times[key].append(timestamp)
         
 
     def get(self, key: str, timestamp: int) -> str:
-        if key not in self.dic:
-            return ""
-        
-        timestamps = self.dic[key]
+        lst = self.times[key]
         l = 0
-        r = len(timestamps) - 1
-        ans = ""
+        r = len(lst) - 1
+        prev = -1
         while l <= r:
-            mid = (l + r) // 2
-
-            if timestamps[mid][0] <= timestamp:
-                ans = timestamps[mid][1]
+            mid = (l+r) // 2
+            if lst[mid] <= timestamp:
+                prev = max(prev, mid)
                 l = mid + 1
             else:
                 r = mid - 1
         
-        return ans
-        
+
+        if prev == -1:
+            return ''
+        return self.dic[(key, lst[prev])]
 
 
 # Your TimeMap object will be instantiated and called as such:
