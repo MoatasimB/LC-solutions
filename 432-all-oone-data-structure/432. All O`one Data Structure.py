@@ -1,126 +1,136 @@
-class Node: 
-    def __init__(self, level):
-        self.level = level
-        self.set = set()
+class Node:
+    def __init__(self, count): #contains all the strings with count = val
+        self.count = count
+        self.strings = set()
         self.next = None
         self.prev = None
 
-#H <-> 1.    5             T
+
 class AllOne:
 
     def __init__(self):
-        self.node_mpp = {} #string_key: node (node.level = count)
-        self.head = Node(float('-inf'))
-        self.tail = Node(float('inf'))
+        #create head -> min ..... max -> tail
+        self.head = Node(-1)
+        self.tail = Node(-1)
         self.head.next = self.tail
         self.tail.prev = self.head
+
+        self.nodeGroups = {} #key : node it is in
+
+        self.stringCounts = defaultdict(int) #key : count
         
 
     def inc(self, key: str) -> None:
-        #if key doesnt exist:
-        if key not in self.node_mpp:
-            #We first check if we have a count=1 node
-
-            #if not we make the node
-            if self.head.next.level != 1:
-                nextNode = self.head.next
-                prevNode = self.head
-                newNode = Node(1)
-                self.addNode(prevNode, nextNode, newNode)
-            #if so we add it to the mpp and add it to the nodes set
-            #don't need an else cause we always add it
-            node_to_add_key_in = self.head.next 
-            node_to_add_key_in.set.add(key)
-            self.node_mpp[key] = node_to_add_key_in
-
-        #the key exists so we have to remove it from its current node
-        #and go to the next node
-        else:
-            node_with_key = self.node_mpp[key]
-
-            #now we check if the next count node is there or not
-            if node_with_key.next.level != node_with_key.level + 1:
-                #if it is not there we have to create the next new node
-                next_level = node_with_key.level + 1
-                new_node = Node(next_level)
-                prevNode = node_with_key
-                nextNode = node_with_key.next
-                self.addNode(prevNode, nextNode, new_node)
+        if key not in self.nodeGroups:
             
-        #then we add it to the new node
-            new_node_with_key = node_with_key.next
-            self.node_mpp[key] = new_node_with_key
-            node_with_key.set.remove(key)
-            new_node_with_key.set.add(key)
+            #check if we dont have a 1 group
+            if self.head.next.count != 1:
+                #then create a 1 group
+                self.addNewGroup(self.head, 1)
 
-            #if the node we moved from is empty we remove it
-            if len(node_with_key.set) == 0:
-                prevNode = node_with_key.prev
-                nextNode = node_with_key.next
-                self.delNode(prevNode, nextNode)
+            #add string to a 1 group
+            group1 = self.head.next
+            group1.strings.add(key)
+            # stringCounts[key] += 1
+            self.nodeGroups[key] = group1
 
-        
+        else:
+            currentGroup = self.nodeGroups[key]
+
+            #check if the next doesnt group exists and then add if the case
+            if currentGroup.next.count != currentGroup.count + 1:
+                self.addNewGroup(currentGroup, currentGroup.count + 1)
+            
+            #now add this string to this new group and remove from old
+            currentGroup.strings.remove(key)
+            
+            newGroup = currentGroup.next
+            newGroup.strings.add(key)
+            # stringCounts[key] += 1
+            self.nodeGroups[key] = newGroup
+
+            #We also want to see if the oldGroup is empty now, if it is we remove it
+            if len(currentGroup.strings) == 0:
+                self.removeGroup(currentGroup)
 
     def dec(self, key: str) -> None:
+        currentGroup = self.nodeGroups[key]
 
-        node_with_key = self.node_mpp[key]
-        #if we are in level 1 then we can just get rid of the key
-        if node_with_key.level == 1:
-            node_with_key.set.remove(key)
-            del self.node_mpp[key]
+        # if it is in group1 we just remove it from dic and ll
+        if currentGroup.count == 1:
+            #remove from dic
+            del self.nodeGroups[key]
+            #remove from ll
+            currentGroup.strings.remove(key)
+
+            #if we have nothing in this group we remove it
+            if len(currentGroup.strings) == 0:
+                self.removeGroup(currentGroup)
+        
         else:
-            #if the prev level exists we move it to it
-            if node_with_key.prev.level != node_with_key.level - 1:
-            #if it does not exist we create it and then we move the node
-                level = node_with_key.level - 1
-                nextNode = node_with_key
-                prevNode = node_with_key.prev
-                newNode = Node(level)
+        #if it is another random group check if previous one exists
+            if currentGroup.count != currentGroup.prev.count + 1:
+                self.addPrevGroup(currentGroup, currentGroup.count - 1)
+            
+            currentGroup.strings.remove(key)
+            newGroup = currentGroup.prev
 
-                self.addNode(prevNode, nextNode, newNode)
-        
-            #we move to the prev level
-            prevLevel = node_with_key.prev
-            prevLevel.set.add(key)
-            node_with_key.set.remove(key)
-        
-            self.node_mpp[key] = prevLevel
+            newGroup.strings.add(key)
 
-        #if the level is empty then we remove it
-        if len(node_with_key.set) == 0:
-            prevNode = node_with_key.prev
-            nextNode = node_with_key.next
-            self.delNode(prevNode, nextNode)
+            self.nodeGroups[key] = newGroup
+            if len(currentGroup.strings) == 0:
+                self.removeGroup(currentGroup)
+
+
         
 
     def getMaxKey(self) -> str:
         if self.tail.prev == self.head:
             return ""
-        
-        maxNode = self.tail.prev
 
-        for el in maxNode.set:
-            return el
+        for s in self.tail.prev.strings:
+            return s
         
 
     def getMinKey(self) -> str:
         if self.head.next == self.tail:
             return ""
-        
-        minNode = self.head.next
-
-        for el in minNode.set:
-            return el
-
-    def addNode(self, prevNode, nextNode, newNode):
-        newNode.next = nextNode
-        nextNode.prev = newNode
-        newNode.prev = prevNode
-        prevNode.next = newNode
+        for s in self.head.next.strings:
+            return s
     
-    def delNode(self, prevNode, nextNode):
+    def addNewGroup(self, prevNode, val):
+        #Adds a new group
+        node = Node(val)
+
+        nextNode = prevNode.next
+        prevNode.next = node
+        nextNode.prev = node
+
+        node.next = nextNode
+        node.prev = prevNode
+    
+    def addPrevGroup(self, nextNode, val):
+        node = Node(val)
+
+        prevNode = nextNode.prev
+
+        prevNode.next = node
+        nextNode.prev = node
+
+        node.prev = prevNode
+        node.next = nextNode
+
+
+    
+    def removeGroup(self, group):
+
+        prevNode = group.prev
+        nextNode = group.next
         prevNode.next = nextNode
         nextNode.prev = prevNode
+    
+
+    
 
         
 
