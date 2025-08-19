@@ -1,8 +1,6 @@
 class Solution:
     def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
         
-        indices = {s[i]: i for i in range(len(s))}
-
         s = list(s)
         graph = defaultdict(list)
 
