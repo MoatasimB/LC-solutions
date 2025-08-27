@@ -1,16 +1,15 @@
 class Solution:
     def firstUniqChar(self, s: str) -> int:
-        
-        indices = {s[i] : i for i in range(len(s))} # ch : idx
+        mpp = {}
+        for i in range(len(s)):
+            if s[i] in mpp:
+                mpp[s[i]] = False
+            else:
+                mpp[s[i]] = True
 
-        counts = defaultdict(int)
-        for ch in s:
-            counts[ch] += 1
         
-        ans = float('inf')
-
-        for ch, count in counts.items():
-            if count == 1:
-                ans = min(ans, indices[ch])
+        for i in range(len(s)):
+            if mpp[s[i]]:
+                return i
         
-        return ans if ans != float('inf') else -1
+        return -1
