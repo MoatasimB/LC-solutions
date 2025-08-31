@@ -7,6 +7,6 @@ class Solution:
         for i in range(1, len(nums)):
             if nums[i] != nums[curr - 1]:
                 nums[curr] = nums[i]
-                curr +=1
+                curr += 1
         
         return curr
