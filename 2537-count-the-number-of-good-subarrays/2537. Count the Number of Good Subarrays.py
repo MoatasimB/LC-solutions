@@ -7,25 +7,27 @@ class Solution:
         ans = 0
         pairs = 0
         for r in range(len(nums)):
-
+            pairs += counts[nums[r]]
             counts[nums[r]] += 1
 
-            if counts[nums[r]] > 1:
-                if counts[nums[r]] - 1 > 1 :
-                    pairs -= math.comb(counts[nums[r]] - 1, 2)
-                    pairs += math.comb(counts[nums[r]], 2)
-                else:
-                    pairs += 1
+            # if counts[nums[r]] > 1:
+            #     if counts[nums[r]] - 1 > 1 :
+            #         pairs -= math.comb(counts[nums[r]] - 1, 2)
+            #         pairs += math.comb(counts[nums[r]], 2)
+            #     else:
+            #         pairs += 1
             
             while pairs >= k:
                 ans += len(nums) - 1 - r + 1
-                if counts[nums[l]] > 1:
-                    pairs -= math.comb(counts[nums[l]], 2)
-                    counts[nums[l]] -= 1
-                    if counts[nums[l]] > 1:
-                        pairs += math.comb(counts[nums[l]], 2)
-                else:
-                    counts[nums[l]] -= 1
+                counts[nums[l]] -= 1
+                pairs -= counts[nums[l]]
+                # if counts[nums[l]] > 1:
+                #     pairs -= math.comb(counts[nums[l]], 2)
+                #     counts[nums[l]] -= 1
+                #     if counts[nums[l]] > 1:
+                #         pairs += math.comb(counts[nums[l]], 2)
+                # else:
+                #     counts[nums[l]] -= 1
                 l += 1
             
         
