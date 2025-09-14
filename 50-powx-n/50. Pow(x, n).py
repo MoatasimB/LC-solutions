@@ -1,18 +1,21 @@
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         
-        def p(num, exp):
-            
-            if exp == 1:
-                return num
-            if exp == 0:
+        def dfs(x, n):
+            if n == 0:
                 return 1
-            new_num = num * num
-            if exp % 2:
-                return num * p(new_num, (exp - 1) // 2)
+            
+            ans = 0
+            if n % 2 == 0:
+                ans += dfs(x * x, n // 2) 
             else:
-                return p(new_num, exp // 2)
+                ans += x * dfs(x * x, n // 2)
+            
+            return ans
         
-        num = p(x, abs(n))
-
-        return num if n > 0 else 1 / num
+        neg = False
+        if n < 0:
+            neg = True
+        final = dfs(x, abs(n))
+        
+        return 1/final if neg else final
