@@ -6,10 +6,9 @@
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         
-
         def getMid(head):
-
-            slow = ListNode(-1, head)
+            dummy = ListNode(-1, head)
+            slow = dummy
             fast = head
 
             while fast and fast.next:
@@ -19,32 +18,33 @@ class Solution:
             mid = slow.next
             slow.next = None
             return mid
+
         
-        def mergeS(head):
+        def mergeSort(head):
             if not head or not head.next:
-                return head
+                return head 
             
             mid = getMid(head)
 
-            l = mergeS(head)
-            r = mergeS(mid)
-            return merge(l,r)
+            left = mergeSort(head)
+            right = mergeSort(mid)
+
+            return merge(left, right)
         
-        def merge(l,r):
+        def merge(left, right):
             dummy = ListNode(-1)
             curr = dummy
-
-            while l and r:
-                if l.val < r.val:
-                    curr.next = l
-                    l = l.next
+            while left and right:
+                if left.val < right.val:
+                    curr.next = left
+                    left = left.next
                 else:
-                    curr.next = r
-                    r = r.next
+                    curr.next = right
+                    right = right.next
                 curr = curr.next
             
-            curr.next = l if l else r
+            curr.next = left if left else right
 
             return dummy.next
         
-        return mergeS(head)
+        return mergeSort(head)
