@@ -1,29 +1,43 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        adj = [[] for _ in range(numCourses)]
-
-        for second, first in prerequisites:
-            adj[first].append(second)
         
-        ans = []
-        seen = [False for _ in range(numCourses)]
-        cycle = False
-        def dfs(node, currPath): 
-            nonlocal cycle
-            seen[node] = True
-            currPath[node] = True
-            for nei in adj[node]:
-                if not seen[nei]:
-                    dfs(nei,currPath)
-                elif currPath[nei]:
-                    cycle = True
+        
+        adj = [[] for _ in range(numCourses)]
+        
+        
+        for x, y in prerequisites:
+            adj[y].append(x)
             
-            currPath[node] = False
+        seen = [False] * numCourses
+        inStack = [False] * numCourses
+
+
+        isPossible = True
+        ans = []
+        def dfs(node):
+            nonlocal isPossible
+            if not isPossible:
+                return 
+            
+            if inStack[node]:
+                isPossible = False
+                return
+            if seen[node]:
+                return
+
+            seen[node] = True
+            inStack[node] = True
+
+            for nei in adj[node]:
+                dfs(nei)
+                if not isPossible:
+                    return
+            
             ans.append(node)
+            inStack[node] = False
         
         for i in range(numCourses):
-            if not seen[i]:
-                dfs(i, [False for _ in range(numCourses)])
-        return ans[::-1] if not cycle else []
+            dfs(i)
+        
+        return ans[::-1] if len(ans) == numCourses else []
 
-            
