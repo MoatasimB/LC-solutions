@@ -1,24 +1,36 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        indeg = [0] * numCourses
-        adj = defaultdict(list)
+        
+        s = [False] * numCourses
+        seen = [False] * numCourses
+
+        graph = defaultdict(list)
 
         for x, y in prerequisites:
-            indeg[x] += 1
-            adj[y].append(x)
+            graph[y].append(x)
         
-        q = deque()
-        
-        for i in range(len(indeg)):
-            if indeg[i] == 0:
-                q.append(i)
-        
-        while q:
-            node = q.popleft()
 
-            for nei in adj[node]:
-                indeg[nei] -= 1
-                if indeg[nei] == 0:
-                    q.append(nei)
+        def dfs(node):
+            if s[node]:
+                return True
+
+            s[node] = True
+            for nei in graph[node]:
+                if s[nei]:
+                    return True
+                elif not seen[nei]:
+                    seen[nei] = True
+                    if dfs(nei):
+                        return True
+            s[node] = False
+            return False
         
-        return sum(indeg) == 0
+
+        for node in range(numCourses):
+            if not seen[node]:
+                seen[node] = True
+                if dfs(node):
+                    return False
+        
+
+        return True
