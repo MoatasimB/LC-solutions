@@ -36,7 +36,6 @@ class Solution:
                 inDeg[nei] -= 1
                 if inDeg[nei] == 0:
                     q.append(nei)
-                    del inDeg[nei]
 
         return "".join(ans) if sum(inDeg.values()) == 0 else ""
 
