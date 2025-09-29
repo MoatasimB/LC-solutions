@@ -8,33 +8,34 @@ class Solution:
         # [1,2,3...84]
 
         squares = [i**2 for i in range(1, int(math.sqrt(n)) + 1)]
-        memo = {}
+        # memo = {}
     
-        def dfs(target):
-            if (target) in memo:
-                return memo[(target)]
-            if target == 0:
-                return 0
-            ans = float("inf")
-            for num in squares:
-                if num <= target:
-                    ans = min(ans, 1 + dfs(target - num))
+        # def dfs(target):
+        #     if (target) in memo:
+        #         return memo[(target)]
+        #     if target == 0:
+        #         return 0
+        #     ans = float("inf")
+        #     for num in squares:
+        #         if num <= target:
+        #             ans = min(ans, 1 + dfs(target - num))
             
-            memo[(target)] = ans
-            return ans
+        #     memo[(target)] = ans
+        #     return ans
         
-        return dfs(n)
+        # return dfs(n)
     
     
   
+        dp = [float("inf")] * (n + 1)
+        dp[0] = 0
+
+        for target in range(1, n+1):
+
+            for num in squares:
+                if num <= target:
+                    dp[target] = min(dp[target], 1 + dp[target - num])
         
-#         dp = [[float("inf")] * (n + 1) for _ in range(int(math.sqrt(n)))]
-#         print(dp)
-        
-#         for i in range(int(math.sqrt(n))):
-#             dp[i][0] = 0
-#         dp[0][0] = 0
-        
-#         for i in range(int(math.sqrt(n))):
-#             for j in range(n + 1):
+        return dp[n]
+
                 
