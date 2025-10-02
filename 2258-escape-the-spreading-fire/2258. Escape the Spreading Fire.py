@@ -48,7 +48,6 @@ class Solution:
                         q.append((nr,nc,time + 1))
                         seen.add((nr,nc))
             return False
-        print(fire_time_grid)
         l = 0
         r = 10**9
         ans = -1
@@ -62,11 +61,7 @@ class Solution:
         
         return ans
 
-        # [[X,2,1,1,1],
-        #  [X,2,1,2,2],
-        #  [X,2,1,1,1],
-        #  [X,X,2,2,1],
-        #  [X,X,X,X,0]]
+
 
 
 
