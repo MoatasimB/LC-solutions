@@ -2,12 +2,12 @@ class Solution:
     def replaceNonCoprimes(self, nums: List[int]) -> List[int]:
         gcds = {}
         def gcd(a,b):
-            # ogA, ogB = a, b
-            # if (a,b) in gcds:
-            #     return gcds[(a,b)]
+            ogA, ogB = a, b
+            if (a,b) in gcds:
+                return gcds[(a,b)]
             while b:
                 a, b = b, a % b
-            # gcds[(ogA,ogB)] = a
+            gcds[(ogA,ogB)] = a
             return a
         
         def lcm(a,b):
