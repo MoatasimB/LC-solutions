@@ -7,12 +7,10 @@ class Solution:
             ans.append(0)
             n -= 1
         while n:
-            print(n)
             ans.append(count)
             n-=1
-            if n:
-                ans.append(-count)
-                n-=1
+            ans.append(-count)
+            n-=1
             count +=1
         
         return ans
