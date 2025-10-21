@@ -1,7 +1,8 @@
 class Solution:
     def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
         
-
+        def val(c):
+            return ord(c) - ord('a') + 1
         def find_matches(word, phrase):
             ans = []
             if len(phrase) > len(word):
@@ -15,26 +16,24 @@ class Solution:
             phrase_hash = 0
             for i in range(len(phrase)):
                 ch = phrase[i]
-                phrase_hash = (phrase_hash * k )% MOD
-                phrase_hash += ((ord(ch) - ord('a')+ 1)) % MOD
+                phrase_hash = (phrase_hash * k + val(ch))% MOD
        
             curr = 0
             for i in range(len(phrase)):
                 ch = word[i]
-                curr = (curr * k) % MOD
-                curr += ((ord(ch) - ord('a') + 1)) % MOD
+                curr = (curr * k + val(ch)) % MOD
 
             if phrase_hash == curr:
                 ans.append(0)
             
             for i in range(len(phrase), len(word)):
                 old_ch = word[i - len(phrase)]
-                curr -= ((ord(old_ch) - ord('a') + 1) * highest_power)
+                curr -= (val(old_ch) * highest_power)
                 
-                curr = (curr * k) % MOD
 
                 ch = word[i]
-                curr += ((ord(ch) - ord('a') + 1)) % MOD
+                curr = (curr * k + val(ch)) % MOD
+
 
                 if curr == phrase_hash and word[i-len(phrase) + 1: i+1] == phrase:
                     ans.append(i - len(phrase) + 1)
