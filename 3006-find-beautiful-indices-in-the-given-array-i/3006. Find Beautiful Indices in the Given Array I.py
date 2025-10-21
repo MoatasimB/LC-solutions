@@ -4,29 +4,51 @@ class Solution:
 
         def find_matches(word, phrase):
             ans = []
+            if len(phrase) > len(word):
+                return ans 
+            MOD = 10**9 + 7
+            highest_power = 1
+            k = 31
+            for _ in range(len(phrase) - 1):
+                highest_power *= k
+            
+            phrase_hash = 0
+            for i in range(len(phrase)):
+                ch = phrase[i]
+                phrase_hash = (phrase_hash * k )% MOD
+                phrase_hash += ((ord(ch) - ord('a')+ 1)) % MOD
+       
+            curr = 0
+            for i in range(len(phrase)):
+                ch = word[i]
+                curr = (curr * k) % MOD
+                curr += ((ord(ch) - ord('a') + 1)) % MOD
 
-            curr = 0 #phrase ptr
-            i = 0 #word ptr
-            while i < len(word):
-                j = i
-                while j < len(word) and curr < len(phrase) and word[j] == phrase[curr]:
-                    j += 1
-                    curr += 1
-                
-                if curr == len(phrase):
-                    ans.append(i)
-                
-                curr = 0
+            if phrase_hash == curr:
+                ans.append(0)
             
-                i += 1
-            
+            for i in range(len(phrase), len(word)):
+                old_ch = word[i - len(phrase)]
+                curr -= ((ord(old_ch) - ord('a') + 1) * highest_power)
+                
+                curr = (curr * k) % MOD
+
+                ch = word[i]
+                curr += ((ord(ch) - ord('a') + 1)) % MOD
+
+                if curr == phrase_hash and word[i-len(phrase) + 1: i+1] == phrase:
+                    ans.append(i - len(phrase) + 1)
+
+
+
             return ans
         
 
-
         a_matches = find_matches(s,a)
-        b_matches = find_matches(s, b)
+        b_matches = find_matches(s,b)
 
+        print(a_matches)
+        print(b_matches)
         final = []
 
         for i in range(len(a_matches)):
