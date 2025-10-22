@@ -3,18 +3,18 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        
-        for i in range(len(matrix)):
+        n = len(matrix)
+        for i in range(n):
             for j in range(i):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
         
-        for r, row in enumerate(matrix):
+        for row in matrix:
             i = 0
-            j = len(row) - 1
+            j = n - 1
 
-            while i<=j:
-                matrix[r][i], matrix[r][j] = matrix[r][j], matrix[r][i]
+            while i <= j:
+                row[i], row[j] = row[j], row[i]
                 i += 1
                 j -= 1
         
-        
+
