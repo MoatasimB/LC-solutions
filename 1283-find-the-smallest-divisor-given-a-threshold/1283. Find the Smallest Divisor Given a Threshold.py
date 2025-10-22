@@ -1,23 +1,24 @@
 class Solution:
     def smallestDivisor(self, nums: List[int], threshold: int) -> int:
+        def check(x):
+            
+            curr = 0
+            for n in nums:
+                curr += math.ceil(n/x)
+            
+            return curr <= threshold
         
-        def check(mid):
-            count = 0
-            for num in nums:
-                count += math.ceil(num/mid)
-            return count <= threshold
-
-        l = 1
-        r = max(nums)
-        ans = -1
-        while l <= r:
-            mid = (l + r) // 2
-
+        left = 1
+        right = max(nums)
+        
+        while left <= right:
+            
+            mid = (left + right) //2
+            
             if check(mid):
-                ans = mid
-                r = mid - 1
+                right = mid - 1
             else:
-                l = mid + 1
-                
+                left = mid + 1
         
-        return ans
+        return left
+            
