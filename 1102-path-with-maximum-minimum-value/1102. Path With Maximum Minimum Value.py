@@ -8,16 +8,16 @@ class Solution:
         
         ans = float("inf")
         heap = [[-grid[0][0], 0, 0]] #cell val, r,c
-        seen = set()
+        seen = [[False] * n for _ in range(m)]
         while heap:
             cell_val, r, c = heapq.heappop(heap)
             ans = min(ans, -cell_val)
             if r == m - 1 and c == n - 1:
                 return ans
             
-            seen.add((r,c))
+            seen[r][c] = True
 
             for dx, dy in dirs:
                 nr, nc = r + dx, c + dy
-                if valid(nr,nc) and (nr,nc) not in seen:
+                if valid(nr,nc) and not seen[nr][nc]:
                     heapq.heappush(heap, [-grid[nr][nc], nr, nc])
