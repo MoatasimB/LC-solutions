@@ -1,35 +1,20 @@
 class Solution:
     def hasIncreasingSubarrays(self, nums: List[int], k: int) -> bool:
         
-
-        for i in range(len(nums)):
-
-            j = i
-            count = 1
-            first = False
-            while j < len(nums) - 1 and count < k:
-                if nums[j] < nums[j + 1]:
-                    count += 1
-                    j += 1
-                else:
-                    break
+        prev = 0
+        curr = 1
+        ans = 0
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i-1]:
+                curr += 1
+            else:
+                prev = curr
+                curr = 1
             
-            if count == k:
-                first = True
-            
-            if first:
-                j = i + k
-                count = 1
-                while j < len(nums) - 1 and count < k:
-                    if nums[j] < nums[j + 1]:
-                        count += 1
-                        j += 1
-                    else:
-                        break
-                
-                if count == k:
-                    return True
+            ans = max(ans, min(prev, curr))
+            ans = max(ans,curr // 2 )
         
-        return False
+        return ans >= k
 
 
+            
