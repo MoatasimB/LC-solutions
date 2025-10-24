@@ -7,24 +7,20 @@ class Solution:
         q = deque()
         seen = set()
         for node in range(n):
-            q.append((node, 1 << node))
+            q.append((node, 1 << node, 0))
             seen.add((node, 1 << node))
 
-        steps = 0
         while q:
-            q_len = len(q)
-            for _ in range(q_len):
-                node, mask = q.popleft()
+            node, mask, steps = q.popleft()
 
-                if mask == ending:
-                    return steps
+            if mask == ending:
+                return steps
 
-                for nei in graph[node]:
-                    if (nei, mask | (1 << nei)) not in seen:
-    
-                        q.append((nei,mask | (1 << nei)))
-                        seen.add((nei, mask | (1 << nei)))
-            steps += 1
+            for nei in graph[node]:
+                if (nei, mask | (1 << nei)) not in seen:
+
+                    q.append((nei,mask | (1 << nei), steps + 1))
+                    seen.add((nei, mask | (1 << nei)))
         
 
 
