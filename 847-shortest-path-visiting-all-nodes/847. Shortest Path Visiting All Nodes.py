@@ -6,6 +6,8 @@ class Solution:
         ending = (1 << n) - 1
         q = deque()
         seen = set()
+
+
         for node in range(n):
             q.append((node, 1 << node, 0))
             seen.add((node, 1 << node))
