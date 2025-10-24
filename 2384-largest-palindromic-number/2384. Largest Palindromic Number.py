@@ -1,43 +1,42 @@
 class Solution:
     def largestPalindromic(self, num: str) -> str:
-
- 
-        nums = list(num)
-        nums.sort(reverse = True)
-
-        seen = set()
-
-        final = ""
-        for n in nums:
-            if n in seen:
-                seen.remove(n)
-                final += n
-            else:
-                seen.add(n)
         
-        ans = []    
-        i=0
-        while i<len(final):
-            if final[i] != '0':
-                break
-            i+=1
-        
-        while i< len(final):
-            ans.append(final[i])
-            i+=1
-        
-        second_half = ans[::-1]
+        counts = defaultdict(int)
 
-        nmax = ''
-        if seen:
-            for ch in seen:
-                if ch > nmax:
-                    nmax = ch
-            ans.append(nmax)
+        for d in num:
+            counts[d] += 1
+        
+        p = ""
+        mid = float("-inf")
+
+        for i in "9876543210":
+            if i in counts:
+                pairs = counts[i] // 2
+                p += i * pairs
+
+                counts[i] -= pairs * 2
+            
+            if i in counts and counts[i] >= 1:
+                if mid == float("-inf"):
+                    mid = i
+                else:
+                    continue
         
 
-        ans.extend(second_half)
+        s_p = []
 
-        if not ans:
-            return "0"
-        return "".join(ans)
+        i = 0
+        while i < len(p) and p[i] == "0":
+            i += 1
+        
+        while i < len(p):
+            s_p.append(p[i])
+            i+= 1
+        
+        final = []
+        if mid != float("-inf"):
+            final = s_p + [mid] + s_p[::-1]
+        else:
+            final = s_p + s_p[::-1]
+        
+        return ("".join(final) if final else "0")
