@@ -1,20 +1,42 @@
+class Node:
+    def __init__(self,count,value):
+        self.count = count
+        self.value = value
+    def __lt__ (self, other):
+        if self.count != other.count:
+            return self.count < other.count
+        return self.value > other.value
 class Solution:
+
+    #Easy to solve this in nlogn with a max heap but need min heap for nlogk
+
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
-        
-        freq = defaultdict(int)
+        import heapq
+        heap = []
+        count = defaultdict(int)
+
         for word in words:
-            freq[word] += 1
+            count[word] +=1
         
-        lst = []
+        for key,val in count.items():
+            heapq.heappush(heap, Node(val, key))
+            if len(heap) > k:
+                heapq.heappop(heap)
+            
+        ans = []
+        while heap:
+            ans.append(heapq.heappop(heap).value)
 
-        for word, count in freq.items():
-            heapq.heappush(lst, [count, word])
-            # if len(lst) > k:
-            #     heapq.heappop(lst)
+        final = []
+        for i in range(len(ans) - 1, -1, -1):
+            final.append(ans[i])
         
-        lst.sort(key= lambda x: (-x[0], x[1]))
+        return final
 
-        # new_lst.sort(key = lambda x: (x[0], x[1]), reverse = True)
+        # while heap:
+        #     ans.append(heappop(heap))
 
+        # ans.sort(key=lambda x: (-x[0], -x[1], x[2])) #sort by smallest neg and then lexo order
+
+        # return [word1 for freq, word, word1 in ans]
         
-        return [w for c, w in lst[:k]]
