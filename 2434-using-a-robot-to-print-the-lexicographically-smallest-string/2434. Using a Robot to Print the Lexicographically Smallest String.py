@@ -1,29 +1,23 @@
 class Solution:
     def robotWithString(self, s: str) -> str:
-        
-        stack = []
 
-        freq = [0] * 26
-
-        for ch in s:
-            freq[ord(ch) - ord('a')] += 1
-        
-        def find_smallest():
-            for i in range(26):
-                if freq[i] >= 1:
-                    return i
-            return 26
         t = []
-        for i in range(len(s)):
-            ch = s[i]
-            freq[ord(ch) - ord('a')] -= 1
-            stack.append(ch)
+        answer = []
+        counts = defaultdict(int)
 
-            while stack and ((ord(stack[-1]) - ord('a')) <= find_smallest()):
-                t.append(stack.pop())
-            
+        for c in s:
+            counts[c] +=1
         
-        while stack:
-            t.append(stack.pop())
+        for c in s:
+            t.append(c)
+
+            counts[c] -=1
+            if counts[c] == 0:
+                del counts[c]
         
-        return "".join(t)
+            while t and (not counts or t[-1]<= min(counts.keys())):
+                answer.append(t.pop())
+
+        return "".join(answer)
+
+        
