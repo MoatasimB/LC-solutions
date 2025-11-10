@@ -5,43 +5,40 @@
 #         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-
         if not lists:
             return None
-        def merge(l1, l2):
+
+        def merge(aHead, bHead):
 
             dummy = ListNode(-1)
             curr = dummy
-
-            while l1 and l2:
-                if l1.val < l2.val:
-                    curr.next = l1
-                    l1 = l1.next
+            while aHead and bHead:
+                if aHead.val < bHead.val:
+                    curr.next = aHead
+                    aHead = aHead.next
                 else:
-                    curr.next = l2
-                    l2 = l2.next
-                
+                    curr.next = bHead
+                    bHead = bHead.next
                 curr = curr.next
             
-            if l1:
-                curr.next = l1
-            if l2:
-                curr.next = l2
+            if aHead:
+                curr.next = aHead
+            if bHead:
+                curr.next = bHead
             
             return dummy.next
         
 
-        def mergeSort(left, right):
-            print(left, right)
-            if left >= right:
-                return lists[left]
+        def mergesort(l, r):
+            if l >= r:
+                return lists[l]
             
-            mid = (left + right) // 2
+            mid = (l + r) // 2
 
-            l = mergeSort(left, mid)
-            r = mergeSort(mid + 1, right)
+            left = mergesort(l, mid)
+            right = mergesort(mid + 1, r)
 
-            return merge(l,r)
+            return merge(left, right)
         
-
-        return mergeSort(0, len(lists) - 1)
+        return mergesort(0, len(lists) - 1)
+                    
