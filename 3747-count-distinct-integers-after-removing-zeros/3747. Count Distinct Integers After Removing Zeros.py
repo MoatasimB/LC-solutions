@@ -27,9 +27,9 @@ class Solution:
             if digit == 0:
                 break
 
-            limit = digit - 1
+            first_digit_choice = digit - 1
 
-            ans += limit * 9**(x-i-1) ##remaining places are 9 choices each
+            ans += first_digit_choice * 9**(x-i-1) ##remaining places are 9 choices each
         if "0" not in str_n:
             ans += 1
         return ans
