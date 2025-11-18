@@ -52,7 +52,7 @@ class Solution:
         if f + 1 < len(nums) and nums[f + 1] == target:
             return [f + 1,l]
         
-        return [f, l]
+        # return [f, l]
         # if f == -1 or l == -1:
         #     return [-1,-1]
         # if f + 1 < len(nums) and nums[f + 1] == target:
