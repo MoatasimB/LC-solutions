@@ -1,42 +1,42 @@
 class MyCalendar:
 
     def __init__(self):
-        self.meetings = [] #keep this sorted
+        self.meetings = SortedList() #keep this sorted
         
 
     def book(self, startTime: int, endTime: int) -> bool:
-        if not self.meetings:
-            self.meetings.append([startTime, endTime])
-            return True
-        
-        firstS, firstE = self.meetings[0]
-        if endTime <= firstS:
-            self.meetings.insert(0, [startTime, endTime])
-            return True
+        l = 0
+        r = len(self.meetings) - 1
 
-        lastS, lastE = self.meetings[-1]
+        while l <= r:
+            mid = (l + r) // 2
 
-        if startTime >= lastE:
-            self.meetings.append([startTime, endTime])
-            return True
-        
-        flag = False
-        for i in range(len(self.meetings) - 1):
-            s, e = self.meetings[i]
-            nextS, nextE = self.meetings[i + 1]
+            s, e = self.meetings[mid]
 
-            if startTime >=e and endTime <= nextS:
-                self.meetings.insert(i + 1, [startTime, endTime])
-                flag = True
-            
-            if s > endTime:
-                break
+            if s < startTime:
+                l = mid + 1
+            else:
+                r = mid - 1
+
+        #r + 1 = where our interval should be inserted
+
+        #now we just check if there is no overlap
+        idx = r + 1
+
+        if idx > 0 and self.meetings[idx - 1][1] > startTime:
+            return False
+        if idx < len(self.meetings) and self.meetings[idx][0] < endTime:
+            return False
         
-        return flag
+        self.meetings.add((startTime, endTime))
+        return True
+
 
     #      [starTime, endTime] 
     # [s,e]                   [s,e]
-        2
+        # 2
+
+        [42,49]     #r.    #r + 1
     #    [25,32] [33,41] [47, 50]
 
 # Your MyCalendar object will be instantiated and called as such:
