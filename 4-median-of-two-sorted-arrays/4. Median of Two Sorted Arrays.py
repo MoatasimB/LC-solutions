@@ -1,40 +1,40 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-
-        [1,2,3,4,5]
-        [1,2,3,4,5,6,7,8,9,10]
-        if len(nums2) < len(nums1):
-            nums1, nums2 = nums2, nums1
         
-        A = len(nums1)
-        B = len(nums2)
+        n1 = len(nums1)
+        n2 = len(nums2)
 
-        total = A+B
-        half = (total // 2)
-        l = 0
-        r = A - 1
-        while True:
+        if n1 > n2: return self.findMedianSortedArrays(nums2, nums1)
 
-            mid = (l + r) // 2
-            second = half - mid - 2
-            
-            pointA = nums1[mid] if mid >= 0 else float('-inf')
-            rightA = nums1[mid+1] if mid + 1 < A  else float('inf')
-            
-            pointB = nums2[second] if second >= 0 else float('-inf')
-            rightB = nums2[second + 1] if second + 1 < B else float('inf')
+        #I can take 0 to all elements in our 1st arr
+        left = 0
+        right = n1
+        total = n1 + n2
+        half = (n1 + n2 + 1 )// 2
+        while left <= right:
+            mid1 = (left + right) // 2
 
-            if rightA >= pointB and rightB >= pointA:
+            mid2 = half - mid1
 
-                if total % 2 != 0:
-                    return min(rightA, rightB)
-                
-                return (max(pointA, pointB) + min(rightA, rightB)) / 2
-            
-            elif pointA > rightB:
-                r = mid - 1
+            #set up boundaries
+            l1 = float("-inf")
+            r1 = float("inf")
+            l2 = float("-inf")
+            r2 = float("inf")
+
+            if mid1 - 1 >= 0: l1 = nums1[mid1 - 1]
+            if mid1 < n1: r1 = nums1[mid1]
+            if mid2 - 1 >= 0: l2 = nums2[mid2 - 1]
+            if mid2 < n2: r2 = nums2[mid2]
+
+            if l1 <= r2 and l2 <= r1:
+                if total % 2 == 0:
+                    return (max(l1, l2) + min(r1, r2) )/ 2
+                else:
+                    return max(l1, l2)
+            elif l1 > r2:
+                right = mid1 - 1
             else:
-                l = mid + 1
-
-                
-            
+                left = mid1 + 1
+        
+        return -1
