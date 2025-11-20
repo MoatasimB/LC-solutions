@@ -2,27 +2,35 @@ class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
         m = len(matrix)
         n = len(matrix[0])
-        # mat = [[0] * n for _ in range(m)]
-        # mat[0][0] = int(matrix[0][0])
-        
-        for r in range(m):
+        mat = [[0] * n for _ in range(m)]
+        mat[0][0] = int(matrix[0][0])
+
+        mat = [int(x) for x in matrix[0]]
+        mat[0] = int(matrix[0][0])
+        ans = max(mat)
+        for r in range(1, m):
+            new_mat = [0] * n
             for c in range(n):
 
                 top = 0
                 left = 0
                 diagonal = 0
                 if r > 0:
-                    top = int(matrix[r - 1][c])
+                    top = mat[c]
                 if c > 0:
-                    left = int(matrix[r][c - 1])
+                    left = new_mat[c - 1]
                 if r > 0 and c > 0:
-                    diagonal = int(matrix[r-1][c-1])
+                    diagonal = mat[c-1]
                 
                 curr = int(matrix[r][c])
                 if curr == 1:
-                    matrix[r][c] = min(top, left, diagonal) + 1
-                else:
-                    matrix[r][c] = 0
+                    new_mat[c] = min(top, left, diagonal) + 1
+       
+                ans = max(ans, new_mat[c])
+            
+            mat = new_mat
+        
+        return ans ** 2
         
 
 
@@ -46,7 +54,7 @@ class Solution:
         #     return mat[r][c]
         
         # dfs(m-1, n-1)
-        return max(max(row) for row in matrix) ** 2
+        # return max(max(row) for row in matrix) ** 2
 
 
     
