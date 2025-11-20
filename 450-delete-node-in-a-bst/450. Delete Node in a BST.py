@@ -7,32 +7,33 @@
 class Solution:
     def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
         
+        #successor = go right -> go all the way left
 
-        def dfs(node, key):
-            if not node:
+        def dfs(root, key):
+            if not root:
                 return None
             
-            if node.val < key:
-                node.right = dfs(node.right, key)
-            elif node.val > key:
-                node.left = dfs(node.left, key)
-            
+            if key < root.val:
+                root.left = dfs(root.left, key)
+            elif key > root.val:
+                root.right = dfs(root.right, key)
             else:
-                if not node.right:
-                    return node.left
-                if not node.left:
-                    return node.right
+                if not root.right:
+                    return root.left
+                if not root.left:
+                    return root.right
+
+                next = root.right
+
+                while next.left:
+                    next = next.left
                 
-                nextNode = node.right
+                #switch these two nodes vals
+                root.val = next.val
 
-                while nextNode.left:
-                    nextNode = nextNode.left
-                
-                node.val = nextNode.val
+                #Now we need to delete that last node
+                root.right = dfs(root.right, next.val)
 
-                node.right = dfs(node.right, node.val)
-
-            return node
+            return root
         
-        return dfs(root, key)
-
+        return dfs(root,key)
