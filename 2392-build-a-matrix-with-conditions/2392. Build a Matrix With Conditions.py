@@ -30,7 +30,7 @@ class Solution:
                         return -1
             return ans[::-1]
 
-        def getTopSort(edges):
+        # def getTopSort(edges):
 
             indeg = [0] * (k + 1)
             graph = defaultdict(list)
