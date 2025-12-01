@@ -13,7 +13,7 @@ class Solution:
 
             s = l
             for i in range(l, r):
-                if count[unique[i]] < freq:
+                if count[unique[i]] <= freq:
                     unique[s], unique[i] = unique[i], unique[s]
                     s += 1
             
