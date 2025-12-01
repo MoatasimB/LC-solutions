@@ -1,19 +1,22 @@
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         
-        #sweep line algorithm
 
-        meetings = defaultdict(int)
+        intervals.sort(key = lambda x : x[0])
 
-        for start, end in intervals:
-            meetings[start] += 1
-            meetings[end] -= 1
-        
-        ans = 0
-        curr = 0
-        for time, count in sorted(meetings.items()):
-            curr += count
 
-            ans = max(ans, curr)
-        
-        return ans
+        rooms = []
+
+
+        rooms.append(intervals[0][1])
+
+        i = 1
+        while i < len(intervals):
+
+            if intervals[i][0] >= rooms[0]:
+                heapq.heappop(rooms)
+            
+            heapq.heappush(rooms, intervals[i][1])
+            i += 1
+        return len(rooms)
+
