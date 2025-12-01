@@ -1,49 +1,17 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        
-        counts = defaultdict(int)
-        
+        count = defaultdict(int)
         for num in nums:
-            counts[num] += 1
+            count[num] += 1
+        freq_element = [[freq, num] for num, freq in count.items()]
+
+        minHeap = []
+
+        for i in range(len(freq_element)):
+            heapq.heappush(minHeap, [freq_element[i][0], freq_element[i][1]])
+
+            if len(minHeap) > k:
+                heapq.heappop(minHeap)
         
-        unique = list(counts.keys())
 
-        n = len(unique)
-        def quickselect(left, right):
-            if left >= right:
-                return
-            
-            p = random.randint(left, right)
-            
-            pivot = quicksort(left, right, p)
-            
-            if pivot == n - k:
-                return 
-            elif pivot < n - k:
-                quickselect(pivot + 1, right)
-            else:
-                quickselect(left, pivot - 1)
-        
-        
-        def quicksort(left, right, p):
-
-            freq = counts[unique[p]]
-
-            unique[p], unique[right] = unique[right], unique[p]
-
-            curr = left
-
-            for i in range(left, right):
-                if counts[unique[i]] < freq:
-                    unique[i], unique[curr] = unique[curr], unique[i]
-                    curr += 1
-
-            unique[curr], unique[right] = unique[right], unique[curr]
-
-            return curr
-
-
-        quickselect(0, n - 1)
-
-        return unique[n - k: ]
-            
+        return [ el for count, el in minHeap]
