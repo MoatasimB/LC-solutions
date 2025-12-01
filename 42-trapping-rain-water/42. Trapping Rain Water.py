@@ -1,23 +1,25 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        
-        tallestR = [0] * len(height)
-        tallestL = [0] * len(height)
+        n = len(height)
 
-        curr = float('-inf')
-        for i in range(len(height)):
-            curr = max(curr, height[i])
-            tallestL[i] = curr
+        left = [0] * n
+        right = [0] * n
 
-        curr = float('-inf')
-        for i in range(len(height)-1, -1 , -1):
-            curr = max(curr, height[i])
-            tallestR[i] = curr
+        left[0] = height[0]
+        for i in range(1, n):
+            left[i] = max(height[i], left[i-1])
         
+        right[-1] = height[-1]
+
+        for i in range(n - 2, -1, -1):
+            right[i] = max(height[i], right[i + 1])
+        
+
         ans = 0
-        for i in range(len(height)):
-            ans += min(tallestL[i], tallestR[i]) - height[i]
 
-        return ans
+        for i in range(n):
+            threshold = min(left[i], right[i])
 
+            ans += max(0, threshold - height[i])
         
+        return ans
