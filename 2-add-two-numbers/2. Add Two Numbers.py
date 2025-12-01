@@ -8,26 +8,28 @@ class Solution:
         
         carry = 0
         dummy = ListNode(-1)
+        
         curr = dummy
+
         while l1 or l2 or carry:
-            l1_val = l1.val if l1 else 0
-            l2_val = l2.val if l2 else 0
+            val1 = l1.val if l1 else 0
+            val2 = l2.val if l2 else 0
 
-            s = (l1_val + l2_val + carry) % 10
-            carry = (l1_val + l2_val + carry) // 10
+            digit_sum = val1 + val2 + carry
 
-
-            new_node = ListNode(s)
-
-            curr.next = new_node
-            curr = new_node
-
+            if digit_sum >= 10:
+                carry = 1
+                digit_sum %= 10
+            else:
+                carry = 0
+            
+            newNode = ListNode(digit_sum)
+            curr.next = newNode
+            curr = curr.next
+            
             if l1:
                 l1 = l1.next
             if l2:
                 l2 = l2.next
         
-
         return dummy.next
-            
-
