@@ -1,35 +1,34 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        
         nums.sort()
-        n = len(nums)
-        i = 0
         ans = []
-        def tSum(left, right, num):
-            while left < right:
-                if num + nums[left] + nums[right] > 0:
-                    right -= 1
-                elif num + nums[left] + nums[right] < 0:
-                    left +=1
+        def twoSum(l, r, num):            
+            while l < r:
+                if nums[l] + nums[r] + num == 0:
+                    ans.append([nums[l], nums[r], num])
+
+                    while l < r and nums[l] == nums[l + 1]:
+                        l += 1
+                    l += 1
+                elif nums[l] + nums[r] + num > 0:
+                    r -= 1
                 else:
-                    ans.append([num, nums[left], nums[right]])
-                    right -=1
-                    left +=1
-                    while left < right and nums[left] == nums[left-1]:
-                        left +=1
+                    l += 1
+            
 
+        i = 0
+        while i < (len(nums) - 1):
+            num = nums[i]
 
-        while i < n:
-            curr = nums[i]
-            if curr > 0:
+            if num > 0:
                 break
-            i+=1
-            tSum(i, n-1, curr)
-            while i < len(nums) - 1 and nums[i] == nums[i-1]:
-                i+=1
+            
+            twoSum(i + 1, len(nums) - 1, num)
+
+            while i < len(nums) - 1 and nums[i] == nums[i + 1]:
+                i += 1
+            i += 1
         
         return ans
+            
 
-
-        
- 
