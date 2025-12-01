@@ -1,49 +1,41 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        
-        counts = defaultdict(int)
-        
+        count = defaultdict(int)
         for num in nums:
-            counts[num] += 1
+            count[num] += 1
         
-        unique = list(counts.keys())
-
+        unique = [element for element in count]
         n = len(unique)
-        def quickselect(left, right):
-            if left >= right:
-                return
+
+        def partition(l, r, pivot):
+            freq = count[unique[pivot]]
+            unique[pivot], unique[r] = unique[r], unique[pivot]
+
+            s = l
+            for i in range(l, r):
+                if count[unique[i]] < freq:
+                    unique[s], unique[i] = unique[i], unique[s]
+                    s += 1
             
-            p = random.randint(left, right)
-            
-            pivot = quicksort(left, right, p)
-            
+            unique[r], unique[s] = unique[s], unique[r]
+            return s
+
+        def quickSelect(l, r):
+            if l >= r: return
+
+            possible_pivot = random.randint(l, r)
+
+            pivot = partition(l, r, possible_pivot)
+
             if pivot == n - k:
-                return 
-            elif pivot < n - k:
-                quickselect(pivot + 1, right)
+                return
+            elif pivot > n - k:
+                quickSelect(l, pivot - 1)
             else:
-                quickselect(left, pivot - 1)
+                quickSelect(pivot + 1, r)
         
+        quickSelect(0, n - 1)
+
+        return unique[n-k: ]
+
         
-        def quicksort(left, right, p):
-
-            freq = counts[unique[p]]
-
-            unique[p], unique[right] = unique[right], unique[p]
-
-            curr = left
-
-            for i in range(left, right):
-                if counts[unique[i]] < freq:
-                    unique[i], unique[curr] = unique[curr], unique[i]
-                    curr += 1
-
-            unique[curr], unique[right] = unique[right], unique[curr]
-
-            return curr
-
-
-        quickselect(0, n - 1)
-
-        return unique[n - k: ]
-            
