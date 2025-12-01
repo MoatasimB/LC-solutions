@@ -2,19 +2,19 @@ class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
         if len(strs) == 1:
             return strs[0]
-        ans = float("inf")
-        for i in range(len(strs) - 1):
-            w1 = strs[i-1]
-            w2 = strs[i]
-
-            minLen = min(len(w1), len(w2))
-
-            curr = 0
-            for j in range(minLen):
-                if w1[j] != w2[j]:
-                    break
-                curr += 1
-            ans = min(ans, curr)
+        if not strs:
+            return ""
         
-        return strs[0][:ans] if ans != float('inf') else ""
+        prefix = strs[0]
 
+        for word in strs[1:]:
+            
+            j = 0
+            while j < (min(len(word), len(prefix))):
+                if word[j] != prefix[j]:
+                    break
+                j += 1
+            
+            prefix = word[:j]
+        
+        return prefix
