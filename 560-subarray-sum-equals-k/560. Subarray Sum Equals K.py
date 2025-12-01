@@ -1,16 +1,18 @@
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         
-        mpp = defaultdict(int)
-        mpp[0] = 1
+
+        freq = defaultdict(int)
+        freq[0] = 1
 
         curr = 0
         ans = 0
+        for i in range(len(nums)):
+            curr += nums[i]
 
-        for num in nums:
-            curr += num
-            if (curr - k) in mpp:
-                ans += mpp[curr-k]
-            mpp[curr] += 1
+            if (curr - k) in freq:
+                ans += freq[curr - k]
+            
+            freq[curr] += 1
         
         return ans
