@@ -1,40 +1,42 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        
         n1 = len(nums1)
         n2 = len(nums2)
 
-        if n1 > n2: return self.findMedianSortedArrays(nums2, nums1)
-
-        #I can take 0 to all elements in our 1st arr
-        left = 0
-        right = n1
-        total = n1 + n2
-        half = (n1 + n2 + 1 )// 2
-        while left <= right:
-            mid1 = (left + right) // 2
-
-            mid2 = half - mid1
-
-            #set up boundaries
-            l1 = float("-inf")
-            r1 = float("inf")
-            l2 = float("-inf")
-            r2 = float("inf")
-
-            if mid1 - 1 >= 0: l1 = nums1[mid1 - 1]
-            if mid1 < n1: r1 = nums1[mid1]
-            if mid2 - 1 >= 0: l2 = nums2[mid2 - 1]
-            if mid2 < n2: r2 = nums2[mid2]
-
-            if l1 <= r2 and l2 <= r1:
-                if total % 2 == 0:
-                    return (max(l1, l2) + min(r1, r2) )/ 2
-                else:
-                    return max(l1, l2)
-            elif l1 > r2:
-                right = mid1 - 1
-            else:
-                left = mid1 + 1
+        if n1 > n2:
+            return self.findMedianSortedArrays(nums2, nums1)
         
-        return -1
+
+        total = n1 + n2
+
+        half = total // 2
+
+        l = 0
+        r = n1
+
+        # [1 2 3 4 5]
+        # [9 10 11 13]
+
+        while l <= r:
+            midA = (l + r) // 2
+            midB = half - midA
+
+            preA = nums1[midA - 1] if midA - 1 >= 0 else float("-inf")
+            aftA = nums1[midA] if midA < n1 else float("inf")
+
+            preB = nums2[midB - 1] if midB - 1 >= 0 else float("-inf")
+            aftB = nums2[midB] if midB < n2 else float("inf")
+
+
+            if preA <= aftB and preB <= aftA:
+                #two halves are sorted
+                if total % 2 == 0:
+                    return (max(preA, preB) + min(aftA, aftB)) / 2
+                else:
+                    return min(aftA, aftB)
+            elif preA > aftB:
+                r = midA - 1
+            else:
+                l = midA + 1
+
+
