@@ -3,38 +3,35 @@ class Solution:
         
         nums.sort()
 
-        def k_sums(nums, target, level):
-            ans = []
-
-            if not nums:
-                return ans
-            
-            if level == 2:
-                return twoSums(target, nums)
-            
-            for i in range(len(nums)):
-                if i == 0 or nums[i-1] != nums[i]:
-                    for res in k_sums(nums[i+1:], target - nums[i], level -1):
-                        ans.append(([nums[i]] + res))
-
-            return ans
-
-        def twoSums(target, nums):
-            ans = []
-            l = 0
+        def twoSum(l, target):
             r = len(nums) - 1
-            while l <  r:
-                curr = nums[l] + nums[r]
-                if curr < target or (l > 0 and nums[l] == nums[l-1]):
-                    l +=1
-                elif curr > target or (r < len(nums)-1 and nums[r] == nums[r+1]):
-                    r -= 1
-                else:
-                    ans.append([nums[l], nums[r]])
+            while l < r:
+
+                if nums[l] + nums[r] == target:
+                    ans.append(quad + [nums[l]] + [nums[r]])
                     l += 1
                     r -= 1
-            return ans
-                    
+                    while l < r and nums[l - 1] == nums[l]:
+                        l += 1
+                elif nums[l] + nums[r] > target:
+                    r -= 1
+                else:
+                    l += 1
+        
+        ans = []
+        quad = []
+        def kSum(l, k, target):
+            if k == 2:
+                return twoSum(l, target)
+            
+            i = 0
 
+            for i in range(l, len(nums) - k + 1):
+                if i > l and nums[i] == nums[i - 1]:
+                    continue
+                quad.append(nums[i])
+                kSum(i + 1, k - 1, target - nums[i])
+                quad.pop()
 
-        return k_sums(nums, target, 4)
+        kSum(0, 4, target)
+        return ans
