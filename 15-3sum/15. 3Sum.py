@@ -1,41 +1,33 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         
-        nums.sort()
         ans = []
-        
-        def twoSum(curr, l):
+
+        nums.sort()
+        def twoSum(l, num1):
             r = len(nums) - 1
-            
+
             while l < r:
-                
-                if nums[l] + nums[r] + curr == 0:
-                    ans.append([curr, nums[l], nums[r]])
+                if num1 + nums[l] + nums[r] == 0:
+                    ans.append([num1, nums[l], nums[r]])
                     l += 1
+                    r -= 1
+
                     while l < r and nums[l] == nums[l - 1]:
                         l += 1
-                elif nums[l] + nums[r] + curr > 0:
+                elif num1 + nums[l] + nums[r] > 0:
                     r -= 1
                 else:
                     l += 1
 
-                
-        
-        i = 0
-        
-        while i < len(nums) - 1:
-            
-            
-            if i < len(nums) - 1:
-                twoSum(nums[i], i + 1)
-            
-            while i < len(nums) -1 and nums[i] == nums[i + 1]:
-                i += 1
-        
-            i += 1
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            if nums[i] > 0:
+                break
+            twoSum(i + 1, nums[i])
         
         return ans
-    
-    [0,0,0,0]
-    
-    
+            
+
+            
