@@ -64,8 +64,9 @@ class Solution:
             #     ans += dfs(r, c, 1)
             #     grid[r][c] = False
         seen = set()
-        for i in range(1, 10):
+        for i in [1, 2, 5]:
             seen.add(i)
-            ans += dfs(i, 1)
+            mult = 4 if i != 5 else 1
+            ans += dfs(i, 1) * mult
             seen.remove(i)
         return ans
