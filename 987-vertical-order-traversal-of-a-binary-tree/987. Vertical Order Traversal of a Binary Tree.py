@@ -15,10 +15,10 @@ class Solution:
             
             cols[col].append((row, root.val))
 
-            dfs(root.left, row + 1, col - 1)
-            dfs(root.right, row + 1, col + 1)
+            dfs(root.left, row + 1,  col - 1)
+            dfs(root.right, row + 1,  col + 1)
         
-        dfs(root,0, 0)
+        dfs(root,0,0)
         ans = []
 
 
@@ -28,11 +28,9 @@ class Solution:
         for i in range(mmin, mmax + 1):
             if i in cols:
                 lst = cols[i]
-                # print(lst)
                 lst.sort()
                 ans.append([el[1] for el in lst])
         # for key, val in sorted(cols.items()):
         #     val.sort()
         #     ans.append(val)
-        print(ans)
         return ans
