@@ -12,43 +12,38 @@ class Node:
 
 class Solution:
     def construct(self, grid: List[List[int]]) -> 'Node':
-        
-        def make(top, bottom, left, right):
-            
-            # if top >= bottom or left >= right:
-            #     return 
-            vertMid = (top + bottom) // 2
-            horMid = (left + right) // 2
-            
-            node = Node(None, None, None, None, None, None)
-            
-            if check(top, bottom, left , right):
+        n = len(grid)
+
+        def dfs(l, r, t, b):
+            isLeaf = True
+            node = Node(val = 0, topLeft = None, topRight = None, bottomLeft=None, bottomRight=None)
+            vals = set()
+            for i in range(t, b + 1):
+                for j in range(l, r + 1):
+                    vals.add(grid[i][j])
+                    if len(vals) > 1:
+                        isLeaf = False
+                        break
+                if not isLeaf:
+                    break
+            if isLeaf:
+                nodeVal = None
+                for val in vals:
+                    nodeVal = val
+                node.val = nodeVal
                 node.isLeaf = True
-                node.val = grid[top][left]
             else:
-                node.val = 0
+                midRow = (t + b) // 2
+                midCol = (l + r) // 2
+                node.topLeft = dfs(l, midCol, t, midRow)
+                node.topRight = dfs(midCol + 1, r, t, midRow)
+                node.bottomLeft = dfs(l, midCol, midRow + 1, b)
+                node.bottomRight = dfs(midCol + 1, r, midRow + 1, b)
                 node.isLeaf = False
-                node.topLeft = make(top, vertMid, left, horMid)
-                node.topRight = make(top, vertMid, horMid, right)
-                node.bottomLeft = make(vertMid, bottom, left, horMid)
-                node.bottomRight = make(vertMid, bottom, horMid, right)
+
             return node
+        
+        return dfs(0, n - 1, 0, n - 1)
 
 
-        
-        
-        
-        def check(top, bottom, left, right):
-            val = grid[top][left]
-            print(val)
 
-            for i in range(top, bottom):
-                for j in range(left, right):
-                    if grid[i][j] != val:
-                        print("false")
-                        return False
-            print("true")
-            return True
-        r = len(grid)
-        c = len(grid[0])
-        return make(0,r, 0, c)
