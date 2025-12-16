@@ -3,7 +3,7 @@ class Solution:
         
         tasks = [[tasks[i][0], tasks[i][1], i] for i in range(len(tasks))]
         # print(tasks)
-        tasks.sort()
+        heapq.heapify(tasks)
 
 
         toDo = []
