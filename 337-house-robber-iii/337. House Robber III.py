@@ -7,23 +7,20 @@
 class Solution:
     def rob(self, root: Optional[TreeNode]) -> int:
         
-        #max(dfs(node, True), dfs(node. False))
         memo = {}
-        def dfs(node, parentRobbed):
-            if (node, parentRobbed) in memo:
-                return memo[(node, parentRobbed)]
+        def dfs(node, prevRobbed):
+            if (node, prevRobbed) in memo:
+                return memo[(node, prevRobbed)]
             if not node:
                 return 0
             
-
-            if parentRobbed:
-                memo[(node, parentRobbed)] = dfs(node.left, False) + dfs(node.right, False)
-                return memo[(node, parentRobbed)]
-            else:
-                memo[(node, parentRobbed)] = max(node.val + dfs(node.left, True) + dfs(node.right, True), dfs(node.left, False) + dfs(node.right, False))
-                return memo[(node, parentRobbed)]
+            if prevRobbed:
+                memo[(node, prevRobbed)] = dfs(node.left, False) + dfs(node.right, False)
+                return memo[(node, prevRobbed)]
+            #take this node and dont take this node
+            take = node.val + dfs(node.left, True) + dfs(node.right, True)
+            skip = dfs(node.left, False) + dfs(node.right, False)
+            memo[(node, prevRobbed)] = max(take, skip)
+            return memo[(node, prevRobbed)]
         
-        return max(dfs(root, True), dfs(root, False))
-        
-
-            
+        return dfs(root, False)
