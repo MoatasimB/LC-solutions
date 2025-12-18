@@ -50,7 +50,8 @@ class Solution:
             pathVal *= - 1
             if pathVal < dists[r][c]:
                 continue
-            
+            if r == m - 1 and c == n - 1:
+                return pathVal
             for dx, dy in dirs:
                 nr = r + dx
                 nc = c + dy
@@ -61,4 +62,4 @@ class Solution:
                         heapq.heappush(maxHeap, [-newPath, nr, nc])
         
 
-        return dists[m - 1][n - 1] if dists[m - 1][n - 1] != float("-inf") else 0
+        return 0
