@@ -4,10 +4,9 @@ class TopVotedCandidate:
         self.leading = [] #[time, leading]
         leader = persons[0]
         freqs = defaultdict(int)
-        freqs[leader] += 1
-        maxF = 1
-        self.leading.append([times[0], leader])
-        for i in range(1, len(persons)):
+    
+        maxF = 0
+        for i in range(len(persons)):
             time = times[i]
             person = persons[i]
 
@@ -21,7 +20,6 @@ class TopVotedCandidate:
     
 
                 
-        print(self.leading)
     def q(self, t: int) -> int:
         #time <= t
         l = 0
