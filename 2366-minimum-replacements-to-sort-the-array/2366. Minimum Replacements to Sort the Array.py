@@ -2,23 +2,25 @@ class Solution:
     def minimumReplacement(self, nums: List[int]) -> int:
         
 
-        ans = 0
         n = len(nums)
-
+        ans = 0
         for i in range(n - 2, -1, -1):
-            if nums[i] <= nums[i + 1]:
+            nextNum = nums[i + 1]
+            curr = nums[i]
+
+            if nextNum >= curr:
                 continue
             
-            if nums[i] % nums[i + 1] == 0:
-                elements = nums[i] // nums[i + 1]
+            if curr % nextNum == 0:
+                numElements = curr // nextNum
+                ans += numElements - 1
 
-                ans += elements - 1
-                nums[i] = nums[i] // elements
+                nums[i] = curr // numElements
+            
             else:
-                elements = math.ceil(nums[i] / nums[i + 1])
-
-                ans += elements - 1
-
-                nums[i] = nums[i] // elements
+                numElements = math.ceil(curr / nextNum)
+                ans += numElements - 1
+                nums[i] = curr // numElements
         
         return ans
+
