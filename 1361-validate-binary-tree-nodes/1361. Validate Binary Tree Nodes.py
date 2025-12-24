@@ -1,40 +1,64 @@
 class Solution:
     def validateBinaryTreeNodes(self, n: int, leftChild: List[int], rightChild: List[int]) -> bool:
         
+
         inDeg = [0] * n
-        graph = defaultdict(list)
+        g = defaultdict(list)
         for i in range(n):
             if leftChild[i] != -1:
                 inDeg[leftChild[i]] += 1
-                graph[i].append(leftChild[i])
+                g[i].append(leftChild[i])
+                # g[leftChild[i]].append(i)
+
             if rightChild[i] != -1:
                 inDeg[rightChild[i]] += 1
-                graph[i].append(rightChild[i])
+                g[i].append(rightChild[i])
+                # g[rightChild[i]].append(i)
         
-        #All indeg should be 1 except a single node with indeg 0
-
-        countZ = 0
-        countOne = 0
-        for i in range(n):
+        q = deque()
+        for i in range(len(inDeg)):
             if inDeg[i] == 0:
-                countZ += 1
-                cand = i
-            elif inDeg[i] == 1:
-                countOne +=1
-            else:
+                q.append(i)
+            if inDeg[i] > 1:
                 return False
-        if countZ > 1 or countOne != n - 1:
+        if len(q) > 1:
             return False
-        seen = set()
-        seen.add(cand)
-        def dfs(node):
+        while q:
+            node = q.popleft()
 
-            for nei in graph[node]:
-                if nei in seen:
-                    return False
-                seen.add(nei)
-                if not dfs(nei):
-                    return False
-            return True
+            for nei in g[node]:
+                inDeg[nei] -= 1
+                if inDeg[nei] == 0:
+                    q.append(nei)
         
-        return dfs(cand) and len(seen) == n
+        return sum(inDeg) == 0
+
+
+
+
+        
+        # seen = set()
+        # def dfs(node):
+            
+        #     if node in seen:
+        #         return
+            
+        #     seen.add(node)
+
+        #     for nei in g[node]:
+        #         dfs(nei)
+        
+        # dfs(0)
+
+            
+
+        # total_deg = 0
+        # for val in inDeg:
+        #     if val > 1:
+        #         return False
+        #     total_deg += val
+        
+        # return (total_deg) == n - 1 and len(seen) == n
+
+
+        
