@@ -27,13 +27,9 @@ class Solution:
                 nc = c + dy
 
                 if valid(nr, nc):
-                    if grid[nr][nc] == 1:
-                        newCost = 1 + cost
-                        if dists[nr][nc] > newCost:
-                            dists[nr][nc] = newCost
-                            heapq.heappush(minHeap, [newCost, nr, nc])
-                    else:
-                        if dists[nr][nc] > cost:
-                            dists[nr][nc] = cost
-                            heapq.heappush(minHeap, [cost, nr, nc])
+                    newCost = 1 + cost if grid[nr][nc] == 1 else cost
+                    if dists[nr][nc] > newCost:
+                        dists[nr][nc] = newCost
+                        heapq.heappush(minHeap, [newCost, nr, nc])
+                   
         
