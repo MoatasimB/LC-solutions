@@ -6,14 +6,12 @@ class Solution:
             return 0
 
         l = 0
-        freq = defaultdict(int)
+        last = {}
         ans = float("-inf")
         for r in range(n):
-            freq[s[r]] += 1
-
-            while freq[s[r]] > 1:
-                freq[s[l]] -= 1
-                l += 1
+            if s[r] in last:
+                l = max(l, last[s[r]] + 1)
             ans = max(ans, r - l + 1)
+            last[s[r]] = r
         
         return ans
