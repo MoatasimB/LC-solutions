@@ -8,14 +8,9 @@ class Solution:
             nextN = nums[i + 1]
 
             if curr > nextN:
-
-                if curr % nextN == 0:
-                    numElements = curr // nextN
-                    nums[i] = curr // numElements
-                    ans += numElements - 1
-                else:
-                    numElements = math.ceil(curr / nextN)
-                    nums[i] = curr // numElements
-                    ans += numElements - 1
+                numElements = curr // nextN if (curr % nextN) == 0 else math.ceil(curr / nextN)
+                
+                nums[i] = curr // numElements
+                ans += numElements - 1
         
         return ans
