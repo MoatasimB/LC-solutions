@@ -1,24 +1,13 @@
 class Solution:
     def isValid(self, s: str) -> bool:
         
+        mpp = {")" : "(", "]" : "[", "}" : "{"}
+
         stack = []
 
-        mpp = {}
-
         for ch in s:
-
-            if ch == ")":
-                if stack and stack[-1] == "(":
-                    stack.pop()
-                else:
-                    return False
-            elif ch == "]":
-                if stack and stack[-1] == "[":
-                    stack.pop()
-                else:
-                    return False
-            elif ch == "}":
-                if stack and stack[-1] == "{":
+            if ch in mpp:
+                if stack and stack[-1] == mpp[ch]:
                     stack.pop()
                 else:
                     return False
