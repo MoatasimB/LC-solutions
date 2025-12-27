@@ -3,9 +3,16 @@ class Solution:
         
         self.mpp = defaultdict(list)
 
+        def makeKey(word):
+            lst = [0] * 26
+            for ch in word:
+                lst[ord(ch) - ord('a')] += 1
+            
+            return lst
+
 
         for word in strs:
-            key = sorted(word)
+            key = makeKey(word)
             self.mpp[tuple(key)].append(word)
         
 
