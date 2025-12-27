@@ -4,9 +4,10 @@ class Solution:
         mpp = {}
 
         for i in range(len(nums)):
-            if (target - nums[i]) in mpp:
+
+            if target - nums[i] in mpp:
                 return [i, mpp[target - nums[i]]]
-            else:
-                mpp[nums[i]] = i
+            
+            mpp[nums[i]] = i
         
-        return [-1,-1]
+        
