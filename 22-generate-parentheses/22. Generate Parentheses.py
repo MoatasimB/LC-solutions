@@ -1,12 +1,9 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         
-
         ans = []
-
         def dfs(left, right, curr):
-
-            if left == n and right == n:
+            if left == right == n:
                 ans.append("".join(curr[:]))
                 return
             
@@ -19,6 +16,6 @@ class Solution:
                 curr.append(")")
                 dfs(left, right + 1, curr)
                 curr.pop()
-            
-        dfs(0,0,[])
+        
+        dfs(0, 0, [])
         return ans
