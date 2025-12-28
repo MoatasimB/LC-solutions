@@ -12,32 +12,36 @@ class Solution:
         q = deque([root])
         
         ans = []
-
+        front = True
         while q:
             q_len = len(q)
-            curr = []
+            curr = deque()
             for _ in range(q_len):
                 node = q.popleft()
 
-                curr.append(node.val)
+                if front:
+                    curr.append(node.val)
+                else:
+                    curr.appendleft(node.val)
 
                 if node.left:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
-            ans.append(curr)
+            ans.append(list(curr))
+            front = not front
 
 
-        for i in range(1, len(ans), 2):
+        # for i in range(1, len(ans), 2):
             
-            l = 0
-            r = len(ans[i]) - 1
+        #     l = 0
+        #     r = len(ans[i]) - 1
 
-            while l < r:
+        #     while l < r:
 
-                ans[i][l], ans[i][r] = ans[i][r], ans[i][l]
-                l += 1
-                r -= 1
+        #         ans[i][l], ans[i][r] = ans[i][r], ans[i][l]
+        #         l += 1
+        #         r -= 1
         
         return ans
         
