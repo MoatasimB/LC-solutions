@@ -1,20 +1,24 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        wordDict = set(wordDict)
-        dp = {}
+        
 
+        wordDict = set(wordDict)
+
+        memo = {}
         def dfs(i):
-            if s[i:] in wordDict:
+            if i in memo:
+                return memo[i]
+            if i == len(s):
                 return True
-            if i in dp:
-                return dp[i]
+            
 
             for j in range(i, len(s)):
-                if s[i:j+1] in wordDict:
-                    if dfs(j+1):
-                        dp[i] = True
+                if s[i:j + 1] in wordDict:
+                    if dfs(j + 1):
+                        memo[i] = True
                         return True
-            dp[i] = False
+            
+            memo[i] = False
             return False
         
         return dfs(0)
