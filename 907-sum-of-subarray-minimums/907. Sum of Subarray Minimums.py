@@ -1,25 +1,49 @@
 class Solution:
     def sumSubarrayMins(self, arr: List[int]) -> int:
         
-
+        #mono dec
+        n = len(arr)
+        MOD = 10**9 + 7
         stack = []
+
         ans = 0
-        for i in range(len(arr) + 1):
+        for i in range(n):
 
-            while stack and (i == len(arr) or arr[stack[-1]] >=arr[i]):
+            while stack and arr[stack[-1]] >= arr[i]:
+                #up to this idx top of stack is min
 
-                mid = stack.pop()
+                idx = stack.pop()
+                val = arr[idx]
 
-                right = i
+                #right choices
+                right = i - idx
+
+                #left choices
+                left = idx + 1
                 if stack:
-                    left = stack[-1]
-                else:
-                    left = -1
+                    left = idx - stack[-1]
                 
-                num_of_subs = (mid - left) * (right - mid)
-                total = num_of_subs * arr[mid]
-                ans += total
-        
+
+                numOfSubarrays = right * left
+                ans += (val * numOfSubarrays) % MOD
+            
             stack.append(i)
         
-        return ans % ((10**9) + 7)
+        # [3 1 2 4]
+
+        # [1, 2, 4]
+        # [1, 2, 3]
+
+        while stack:
+            idx = stack.pop()
+            val = arr[idx]
+            right = n - idx
+
+                #left choices
+            left = idx + 1
+            if stack:
+                left = idx - stack[-1]
+            numOfSubarrays = right * left
+            ans += (val * numOfSubarrays) % MOD
+        
+        return ans % MOD
