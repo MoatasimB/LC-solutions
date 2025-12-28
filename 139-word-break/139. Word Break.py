@@ -31,16 +31,25 @@ class Solution:
         for word in wordDict:
             trie.add(word)
         n = len(s)
-        # dp = [False] * (n + 1)
-        # dp[n] = True
+        dp = [False] * (n + 1)
+        dp[n] = True
         
-        # for i in range(n - 1, -1, -1):
-        #     for j in range(i, n):
-        #         if s[i:j + 1] in wordDict:
-        #             if dp[j + 1]:
-        #                 dp[i] = True
+        for i in range(n - 1, -1, -1):
+            curr = trie.root
+            for j in range(i, n):
+                ch = s[j]
+                if ch in curr.children:
+                    curr = curr.children[ch]
+                    if curr.end and dp[j + 1]:
+                        dp[i] = True
+                else:
+                    break
 
-        # return dp[0]
+                # if s[i:j + 1] in wordDict:
+                #     if dp[j + 1]:
+                #         dp[i] = True
+
+        return dp[0]
 
 
 
