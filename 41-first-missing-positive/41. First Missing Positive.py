@@ -2,27 +2,26 @@ class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         
         n = len(nums)
+
         for i in range(n):
             if nums[i] <= 0:
                 nums[i] = n + 1
         
+        containsN = False
+
         for i in range(n):
-            idx = abs(nums[i])
-            if idx < n and nums[idx] > 0:
-                nums[idx] = -nums[idx] #mark as seen
-            elif idx == n:
-                nums[0] = -abs(nums[0])
+            if abs(nums[i]) < n:
+                if nums[abs(nums[i])] > 0:
+                    nums[abs(nums[i])] *= -1
+            elif abs(nums[i]) == n:
+                containsN = True
         
 
-        curr = 1
-        while curr < n and nums[curr] < 0:
-            curr += 1
+        for i in range(1, n):
+            if nums[i] > 0:
+                return i
         
-        # for val in nums:
-        #     if abs(val) == curr:
-        #         curr +=1
-        #         break
-        
-        return curr if (curr < n or (curr == n and nums[0] > 0)) else curr + 1
+        if containsN: return n + 1
 
-        [-3, -4, 5, -1]
+        return n
+            
