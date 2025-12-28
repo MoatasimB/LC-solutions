@@ -3,18 +3,20 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        n = len(matrix)
-        for i in range(n):
+        m = len(matrix)
+        n = len(matrix[0])
+
+        for i in range(m):
             for j in range(i):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-        
+
+
         for row in matrix:
-            i = 0
-            j = n - 1
+            l = 0
+            r = n - 1
 
-            while i <= j:
-                row[i], row[j] = row[j], row[i]
-                i += 1
-                j -= 1
+            while l < r :
+                row[l], row[r] = row[r], row[l]
+                l += 1
+                r -= 1
         
-
