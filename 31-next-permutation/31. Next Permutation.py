@@ -3,62 +3,49 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        # go from back to front till numbers are not increasing
-        # first number that is not increasing we want to switch
-        #find the smallest number to the right that is greater than our number
-        # reverse second half
+        n = len(nums)
+        
 
-        if len(nums) == 1:
-            return
+        #  6 4 7 3 2
 
-        i = len(nums) - 2
+        #  6 7 4 3 2
+        #  6 7 2 3 4
+
+    
+        i = n - 1
         while i > 0:
-            if nums[i] < nums[i + 1]:
+            if nums[i - 1] < nums[i]:
                 break
             i -= 1
+
+        if i == 0:
+            l = 0
+            r = n - 1
+            while l < r:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
+            return 
         
-        if i == 0 and nums[0] == max(nums):
-            nums.reverse()
-            return
-        
-        smallestR = float('inf')
-        j = len(nums) - 1
-        idxSwitch = len(nums) - 1
+        #i is the position of the place we need to replace
+        j = n - 1
+        i -= 1
         while j > i:
             if nums[j] > nums[i]:
-                if nums[j] < smallestR:
-                    smallestR = nums[j]
-                    idxSwitch = j
+                break
             j -= 1
         
-        nums[i], nums[idxSwitch] = nums[idxSwitch], nums[i]
 
-        k = i + 1
-        m = len(nums) - 1
+        #num to replace is at j
 
-        while k <= m:
-            nums[k], nums[m] = nums[m], nums[k]
-            k += 1
-            m -= 1
-
-
-
+        nums[i], nums[j] = nums[j], nums[i]
+        print(nums)
+        k = n - 1
+        j = i + 1
+        while j < k:
+            nums[j], nums[k] = nums[k], nums[j]
+            j += 1
+            k -= 1
         
-        # 1 2 3 4
-
-        # 1 2 4 3    
-
-        # 1 3 2 4
-
-        # 1 3 4 2
-
-        # 1 4 2 3
-
-        # 1 4 3 2
-
-        # 2 1 3 4
-
-        # 2 1 4 3
-
-        # 2 
+        return
 
