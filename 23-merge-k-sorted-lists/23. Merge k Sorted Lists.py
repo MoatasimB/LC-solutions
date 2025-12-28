@@ -7,33 +7,37 @@ class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         if not lists:
             return None
-        def merge(head1: Optional[ListNode], head2: Optional[ListNode]) -> Optional[ListNode]:
-
-            dummy = ListNode(-1)
+        def merge(l1, l2):
+            dummy = ListNode()
             curr = dummy
 
-            while head1 and head2:
-                if head1.val < head2.val:
-                    curr.next = head1
-                    head1 = head1.next
+            while l1 and l2:
+                if l1.val < l2.val:
+                    curr.next = l1
+                    l1 = l1.next
                 else:
-                    curr.next = head2
-                    head2 = head2.next
+                    curr.next = l2
+                    l2 = l2.next
+                
                 curr = curr.next
             
-            if head1:
-                curr.next = head1
-            if head2:
-                curr.next = head2
+            if l1:
+                curr.next = l1
+            if l2:
+                curr.next = l2
+            
             return dummy.next
+        
 
-        def mergesort(l: int, r: int) -> Optional[ListNode]:
+        def mergeSort(l, r):
             if l == r:
                 return lists[l]
-            mid = (l + r) // 2
-            left = mergesort(l, mid)
-            right = mergesort(mid + 1, r)
             
+            mid = (l + r) // 2
+
+            left = mergeSort(l, mid)
+            right = mergeSort(mid + 1, r)
+
             return merge(left, right)
         
-        return mergesort(0, len(lists) - 1)
+        return mergeSort(0, len(lists) - 1)
