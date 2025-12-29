@@ -6,44 +6,57 @@
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         
-        count = 0
+        #prevHead
+        #head
+        #nextHead
 
-        x = head
-        while x:
-            count +=1
-            x = x.next
-        
-        def rev(n):
+        #prevHead -> prev (head of linked list after rev)
+        #head -> nextHead
+
+        #start again from head = nextHead
+
+        dummy = ListNode(head)
+
+        newStart = None
+
+        prevHead = dummy
+        start = head
+
+        def rev(start, end):
+
             prev = None
+
             for _ in range(k):
-                nextNode = n.next
-                n.next = prev
-                prev = n
-                n = nextNode
-            connection = None
-            if n:
-                connection = n
-            return [prev, connection]
+                nextNode = start.next
+                start.next = prev
+                prev = start
+                start = nextNode
+            return prev
+
+
+        while start:
+
+            end = start
+
+            for _ in range(k - 1):
+                if not end:
+                    return newStart if newStart else head
+                end = end.next
+            
+            if not end:
+                return newStart if newStart else head
+            nextNode = end.next
+
+            # rev from start to end
+            revHead = rev(start, end)
+            if not newStart:
+                newStart = revHead
+            
+            start.next = nextNode
+            prevHead.next = revHead
+
+            prevHead = start
+            start = nextNode
         
-        curr = head
-        dummy = None
-        p = None
-        while count >= k:
 
-            beg = curr
-            startNode, connectingNode = rev(curr)
-            if not dummy:
-                dummy = startNode
-
-            beg.next = connectingNode
-            if p:
-                p.next = startNode
-
-            p = beg
-            curr = connectingNode
-            count -= k
-        
-
-        return dummy
-
-
+        return newStart
