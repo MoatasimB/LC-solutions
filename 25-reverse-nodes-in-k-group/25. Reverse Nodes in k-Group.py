@@ -22,7 +22,7 @@ class Solution:
         prevHead = dummy
         start = head
 
-        def rev(start, end):
+        def rev(start):
 
             prev = None
 
@@ -40,7 +40,7 @@ class Solution:
 
             for _ in range(k - 1):
                 if not end:
-                    return newStart if newStart else head
+                    break
                 end = end.next
             
             if not end:
@@ -48,7 +48,7 @@ class Solution:
             nextNode = end.next
 
             # rev from start to end
-            revHead = rev(start, end)
+            revHead = rev(start)
             if not newStart:
                 newStart = revHead
             
