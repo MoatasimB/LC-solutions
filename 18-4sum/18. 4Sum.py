@@ -1,48 +1,37 @@
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        
         nums.sort()
-        quad = []
-        ans = []
-        def twoSum(l):
+
+        def twoSum(l, target):
             r = len(nums) - 1
-            
             while l < r:
-                if quad[0] + quad[1] + nums[l] + nums[r] == target:
-                    ans.append([quad[0], quad[1], nums[l], nums[r]])
+
+                if nums[l] + nums[r] == target:
+                    ans.append(quad + [nums[l]] + [nums[r]])
                     l += 1
                     r -= 1
-                    while l < r and nums[l] == nums[l - 1]:
+                    while l < r and nums[l - 1] == nums[l]:
                         l += 1
-                elif quad[0] + quad[1] + nums[l] + nums[r] < target:
-                    l += 1
-                else:
+                elif nums[l] + nums[r] > target:
                     r -= 1
-
-
-
-
-
-        def kSum(k,l):
+                else:
+                    l += 1
+        
+        ans = []
+        quad = []
+        def kSum(l, k, target):
             if k == 2:
-                twoSum(l)
-                return
+                return twoSum(l, target)
             
-            i = l
-            while i < len(nums):
+            i = 0
+
+            for i in range(l, len(nums) - k + 1):
+                if i > l and nums[i] == nums[i - 1]:
+                    continue
                 quad.append(nums[i])
-                kSum(k - 1, i + 1)
+                kSum(i + 1, k - 1, target - nums[i])
                 quad.pop()
-                
-                i += 1
-                while i < len(nums) and nums[i] == nums[i - 1]:
-                    i += 1
-            
 
-            # for i in range(l, len(nums)):
-            #     if i == 0 or nums[i] != nums[i - 1]:
-            #         quad.append(nums[i])
-            #         kSum(k - 1, i + 1)
-            #         quad.pop()
-
-        kSum(4, 0)
+        kSum(0, 4, target)
         return ans
