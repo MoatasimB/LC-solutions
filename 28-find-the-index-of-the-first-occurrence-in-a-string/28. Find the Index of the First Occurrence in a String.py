@@ -1,44 +1,44 @@
 class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
         
-        p = 31
-        MOD = 10**9 + 7
-        m = len(haystack)
-        n = len(needle)
-
-        def hash(word):
-
-            mult = 1
-            h = 0
-            for i in range(n - 1, -1, -1):
-                h  += ((ord(word[i]) - ord('a')) * mult) % MOD
-                mult = (mult * p) % MOD
+        def makeLPS(needle):
+            m = len(needle)
+            lps = [0] * m
             
-            return h % MOD
-        
-        max_mult = 1
+            i = 1
+            _len = 0 
+            while i < m:
 
-        for _ in range(n):
-            max_mult =( max_mult * p) % MOD
+                if needle[i] == needle[_len]:
+                    _len += 1
+                    lps[i] = _len
+                    i += 1
+                else:
+                    if _len != 0:
+                        _len = lps[_len - 1]
+                    else:
+                        lps[i] = 0
+                        i += 1
+            return lps
         
-        needle_hash = hash(needle)
 
-        for i in range(m - n + 1):
-            if i == 0:
-                hay_hash = hash(haystack)
+        lps = makeLPS(needle)
+
+        j = 0
+        i = 0
+
+        while i < len(haystack):
+
+            if needle[j] == haystack[i]:
+                j += 1
+                i += 1
+
+                if j == len(needle):
+                    return i - len(needle)
             else:
-                hay_hash = (((hay_hash * p) % MOD) + ((ord(haystack[i + n - 1]) - ord('a')) % MOD) - (((ord(haystack[i - 1]) - ord('a')) * max_mult) % MOD)) % MOD
-        
-            if hay_hash == needle_hash:
-                for j in range(n):
-                    if haystack[i + j] != needle[j]:
-                        break
-                
-                if j == n - 1:
-                    return i
+                if j != 0:
+                    j = lps[j - 1]
+                else:
+                    i += 1
         
         return -1
-
-
-
-
