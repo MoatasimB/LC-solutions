@@ -7,35 +7,32 @@
 class Solution:
     def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
         
-        heightAfterRemoval = {}
+        hAfterRem = {}
         maxH = 0
-        def dfsLtoR(root, depth):
+        def dfsLR(node, depth):
             nonlocal maxH
-            if not root:
+            if not node:
                 return
             
-            heightAfterRemoval[root.val] = maxH
+            hAfterRem[node.val] = maxH
             maxH = max(maxH, depth)
 
-            dfsLtoR(root.left, depth + 1)
-            dfsLtoR(root.right, depth + 1)
+            dfsLR(node.left, depth + 1)
+            dfsLR(node.right, depth + 1)
         
-        dfsLtoR(root, 0)
-
+        dfsLR(root, 0)
         maxH = 0
-        def dfsRtoL(root, depth):
+        def dfsRL(node, depth):
             nonlocal maxH
-            if not root:
+            if not node:
                 return
             
-            heightAfterRemoval[root.val] = max(heightAfterRemoval[root.val], maxH)
+            hAfterRem[node.val] = max(maxH, hAfterRem[node.val])
             maxH = max(maxH, depth)
 
-            dfsRtoL(root.right, depth + 1)
-            dfsRtoL(root.left, depth + 1)
+            dfsRL(node.right, depth + 1)
+            dfsRL(node.left, depth + 1)
         
-        
-        dfsRtoL(root, 0)
+        dfsRL(root, 0)
 
-        
-        return [heightAfterRemoval[q] for q in queries]
+        return [hAfterRem[q] for q in queries]
