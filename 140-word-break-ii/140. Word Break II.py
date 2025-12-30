@@ -2,23 +2,20 @@ class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         wordDict = set(wordDict)
         ans = []
-        def dfs(i, curr, prev):
+        def dfs(i, curr):
             if i == len(s):
-                if curr in wordDict:
-                    ans.append(prev + curr) 
+                ans.append(" ".join(curr[:]))
                 return
             
-            if curr in wordDict:
-                dfs(i, "", prev + curr + " ")
-            
-            dfs(i+1, curr + s[i], prev)
-            
-        
-        dfs(0, "", "")
 
+            for j in range(i, len(s)):
+                word = s[i:j + 1]
+                if word in wordDict:
+                    curr.append(word)
+                    dfs(j + 1, curr)
+                    curr.pop()
+        
+
+        dfs(0, [])
         return ans
-
-
-
-
-        
+            
