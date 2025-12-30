@@ -4,61 +4,52 @@ class Solution:
         Do not return anything, modify board in-place instead.
         """
         
-        row_mpp = defaultdict(set)
-        col_mpp = defaultdict(set)
-        box_mpp = defaultdict(set)
+        rows = defaultdict(set)
+        cols = defaultdict(set)
+        boxes = defaultdict(set)
 
-        m = len(board)
-        n = len(board[0])
-
-        for r in range(m):
-            for c in range(n):
+        for r in range(9):
+            for c in range(9):
                 val = board[r][c]
-                if val == '.':
-                    continue
-                row_mpp[r].add(val)
-                col_mpp[c].add(val)
-                box_mpp[(r//3, c//3)].add(val)
+                if val != ".":
+                    rows[r].add(int(val))
+                    cols[c].add(int(val))
+                    boxes[(r // 3, c // 3)].add(int(val))
         
-
-        def dfs(r, c):
-            if r == m:
+        def dfs(r, c, board):
+            if r == 9 and c == 9:
                 return True
-            
-            if board[r][c] == ".":
-                for val in "123456789":
-                    if val not in row_mpp[r] and val not in col_mpp[c] and val not in box_mpp[(r//3, c//3)]:
-                        
-                        board[r][c] = val
-                        
-                        row_mpp[r].add(val)
-                        col_mpp[c].add(val)
-                        box_mpp[(r//3, c//3)].add(val)
-
-                        if c == n - 1:
-                            if dfs(r + 1, 0):
-                                return True
-                        else:
-                            if dfs(r, c + 1):
-                                return True
-
-                        board[r][c] = '.' 
-                        row_mpp[r].remove(val)
-                        col_mpp[c].remove(val)
-                        box_mpp[(r//3, c//3)].remove(val)
-
-            elif c == n - 1:
-                if dfs(r + 1, 0):
+            val = board[r][c]
+            if val != ".":
+                nr = r + 1 if c == 8 else r
+                nc = c + 1
+                if nr != 9 and nc == 9:
+                    nc = 0
+                
+                if dfs(nr, nc, board):
                     return True
             else:
-                if dfs(r, c + 1):
-                    return True
-        
-        dfs(0,0)
-            
+                for num in range(1, 10):
+                    if num not in rows[r] and num not in cols[c] and num not in boxes[(r//3, c//3)]:
+                        rows[r].add(num)
+                        cols[c].add(num)
+                        boxes[(r // 3, c // 3)].add(num)
+
+                        board[r][c] = str(num)
+                        nr = r + 1 if c == 8 else r
+                        nc = c + 1
+                        if nr != 9 and nc == 9:
+                            nc = 0
                         
+                        if dfs(nr, nc, board):
+                            return True
+                        rows[r].remove(num)
+                        cols[c].remove(num)
+                        boxes[(r // 3, c // 3)].remove(num)
+                        board[r][c] = "."
 
-
-    
-
+                return False
+        
+        dfs(0, 0, board)
+        return board
 
