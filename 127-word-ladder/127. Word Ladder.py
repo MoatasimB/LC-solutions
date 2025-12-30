@@ -5,32 +5,31 @@ class Solution:
         if endWord not in wordList:
             return 0
         
-        def neighbors(word):
-            ans = []
+        def getNeighbors(word):
+            neighbors = []
+
             for i in range(len(word)):
-                for ch in 'abcdefghijklmnopqrstuvwxyz':
-                    new = word[:i] + ch + word[i+1:]
-                    if new in wordList:
-                        ans.append(new)
-            return ans
-            
+                for ch in "abcdefghijklmnopqrstuvwxyz":
+                    new_word = word[:i] + ch + word[i+1:]
+                    if new_word in wordList:
+                        neighbors.append(new_word)
+            return neighbors
+        
+
         q = deque()
-
         seen = set()
-
-        q.append((beginWord, 0))
+        q.append([beginWord, 1])
         seen.add(beginWord)
 
         while q:
             word, steps = q.popleft()
 
             if word == endWord:
-                return steps + 1
+                return steps
             
-
-            for nei in neighbors(word):
+            for nei in getNeighbors(word):
                 if nei not in seen:
                     seen.add(nei)
-                    q.append((nei, steps + 1))
+                    q.append([nei, steps + 1])
         
         return 0
