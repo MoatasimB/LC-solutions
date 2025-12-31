@@ -1,36 +1,31 @@
 class Solution:
     def busiestServers(self, k: int, arrival: List[int], load: List[int]) -> List[int]:
         
-        
-        counts = [0] * k
-
-        pq = [] #minHeap (finishTime, server)
         free = [i for i in range(k)]
-        
-        for i, arrivalTime in enumerate(arrival):
-            while pq and arrivalTime >= pq[0][0]:
-                _, server = heapq.heappop(pq)
-                mult = i // k
-                # 0 1 2   3 4 5
-                # 0 1 2   
+        inUse = [] #[endTime, serverID]
+        freq = defaultdict(int)
+        for i, time in enumerate(arrival):
 
-                heapq.heappush(free, ((server- i) % k) + i)
+            while inUse and inUse[0][0] <= time:
+                _, serverID = heapq.heappop(inUse)
+
+                heapq.heappush(free, i + (serverID - i) % k)
             
             if free:
-                server = heapq.heappop(free)
-                counts[server % k] += 1
-                heapq.heappush(pq, (arrivalTime + load[i], server % k))
+                serverID = heapq.heappop(free) % k
+                freq[serverID] += 1
+                duration = load[i]
+                heapq.heappush(inUse, [time + duration, serverID])
         
 
         ans = []
-        mmax = -1
-        
-        for i in range(len(counts)):
-            if counts[i] > mmax:
-                ans = []
-                ans.append(i)
-                mmax = counts[i]
-            elif counts[i] == mmax:
-                ans.append(i)
-        
-        return ans
+        maxCount = 0
+        for server, count in freq.items():
+            if count > maxCount:
+                ans = [server]
+                maxCount = count
+            elif count == maxCount:
+                ans.append(server)
+
+        return ans                
+
