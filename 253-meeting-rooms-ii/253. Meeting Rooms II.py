@@ -1,13 +1,16 @@
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         
-        intervals.sort(key = lambda x: x[0])
-        minHeap = [] #endTime
+        counts = defaultdict(int)
 
-        for i in range(len(intervals)):
-            start, end = intervals[i]
-            if minHeap and minHeap[0] <= start:
-                heapq.heappop(minHeap)
-            heapq.heappush(minHeap, end)
+        for start, end in intervals:
+            counts[start] += 1
+            counts[end] -= 1
         
-        return len(minHeap)
+        curr = 0
+        ans = 0
+        for time, count in sorted(counts.items()):
+            curr += count
+            ans = max(ans, curr)
+        
+        return ans
