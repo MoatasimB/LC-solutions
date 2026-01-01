@@ -11,7 +11,7 @@ class Solution:
             if freq[s[r]] > maxF:
                 maxF = freq[s[r]]
             
-            while (r - l + 1) - maxF > k:
+            if (r - l + 1) - maxF > k:
                 freq[s[l]] -= 1
                 l += 1
                 # maxF = 0
