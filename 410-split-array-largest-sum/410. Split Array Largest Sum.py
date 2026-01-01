@@ -12,13 +12,13 @@ class Solution:
                     splits += 1
                 
                 curr += num
-                if curr > mid:
-                    return False
+                # if curr > mid:
+                #     return False
             
             return splits + 1 <= k
 
 
-        l = min(nums)
+        l = max(nums)
         r = sum(nums)
 
         ans = float("inf")
