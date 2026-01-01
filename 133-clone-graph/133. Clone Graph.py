@@ -9,18 +9,19 @@ class Node:
 from typing import Optional
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        mpp = {} #original:copy
         if not node:
-            return node
+            return None
+        copies = {} #og : copy
+
         def dfs(node):
+
+            if node in copies:
+                return copies[node]
             
-            copy = Node(node.val)
-            mpp[node] = copy
+            copy = Node(node.val, [])
+            copies[node] = copy
             for nei in node.neighbors:
-                if nei not in mpp:   
-                    copy.neighbors.append(dfs(nei))
-                else:
-                    copy.neighbors.append(mpp[nei])
+                copy.neighbors.append(dfs(nei))
             
             return copy
         
