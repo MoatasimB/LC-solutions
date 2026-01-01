@@ -14,9 +14,9 @@ class Solution:
             while (r - l + 1) - maxF > k:
                 freq[s[l]] -= 1
                 l += 1
-                maxF = 0
-                for val in freq.values():
-                    maxF = max(maxF, val)
+                # maxF = 0
+                # for val in freq.values():
+                #     maxF = max(maxF, val)
             
             ans = max(ans, r - l + 1)
 
