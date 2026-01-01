@@ -1,39 +1,31 @@
 class Solution:
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        
+        envelopes.sort(key = lambda x : (x[0], -x[1]))
 
-        envelopes.sort(key= lambda x: (x[0], -x[1]))
-        print(envelopes)
-        def find(arr, num):
-            if not arr:
-                return 0
+        nums = [x[1] for x in envelopes]
+        def find(target):
             l = 0
-            r = len(arr) - 1
-            ans = len(arr)
-            while l<=r:
-                mid = (l+r) // 2
+            r = len(dp) - 1
+            ans = len(dp)
 
-                if num > arr[mid]:
+            while l <= r:
+                mid = (l + r) // 2
+                if dp[mid] < target:
                     l = mid + 1
                 else:
+                    ans = mid
                     r = mid - 1
-                    ans = min(ans, mid)
+            
             return ans
 
-        def lis(nums):
-
-            dp = []
-            for i in range(len(nums)):
-                idx = find(dp, nums[i])
-                if idx == len(dp):
-                    dp.append(nums[i])
-                else:
-                    dp[idx] = nums[i]
-            return len(dp)
-            #     for j in range(i):
-            #         if nums[j] < nums[i]:
-            #             curr = max(curr, 1 + dp[j])
-                
-            #     dp[i] = curr
-            # return max(dp)
-        nums = [i[1] for i in envelopes]
-        return lis(nums)
+        
+        dp = []
+        for num in nums:
+            idx = find(num)
+            if idx == len(dp):
+                dp.append(num)
+            else:
+                dp[idx] = num
+        
+        return len(dp)
