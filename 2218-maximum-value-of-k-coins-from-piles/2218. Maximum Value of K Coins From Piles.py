@@ -10,10 +10,10 @@ class Solution:
             
             
             curr = 0
-            ans = 0
+            ans = dfs(i + 1, k)
             for j in range(min(len(piles[i]), k)):
                 curr += piles[i][j]
-                ans = max(ans, curr + dfs(i + 1, k - j - 1), dfs(i + 1, k))
+                ans = max(ans, curr + dfs(i + 1, k - j - 1))
 
             memo[(i, k)] = ans
             return ans
