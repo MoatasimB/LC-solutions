@@ -1,26 +1,19 @@
 class Solution:
     def maxValueOfCoins(self, piles: List[List[int]], k: int) -> int:
-        n = len(piles)
-
-        for pile in piles:
-            for j in range(1, len(pile)):
-                pile[j] += pile[j-1]
-
-        dp = {}
+        @cache
         def dfs(i, k):
 
-            if i == n:
+            if k == 0 or i == len(piles):
                 return 0
-            if k == 0:
-                return 0
-            if (i,k) in dp:
-                return dp[(i,k)]
+            
+            
+            curr = 0
             ans = 0
-            for j in range(len(piles[i])):
-                if j + 1 <= k:
-                    ans = max(ans, piles[i][j] + dfs(i+1, k-j-1))
-            ans = max(ans, dfs(i+1, k))
-            dp[(i,k)] = ans
+            for j in range(min(len(piles[i]), k)):
+                curr += piles[i][j]
+                ans = max(ans, curr + dfs(i + 1, k - j - 1), dfs(i + 1, k))
+
+            
             return ans
         
-        return dfs(0,k)
+        return dfs(0, k)
