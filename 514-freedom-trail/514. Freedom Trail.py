@@ -18,27 +18,37 @@ class Solution:
                 q.append(q.popleft())
             
             return [count + 1, "".join(q)]
-        
+        def countDistance(curr, next):
+            dist = abs(curr - next)
+            oppositeDist = len(ring) - dist
+            return min(dist, oppositeDist) + 1
         memo = {}
-        def dfs(string, i):
-            if (string, i) in memo:
-                return memo[(string, i)]
+        def dfs(string_idx, i):
+            if (string_idx, i) in memo:
+                return memo[(string_idx, i)]
             if i == len(key):
                 return 0
             
             ans = float("inf")
             ch = key[i]
-            #go clockwise
-            clockWiseCount, clockWiseString = clockWise(string, ch)
-            ans = min(ans, clockWiseCount + dfs(clockWiseString, i + 1))
+
+            for idx in range(len(ring)):
+                if ring[idx] == ch:
+                    ans = min(ans, countDistance(string_idx, idx) + dfs(idx, i + 1))
             
 
 
-            #go anticlockwise
-            antiClockWiseCount, antiClockWiseString = antiClockWise(string, ch)
-            ans = min(ans, antiClockWiseCount + dfs(antiClockWiseString, i + 1))
+            # #go clockwise
+            # clockWiseCount, clockWiseString = clockWise(string, ch)
+            # ans = min(ans, clockWiseCount + dfs(clockWiseString, i + 1))
+            
 
-            memo[(string, i)] = ans
+
+            # #go anticlockwise
+            # antiClockWiseCount, antiClockWiseString = antiClockWise(string, ch)
+            # ans = min(ans, antiClockWiseCount + dfs(antiClockWiseString, i + 1))
+
+            memo[(string_idx, i)] = ans
             return ans
 
-        return dfs(ring, 0)
+        return dfs(0, 0)
