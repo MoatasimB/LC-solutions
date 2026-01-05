@@ -6,31 +6,36 @@
 #         self.right = right
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
-        
-        cols = defaultdict(list)
-
-        def dfs(root,row, col):
-            if not root:
+        leftMost = 0
+        rightMost = 0
+        rows = 0
+        mpp = defaultdict(list) #row, col : nodes
+        def dfs(node, row, col):
+            nonlocal leftMost, rightMost, rows
+            leftMost = min(leftMost, col)
+            rightMost = max(rightMost, col)
+            rows = max(rows, row)
+            if not node:
                 return
-            
-            cols[col].append((row, root.val))
+            mpp[(row, col)].append([row, node.val])
 
-            dfs(root.left, row + 1,  col - 1)
-            dfs(root.right, row + 1,  col + 1)
+            dfs(node.left, row + 1, col - 1)
+            dfs(node.right, row + 1, col + 1)
         
-        dfs(root,0,0)
+        dfs(root, 0, 0)
+
+        for location, nodes in mpp.items():
+            if len(nodes) > 1:
+                nodes.sort()
+        
         ans = []
-
-
-        mmin = min(cols.keys())
-        mmax = max(cols.keys())
-
-        for i in range(mmin, mmax + 1):
-            if i in cols:
-                lst = cols[i]
-                lst.sort()
-                ans.append([el[1] for el in lst])
-        # for key, val in sorted(cols.items()):
-        #     val.sort()
-        #     ans.append(val)
+        for col in range(leftMost, rightMost + 1):
+            curr = []
+            for row in range(0, rows + 1):
+                if (row, col) in mpp:
+                    for _, val in mpp[(row, col)]:
+                        curr.append(val)
+            if curr:
+                ans.append(curr)
+        
         return ans
