@@ -1,57 +1,47 @@
 class Solution:
     def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
+        def valid(r, c):
+            return 0 <= r < row and 0 <= c < col
         
+        dirs = [(0, 1), (1,0), (0,-1), (-1,0)]
+
+        def check(day):
+            grid = [[0] * col for _ in range(row)]
+
+            for i in range(day + 1):
+                wr, wc = cells[i]
+                grid[wr - 1][wc - 1] = 1
+            
+            for c in range(col):
+                if grid[0][c] == 0 and dfs(0, c, grid):
+                    return True
+            
+            return False
         
-        m = row
-        n = col
-
-        def valid(row, col):
-            return 0<=row<m and 0<=col<n and grid[row][col] == 0
-        
-        directions = [(-1,0), (0,-1), (0,1), (1,0)]
-
-        def check(day, r, c, grid):
-
-            if r == m - 1:
+        def dfs(r, c, grid):
+            if r == row - 1:
                 return True
             
-            for dx, dy in directions:
-                next_row = r + dx
-                next_col = c + dy
-
-                if valid(next_row, next_col):
-                    grid[next_row][next_col] = 1
-                    if check(day, next_row, next_col, grid):
+            for dx, dy in dirs:
+                nr = r + dx
+                nc = c + dy
+                if valid(nr, nc) and grid[nr][nc] == 0:
+                    grid[nr][nc] = 1
+                    if dfs(nr, nc, grid):
                         return True
             
             return False
         
-        left = 1
-        right = len(cells)
-
-        while left <= right:
-            mid = (left + right) // 2
-
-            res = False
-                        
-            grid = [[0] * n for _ in range(m)]
-            for i in range(mid):
-                r,c = cells[i]
-                grid[r-1][c-1] = 1
-            
+        l = 0
+        r = len(cells) - 1
 
 
-            for i in range(n):
-                if grid[0][i] == 0:
-                    grid[0][i] == 1
-                    if check(mid, 0, i, grid):
-                        res = True
-                        break
+        while l <= r:
+            mid = (l + r) // 2
 
-            if res:
-                left = mid + 1
+            if check(mid):
+                l = mid + 1
             else:
-                right = mid - 1
-
-        return right
-                
+                r = mid - 1
+        
+        return r + 1
