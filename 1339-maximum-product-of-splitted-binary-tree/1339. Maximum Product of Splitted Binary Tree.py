@@ -20,29 +20,33 @@ class Solution:
             return node.val + left + right
         dfs(root)
         final = 0
-        def findMax(node):
-            nonlocal final
+        total = sumOfSubtree[root]
 
-            if not node:
-                return
+        for node, s in sumOfSubtree.items():
+            final = max(final, s * (total - s))
+        # def findMax(node):
+        #     nonlocal final
 
-            findMax(node.left)
-            findMax(node.right)
-            total = sumOfSubtree[root]
-            left = node.left if node.left else None
-            right = node.right if node.right else None
+        #     if not node:
+        #         return
 
-            if left:
-                left_sum = sumOfSubtree[left]
-                final = max(final, left_sum * (total - left_sum))
+        #     findMax(node.left)
+        #     findMax(node.right)
+        #     total = sumOfSubtree[root]
+        #     left = node.left if node.left else None
+        #     right = node.right if node.right else None
+
+        #     if left:
+        #         left_sum = sumOfSubtree[left]
+        #         final = max(final, left_sum * (total - left_sum))
 
             
-            if right:
-                right_sum = sumOfSubtree[right]
-                final = max(final, right_sum * (total - right_sum))
+        #     if right:
+        #         right_sum = sumOfSubtree[right]
+        #         final = max(final, right_sum * (total - right_sum))
         
 
-        findMax(root)
+        # findMax(root)
        
         return final % (10**9 + 7)
             
