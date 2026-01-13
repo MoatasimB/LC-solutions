@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/exclusive-time-of-functions">Exclusive Time of Functions</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>On a <strong>single-threaded</strong> CPU, we execute a program containing <code>n</code> functions. Each function has a unique ID between <code>0</code> and <code>n-1</code>.</p>
+<p>On a <strong>single-threaded</strong> CPU, we execute a program containing <code>n</code> functions. Each function has a unique ID between <code>0</code> and <code>n-1</code>.</p>
 
 <p>Function calls are <strong>stored in a <a href="https://en.wikipedia.org/wiki/Call_stack">call stack</a></strong>: when a function call starts, its ID is pushed onto the stack, and when a function call ends, its ID is popped off the stack. The function whose ID is at the top of the stack is <strong>the current function being executed</strong>. Each time a function starts or ends, we write a log with the ID, whether it started or ended, and the timestamp.</p>
 
@@ -54,7 +54,7 @@ So function 0 spends 2 + 4 + 1 = 7 units of total time executing, and function 1
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>1 &lt;= logs.length &lt;= 500</code></li>
+	<li><code>2 &lt;= logs.length &lt;= 500</code></li>
 	<li><code>0 &lt;= function_id &lt; n</code></li>
 	<li><code>0 &lt;= timestamp &lt;= 10<sup>9</sup></code></li>
 	<li>No two start events will happen at the same timestamp.</li>
