@@ -1,27 +1,26 @@
 class Solution:
     def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
-        
         ans = [0] * n
-        stack = [] #id, lastTime
+        stack = []
         for i in range(len(logs)):
             log = logs[i].split(":")
-            id = int(log[0])
-            type_ = log[1]
-            timeStamp = int(log[2])
+            fid = int(log[0])
+            ex = log[1]
+            timestamp = int(log[2])
 
-
-            if type_ == "start":
+            if ex == "start":
                 if stack:
-                    prev_id, prev_time = stack[-1]
-
-                    ans[prev_id] += timeStamp - prev_time
-                stack.append([id, timeStamp])
+                    prev_fid, prev_timestamp = stack[-1]
+                    ans[prev_fid] += timestamp - prev_timestamp
+                stack.append([fid, timestamp])
             else:
-
-                prev_id, prev_time = stack.pop()
-                ans[prev_id] += timeStamp - prev_time + 1
-
+                prev_fid, prev_timestamp = stack.pop()
+                ans[prev_fid] += timestamp - prev_timestamp + 1
                 if stack:
-                    stack[-1][1] = timeStamp + 1
+                    stack[-1][1] = timestamp + 1
         
         return ans
+            
+            
+
+
