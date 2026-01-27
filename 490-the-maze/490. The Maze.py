@@ -18,24 +18,38 @@ class Solution:
 
             
             return [r, c]
-        
-        q = deque()
         seen = set()
-
         sR, sC = start
-        q.append([sR, sC])
         seen.add((sR, sC))
-
-        while q:
-            r, c = q.popleft()
-            
+        def dfs(r, c):
             if [r, c] == destination:
                 return True
-
             for direction in dirs:
                 nr, nc = nextPos(r, c, direction)
                 if (nr, nc) not in seen:
                     seen.add((nr, nc))
-                    q.append([nr, nc])
+                    if dfs(nr, nc):
+                        return True
+            return False
+
+        return dfs(sR, sC)
+        # q = deque()
+        # seen = set()
+
+        # sR, sC = start
+        # q.append([sR, sC])
+        # seen.add((sR, sC))
+
+        # while q:
+        #     r, c = q.popleft()
+            
+        #     if [r, c] == destination:
+        #         return True
+
+        #     for direction in dirs:
+        #         nr, nc = nextPos(r, c, direction)
+        #         if (nr, nc) not in seen:
+        #             seen.add((nr, nc))
+        #             q.append([nr, nc])
         
-        return False
+        # return False
