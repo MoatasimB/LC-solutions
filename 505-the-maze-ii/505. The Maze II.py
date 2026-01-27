@@ -2,35 +2,44 @@ class Solution:
     def shortestDistance(self, maze: List[List[int]], start: List[int], destination: List[int]) -> int:
         
 
-        dirs = [(0,1), (0,-1), (1,0), (-1,0)]
-
         m = len(maze)
         n = len(maze[0])
 
-        def valid(r,c):
-            return 0<=r<m and 0<=c<n and maze[r][c] == 0
+        dirs = [(0, 1), (1, 0), (0,-1), (-1,0)]
+
+        def valid(r, c):
+            return 0 <= r < m and 0 <= c < n and maze[r][c] == 0
         
-        pq = [[0, start[0], start[1]]] #dist, r, c
-        distance = {(i,j): float('inf') for i in range(m) for j in range(n)}
-        distance[(start[0],start[1])] = 0
-        while pq:
-            dist, r, c = heapq.heappop(pq)
+        def nextPos(r, c, direction):
+            dx, dy = direction
+            cost = 0
+            while valid(r + dx, c + dy):
+                r += dx
+                c += dy
+                cost += 1
+            
+            return [r, c, cost]
+        
+        sr, sc = start
+        minHeap = [[0, sr, sc]]
+        dists = [[float("inf")] * n for _ in range(m)]
+        dists[sr][sc] = 0
 
-            for dx, dy in dirs:
-                curr = 0
-                nr = r + dx
-                nc = c + dy
-                if not valid(nr,nc):
-                    continue
-                while valid(nr,nc):
-                    curr += 1
-                    nr += dx
-                    nc += dy
-                nr -= dx
-                nc -= dy
+        while minHeap:
+            dist, r, c = heapq.heappop(minHeap)
 
-                if distance[(nr,nc)] > dist + curr:
-                    distance[(nr,nc)] = dist + curr
-                    heapq.heappush(pq, [dist + curr, nr, nc])
+            if [r, c] == destination:
+                return dist
+            
+            if dists[r][c] < dist:
+                continue
+            
+            for direction in dirs:
+                nr, nc, cost = nextPos(r, c, direction)
+                if dist + cost < dists[nr][nc]:
+                    dists[nr][nc] = dist + cost
+                    heapq.heappush(minHeap, [dist + cost, nr, nc])
+        
 
-        return distance[(destination[0], destination[1])] if distance[(destination[0], destination[1])] != float('inf') else -1 
+        return -1
+
