@@ -41,35 +41,10 @@ class Solution:
                     break
                 s1 = source[i : end]
                 s2 = target[i : end]
-            # for j in range(i, n):
-            #     s1 = source[i:j + 1]
-            #     s2 = target[i:j + 1]
                 if s1 in mpp and s2 in mpp:
                     c = minCosts[mpp[s1]][mpp[s2]]
                    
                     dp[i] = min(dp[i], c + dp[end])
         return dp[0] if dp[0] != float("inf") else -1
 
-        # memo = {}
-        # def dfs(i):
-        #     if i in memo:
-        #         return memo[i]
-        #     if i == len(source):
-        #         return 0
-        #     total = float("inf")
-        #     if source[i] == target[i]:
-        #         total = dfs(i + 1)
-        #     for j in range(i, len(source)):
-        #         u = source[i:j + 1]
-        #         v = target[i:j + 1]
-        #         if u in mpp and v in mpp:
-        #             c = minCosts[mpp[u]][mpp[v]]
-        #             if c == float("inf"):
-        #                 continue
-        #             else:
-        #                 total = min(total, c + dfs(j + 1))
-        #     memo[i] = total
-        #     return total
         
-        # final = dfs(0)
-        # return final if final != float("inf") else -1
