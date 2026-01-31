@@ -4,25 +4,33 @@ class Solution:
         Do not return anything, modify rooms in-place instead.
         """
         
+
         q = deque()
-        seen = set()
-        dirs = [(0,1), (1,0), (0,-1), (-1,0)]
+
+        m = len(rooms)
+        n = len(rooms[0])
         def valid(r, c):
-            return 0<= r < len(rooms) and 0<= c < len(rooms[0])
-        for i in range(len(rooms)):
-            for j in range(len(rooms[0])):
-                if rooms[i][j] == 0:
-                    q.append((i,j, 0))
-                    seen.add((i,j))
+            return 0 <= r < m and 0 <= c < n
+        
+        dirs = [(0, 1), (1,0), (0,-1), (-1,0)]
+
+        for r in range(m):
+            for c in range(n):
+                if rooms[r][c] == 0:
+                    q.append([0, r, c])
+                    rooms[r][c] = 0
         
         while q:
-            row, col, dist = q.popleft()
+            dist, r, c = q.popleft()
 
             for dx, dy in dirs:
-                nr, nc = row + dx, col + dy
-
-                if valid(nr,nc) and (nr, nc) not in seen and rooms[nr][nc] != -1:
+                nr = r + dx
+                nc = c + dy
+                if valid(nr, nc) and rooms[nr][nc] == 2147483647:
+                    q.append([dist + 1, nr, nc])
                     rooms[nr][nc] = dist + 1
-                    q.append((nr, nc, dist + 1))
-                    seen.add((nr, nc))
         
+        
+    
+        
+                    
