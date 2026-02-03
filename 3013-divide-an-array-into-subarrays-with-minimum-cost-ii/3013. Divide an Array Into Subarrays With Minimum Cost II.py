@@ -31,7 +31,7 @@ class Solution:
             def remove(self, val):
                 if val in self.rest:
                     self.rest.remove(val)
-                elif val in self.low:
+                else:
                     self.low.remove(val)
                     self.sm -= val
                 self.balance()
