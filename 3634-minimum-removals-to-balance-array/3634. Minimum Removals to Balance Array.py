@@ -21,17 +21,13 @@ class Solution:
         # 12 32 89 91 134,155, 410, 493, 607, 740, 944
 
 
-        n = len(nums)
-        i = 0
-        j = 0
-        ans = float("inf")
-        while j < n:
-            while j < n and nums[i] * k >= nums[j]:
-                j += 1
-            ans = min(ans, n - (j - i))
-            i += 1
-            j = max(j, i)
-        
+        ans = 0
+        left = 0
+        for right in range(len(nums)):
+            if nums[right] > nums[left] * k:
+                ans += 1
+                left += 1
+
         return ans
         
        
