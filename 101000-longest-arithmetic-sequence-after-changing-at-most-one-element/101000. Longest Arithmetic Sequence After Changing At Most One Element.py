@@ -8,13 +8,11 @@ class Solution:
         diff = [nums[i + 1] - nums[i] for i in range(n - 1)]
         m = n - 1
 
-        # L[i] = length of same-diff run ending at i
         L = [1] * m
         for i in range(1, m):
             if diff[i] == diff[i - 1]:
                 L[i] = L[i - 1] + 1
 
-        # R[i] = length of same-diff run starting at i
         R = [1] * m
         for i in range(m - 2, -1, -1):
             if diff[i] == diff[i + 1]:
@@ -22,10 +20,9 @@ class Solution:
 
         max_run = max(L)
 
-        # No internal bridge: just extend a longest arithmetic block by changing one endpoint
+        
         ans = min(n, max_run + 2)
 
-        # Try changing each internal element nums[k]
         for k in range(1, n - 1):
             gap = nums[k + 1] - nums[k - 1]
             if gap % 2 != 0:
