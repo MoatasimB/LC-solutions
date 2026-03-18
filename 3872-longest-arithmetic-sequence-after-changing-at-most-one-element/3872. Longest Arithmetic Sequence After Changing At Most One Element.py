@@ -5,16 +5,17 @@ class Solution:
         if n <= 2:
             return n
 
+        # diff array
         diff = [nums[i + 1] - nums[i] for i in range(n - 1)]
         m = n - 1
 
-        # L[i] = length of same-diff run ending at i
+        # L[i] = length of equal-diff run ending at i
         L = [1] * m
         for i in range(1, m):
             if diff[i] == diff[i - 1]:
                 L[i] = L[i - 1] + 1
 
-        # R[i] = length of same-diff run starting at i
+        # R[i] = length of equal-diff run starting at i
         R = [1] * m
         for i in range(m - 2, -1, -1):
             if diff[i] == diff[i + 1]:
@@ -22,28 +23,27 @@ class Solution:
 
         max_run = max(L)
 
-        # No internal bridge: just extend a longest arithmetic block by changing one endpoint
+        # Case 1: just extend the best existing arithmetic run by one element
         ans = min(n, max_run + 2)
 
-        # Try changing each internal element nums[k]
-        for k in range(1, n - 1):
-            gap = nums[k + 1] - nums[k - 1]
-            if gap % 2 != 0:
+        # Case 2: change an interior element nums[i] and try to merge left + right
+        for i in range(1, n - 1):
+            total = nums[i + 1] - nums[i - 1]
+            if total % 2 != 0:
                 continue
 
-            x = gap // 2
+            d = total // 2
 
-            left = 0
-            if k - 2 >= 0 and diff[k - 2] == x:
-                left = L[k - 2]
+            left_cnt = 0
+            if i - 2 >= 0 and diff[i - 2] == d:
+                left_cnt = L[i - 2]
 
-            right = 0
-            if k + 1 <= m - 1 and diff[k + 1] == x:
-                right = R[k + 1]
+            right_cnt = 0
+            if i + 1 < m and diff[i + 1] == d:
+                right_cnt = R[i + 1]
 
-            ans = max(ans, left + right + 3)
+            # left_cnt diffs + 2 affected diffs + right_cnt diffs
+            ans = max(ans, left_cnt + right_cnt + 3)
 
         return min(ans, n)
-                    
         
-
