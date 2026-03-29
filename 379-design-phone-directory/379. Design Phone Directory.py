@@ -2,22 +2,22 @@ class PhoneDirectory:
 
     def __init__(self, maxNumbers: int):
         self.free = [i for i in range(maxNumbers)]
-        self.used = set()
+        self.used = [False] * maxNumbers
 
     def get(self) -> int:
         if len(self.free) == 0:
             return -1
         x = self.free.pop()
-        self.used.add(x)
+        self.used[x] = True
         return x
 
     def check(self, number: int) -> bool:
-        return number not in self.used
+        return not self.used[number]
         
 
     def release(self, number: int) -> None:
-        if number in self.used:
-            self.used.remove(number)
+        if self.used[number]:
+            self.used[number] = False
             self.free.append(number)
         
 
