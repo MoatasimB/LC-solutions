@@ -1,17 +1,28 @@
 class Solution:
     def findMissingRanges(self, nums: List[int], lower: int, upper: int) -> List[List[int]]:
-        if not nums:
+        
+
+        n = len(nums)
+
+        
+        ans = []
+        if n == 0:
             return [[lower, upper]]
-        ranges = []
-        if nums[0] != lower:
-            ranges.append([lower, nums[0] - 1])
-        
-        for i in range(1, len(nums)):
-            if nums[i-1] + 1 != nums[i]:
-                ranges.append([nums[i-1] + 1, nums[i] - 1])
+
+        if lower != nums[0]:
+            missing = nums[0] - 1
             
+            ans.append([lower, missing])
         
-        if nums[-1] != upper:
-            ranges.append([nums[-1] + 1, upper])
+
+        for i in range(n - 1):
+            curr = nums[i]
+            nxt = nums[i + 1]
+            if curr + 1 != nxt:
+                missing = nxt - 1
+                ans.append([curr + 1, missing])
+
+        if upper != nums[-1]:
+            ans.append([nums[-1] + 1, upper])
         
-        return ranges
+        return ans
