@@ -71,7 +71,6 @@ class Solution:
             leftWalls = endIdx - leftIdx
             if prevDir == "R":
                    #x __ | | | | | | _ x |  |
-                    prev_pos = bots[i - 1][0]
                     _, prev_right_end = robotRanges[i - 1]
                     
                     rightIdx = findLast(prev_right_end)
