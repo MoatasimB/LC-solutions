@@ -14,7 +14,7 @@ class Solution:
         count = 0
         backward = -1
         for i in range(startIndex, startIndex - n - 1, -1):
-            if words[(i + n) % n] == target:
+            if words[i % n] == target:
                 backward = count
                 break
             
