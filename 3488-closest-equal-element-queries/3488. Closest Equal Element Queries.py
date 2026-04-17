@@ -9,19 +9,21 @@ class Solution:
 
         for i in range(n):
             mpp[nums[i]].append(i)
-        print(mpp)
+        
+        
         ans = []
         for q in queries:
             idx = q
             val = nums[idx]
 
             lst = mpp[val]
-            if len(lst) == 1:
+            m = len(lst)
+            if m == 1:
                 ans.append(-1)
                 continue
 
             l = 0
-            r = len(lst) - 1
+            r = m - 1
             location = None
             while l <= r:
                 mid = (l + r) // 2
@@ -32,19 +34,14 @@ class Solution:
                     l = mid + 1
                 else:
                     r = mid - 1
-            m = len(lst)
-            prev = lst[(location - 1)% m] 
-            nxt = lst[(location + 1) % m]
-            final = float("inf")
-            if prev!= None:
-                prevDist = min(abs(idx - prev), abs(n - (idx - prev)), abs(n - (prev - idx)))
-                final = min(final, prevDist)
-            if nxt != None:
-                forDist = min(abs(nxt - idx), abs(n - (nxt - idx)), abs(n - (idx - nxt)))
-                final = min(final, forDist)
-            # print(q, prev, nxt, final)
+            
+            prevIdx = lst[(location - 1) % m] 
+            nextIdx = lst[(location + 1) % m]
+            
+            prevDist = min(abs(idx - prevIdx), abs(n - (idx - prevIdx)), abs(n - (prevIdx - idx)))
+            forDist = min(abs(nextIdx - idx), abs(n - (nextIdx - idx)), abs(n - (idx - nextIdx)))
 
 
-            ans.append(final)
+            ans.append(min(prevDist, forDist))
         
         return ans
