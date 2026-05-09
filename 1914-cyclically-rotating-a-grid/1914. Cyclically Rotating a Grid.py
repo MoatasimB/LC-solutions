@@ -10,7 +10,6 @@ class Solution:
                 cells[start], cells[end] = cells[end], cells[start]
                 start += 1
                 end -= 1
-            return cells
         def applyRotation(sR, sC, eR, eC):
             cells = []
             # count how many cells in layer
@@ -32,13 +31,13 @@ class Solution:
             rotations = k % cell_len
             
             # #apply rotation
-            cells = rev(0, cell_len - rotations - 1, cells)
+            rev(0, cell_len - rotations - 1, cells)
 
-            cells = rev(cell_len - rotations,cell_len - 1, cells)
+            rev(cell_len - rotations,cell_len - 1, cells)
 
             
 
-            cells = rev(0, cell_len - 1, cells)
+            rev(0, cell_len - 1, cells)
 
             # 30 20 10 40
 
