@@ -54,9 +54,8 @@ class Solution:
                     continue
                 if robot.move():
                     dfs(nr, nc, (i + idx) % 4)
-                    robot.turnLeft()
-                else:
-                    robot.turnLeft()
+                robot.turnLeft()
+                
             
             robot.turnLeft()
             robot.turnLeft()
