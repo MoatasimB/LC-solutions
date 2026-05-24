@@ -36,37 +36,32 @@ class Solution:
         :type robot: Robot
         :rtype: None
         """
-    
-    #go back -> turn right, turn right, move 
-    #reor -> turn right, turn right
-
-
-        #up (-1,0), right (0,1), down(1,0), left(0,-1)
-        dirs = [(-1,0), (0,1), (1,0), (0,-1)]
-        FACES = ["UP", "RIGHT", "DOWN", "LEFT"] 
-        seen = set()
-        def dfs(r,c, orientation):
-            # print(r,c, FACES[orientation])
-            # print(seen)
-            robot.clean()
-            seen.add((r,c))
-            for i in range(orientation, orientation + 4):
-                dx, dy = dirs[i % 4]
-                nr, nc = r + dx, c + dy
-
-                if (nr,nc) not in seen:
-                    if robot.move():
-                        dfs(nr,nc, i % 4)
-                        robot.turnRight()
-                    else:
-                        robot.turnRight()
-                else:
-                    robot.turnRight()
-            
-            robot.turnRight()
-            robot.turnRight()
-            robot.move()
-            robot.turnRight()
-            robot.turnRight()
         
-        return dfs(0,0,0)
+        dirs = [(-1, 0), (0, -1), (1,0), (0,1)]
+#up, left, down, right
+        seen = set()
+        def dfs(r, c, i):
+            print(r, c, i)
+            robot.clean()
+            seen.add((r, c))
+
+            for idx in range(4):
+                dx, dy = dirs[(i + idx) % 4]
+                nr = r + dx
+                nc = c + dy
+                if (nr, nc) in seen:
+                    robot.turnLeft()
+                    continue
+                if robot.move():
+                    dfs(nr, nc, (i + idx) % 4)
+                    robot.turnLeft()
+                else:
+                    robot.turnLeft()
+            
+            robot.turnLeft()
+            robot.turnLeft()
+            robot.move()
+            robot.turnLeft()
+            robot.turnLeft()
+        
+        dfs(0, 0, 0)
