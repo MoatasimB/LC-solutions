@@ -21,6 +21,6 @@ class Solution:
                 if j not in seen and s[j] == "0":
                     seen.add(j)
                     q.append([s[j], j])
-            farthest = max(farthest, idx + maxJump + 1)
+            farthest = max(farthest, idx + maxJump)
         
         return False
