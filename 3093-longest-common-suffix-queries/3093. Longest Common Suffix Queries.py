@@ -10,7 +10,9 @@ class Trie:
     
     def add(self, word, idx):
         curr = self.root
-
+        if len(word) < curr.minLen:
+            curr.minLen = len(word)
+            curr.idx = idx
         for i in range(len(word) - 1, -1, -1):
             ch = word[i]
             if ch not in curr.children:
@@ -32,18 +34,12 @@ class Solution:
     def stringIndices(self, wordsContainer: List[str], wordsQuery: List[str]) -> List[int]:
 
         trie = Trie()
-        shortest_idx = -1
-        shortest_len = float("inf")
+    
         for idx, word in enumerate(wordsContainer):
             trie.add(word, idx)
-            if len(word) < shortest_len:
-                shortest_len = len(word)
-                shortest_idx = idx
+            
         ans = []
         for q in wordsQuery:
             x = trie.find(q)
-            if x == -1:
-                ans.append(shortest_idx)
-            else:
-                ans.append(x)
+            ans.append(x)
         return ans   
