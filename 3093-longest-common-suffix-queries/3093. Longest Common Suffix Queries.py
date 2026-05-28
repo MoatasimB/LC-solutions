@@ -1,7 +1,8 @@
 class Node:
     def __init__(self):
         self.children = {}
-        self.words = []
+        self.minLen = float("inf")
+        self.idx = -1
 
 class Trie:
     def __init__(self):
@@ -15,7 +16,9 @@ class Trie:
             if ch not in curr.children:
                 curr.children[ch] = Node()
             curr = curr.children[ch]
-            curr.words.append([word, idx])
+            if len(word) < curr.minLen:
+                curr.minLen = len(word)
+                curr.idx = idx
     def find(self, suffix):
         curr = self.root
 
@@ -23,10 +26,8 @@ class Trie:
             if ch not in curr.children:
                 break
             curr = curr.children[ch]
-        lst_words = sorted(curr.words, key= lambda x: [len(x[0]), x[1]])
         # print(suffix, curr.words, lst_words)
-        return lst_words[0][1] if len(lst_words) != 0 else -1
-
+        return curr.idx
 class Solution:
     def stringIndices(self, wordsContainer: List[str], wordsQuery: List[str]) -> List[int]:
 
