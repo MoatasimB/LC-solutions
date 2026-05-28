@@ -3,12 +3,10 @@ class Solution:
 
         n = len(nums)
 
-        count = defaultdict(int)
         closest = [float("inf")] * n
         prev = {}
         first = {}
         for i in range(n):
-            count[nums[i]] += 1
             if nums[i] in prev:
                 closest[i] = i - prev[nums[i]]
             if nums[i] not in first:
@@ -17,8 +15,6 @@ class Solution:
         
         #handle edge case
         for num, firstIdx in first.items():
-            if count[num] == 1:
-                continue
             backwards = prev[num]
             if backwards == firstIdx:
                 continue
@@ -36,8 +32,6 @@ class Solution:
         print(closest)
         #handle edge case
         for num, lastIdx in prev.items():
-            if count[num] == 1:
-                continue
             firstIdx = first[num]
             if firstIdx == lastIdx:
                 continue
@@ -49,10 +43,7 @@ class Solution:
         ans = []
 
         for q in queries:
-            num = nums[q]
-            if count[num] == 1:
-                ans.append(-1)
-            else:
-                ans.append(closest[q])
+            
+            ans.append(closest[q] if closest[q] != float("inf") else -1)
         
         return ans
