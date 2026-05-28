@@ -1,47 +1,58 @@
 class Solution:
     def solveQueries(self, nums: List[int], queries: List[int]) -> List[int]:
-        
+
         n = len(nums)
-        mpp = defaultdict(list) #int : [indices of int]
 
-        #bs to find idex
-        #look before and after and get minimum dist both ways
-
+        count = defaultdict(int)
+        closest = [float("inf")] * n
+        prev = {}
+        first = {}
         for i in range(n):
-            mpp[nums[i]].append(i)
+            count[nums[i]] += 1
+            if nums[i] in prev:
+                closest[i] = i - prev[nums[i]]
+            if nums[i] not in first:
+                first[nums[i]] = i
+            prev[nums[i]] = i
         
-        
-        ans = []
-        for q in queries:
-            idx = q
-            val = nums[idx]
-
-            lst = mpp[val]
-            m = len(lst)
-            if m == 1:
-                ans.append(-1)
+        #handle edge case
+        for num, firstIdx in first.items():
+            if count[num] == 1:
                 continue
-
-            l = 0
-            r = m - 1
-            location = None
-            while l <= r:
-                mid = (l + r) // 2
-                if lst[mid] == idx:
-                    location = mid
-                    break
-                elif lst[mid] < idx:
-                    l = mid + 1
-                else:
-                    r = mid - 1
+            backwards = prev[num]
+            if backwards == firstIdx:
+                continue
+            dist = firstIdx + (n - backwards)
+            closest[firstIdx] = dist
+        print(closest)
+        #do from right
+        next = {}
+        for i in range(n - 1, -1, -1):
+            if nums[i] in next:
+                closest[i] = min(closest[i], next[nums[i]] - i)
+            next[nums[i]] = i
             
-            prevIdx = lst[(location - 1) % m] 
-            nextIdx = lst[(location + 1) % m]
-            
-            prevDist = min(abs(idx - prevIdx), abs(n - (idx - prevIdx)), abs(n - (prevIdx - idx)))
-            forDist = min(abs(nextIdx - idx), abs(n - (nextIdx - idx)), abs(n - (idx - nextIdx)))
 
+        print(closest)
+        #handle edge case
+        for num, lastIdx in prev.items():
+            if count[num] == 1:
+                continue
+            firstIdx = first[num]
+            if firstIdx == lastIdx:
+                continue
+            # print(num, firstIdx, lastIdx)
+            dist = n - lastIdx + firstIdx
+            closest[lastIdx] = min(closest[lastIdx], dist)
+        
+        print(closest)
+        ans = []
 
-            ans.append(min(prevDist, forDist))
+        for q in queries:
+            num = nums[q]
+            if count[num] == 1:
+                ans.append(-1)
+            else:
+                ans.append(closest[q])
         
         return ans
