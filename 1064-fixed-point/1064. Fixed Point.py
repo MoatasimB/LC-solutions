@@ -15,7 +15,7 @@ class Solution:
 
             if arr[mid] == mid:
                 ans = min(ans, mid)
-                r = mid - 1
+                r -= 1
             elif arr[mid] < mid:
                 l = mid + 1
             else:
