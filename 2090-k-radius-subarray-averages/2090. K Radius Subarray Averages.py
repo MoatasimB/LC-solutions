@@ -1,19 +1,30 @@
 class Solution:
     def getAverages(self, nums: List[int], k: int) -> List[int]:
+        
         prefix = [nums[0]]
-        ans =[]
-        n = len(nums)
-        
-        for i in range(1, n):
+        for i in range(1, len(nums)):
             prefix.append(nums[i] + prefix[-1])
-        
-        
-        for i in range(n):
-            if i - k < 0 or i + k > n -1:
-                ans.append(-1)
-            else:
-                ans.append((prefix[i+k] - prefix [i-k] + nums[i-k])//(2*k + 1))
-        
-        return ans
             
+        answer=[]
+        n = len(nums) - 1
         
+        if k == 0:
+            for num in nums:
+                answer.append(num)
+            return answer
+        
+        for i in range(len(nums)):
+            if i < k or (n - i) < k:
+                answer.append(-1)
+            # elif i == k:
+            #     curr = prefix[i + k]
+            #     average = curr // ((k * 2) + 1)
+            #     answer.append(average)
+            else:
+                # curr = prefix[i + k] - prefix[i - (k +1)]
+                curr = prefix[i + k] - prefix[i - k] + nums[i -k]
+
+                average = curr // ((k * 2) + 1)
+                answer.append(average)
+            
+        return answer
