@@ -23,7 +23,7 @@ class Solution:
                     newCurr = -1 if newLeading else d
                     subCnt, subSum = dfs(pos + 1, newPrev, newCurr, isLimit and (d == up), newLeading)
 
-                    if not newLeading and prev >= 0 and curr >= 0:
+                    if prev >= 0 and curr >= 0:
                         if (prev < curr and curr > d) or (prev > curr and curr < d):
                             waviness += subCnt
 
