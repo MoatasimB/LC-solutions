@@ -8,25 +8,22 @@
 
 class Solution:
     def copyRandomBinaryTree(self, root: 'Optional[Node]') -> 'Optional[NodeCopy]':
-
-        seen = {None:None}
-
+        if not root: return None
+        copies = {}
         def dfs(node):
             if not node:
-                return
+                return None
             
-            if node in seen:
-                return seen[node]
+            copy = NodeCopy(node.val)
+            copy.left = dfs(node.left)
+            copy.right = dfs(node.right)
+            copies[node] = copy
+            return copy
 
-            new_node = NodeCopy(node.val)
-            seen[node] = new_node
 
-            new_node.left = dfs(node.left)
-            new_node.right = dfs(node.right)
-            new_node.random = dfs(node.random)
 
-            return new_node
-    
-        return dfs(root)
-
-        
+        dfs(root)
+        for node, copy in copies.items():
+            if node.random:
+                copy.random = copies[node.random]
+        return copies[root]
