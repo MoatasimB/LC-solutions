@@ -13,17 +13,15 @@ class Solution:
         def dfs(node):
             if not node:
                 return None
-            
+            if node in copies:
+                return copies[node]
             copy = NodeCopy(node.val)
+            copies[node] = copy
             copy.left = dfs(node.left)
             copy.right = dfs(node.right)
-            copies[node] = copy
+            copy.random = dfs(node.random)
             return copy
 
 
 
-        dfs(root)
-        for node, copy in copies.items():
-            if node.random:
-                copy.random = copies[node.random]
-        return copies[root]
+        return dfs(root)
