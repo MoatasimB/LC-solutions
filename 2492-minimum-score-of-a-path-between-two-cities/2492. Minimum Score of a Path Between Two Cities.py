@@ -6,19 +6,19 @@ class Solution:
         for x,y,dist in roads:
             graph[x].append([y, dist])
             graph[y].append([x, dist])
+        ans = float("inf")
+        seen = set()
+        seen.add(1)
+        def dfs(node):
+            nonlocal ans
+            for nei, w in graph[node]:
+                ans = min(ans, w)
+                if nei not in seen:
+                    seen.add(node)
+                    dfs(nei)
+        dfs(1)
+        return ans
 
-        # ans = float("inf")
-        # seen = set()
-        # path = set()
-        # def dfs(node, pathWeight):
-        #     if node == n:
-        #         nonlocal ans
-        #         ans = min(ans, pathWeight)
-        #     seen.add(node)
-        #     path.add(node)
-        #     for nei, w in graph[node]:
-        #         if nei in 
-            
 
 
         
