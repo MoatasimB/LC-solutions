@@ -8,7 +8,20 @@ class Solution:
             graph[y].append([x, dist])
         ans = float("inf")
         seen = set()
+        q = deque()
+        q.append(1)
         seen.add(1)
+        while q:
+            node = q.popleft()
+
+            for nei, w in graph[node]:
+                ans = min(ans, w)
+                if nei not in seen:
+                    seen.add(nei)
+                    q.append(nei)
+        return ans
+        
+        
         def dfs(node):
             nonlocal ans
             for nei, w in graph[node]:
