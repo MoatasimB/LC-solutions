@@ -18,15 +18,14 @@ class Solution:
                 continue
                 
             if (r, c) == (m - 1, n - 1):
-                return pathCost <= health
+                return pathCost < health
             
             for dx, dy in dirs:
                 nr, nc = r + dx, c + dy
                 if valid(nr, nc):
                     newPath = grid[nr][nc] + pathCost
-                    if newPath < dists[nr][nc] and newPath < health:
+                    if newPath < dists[nr][nc]:
                         dists[nr][nc] = newPath
                         heapq.heappush(minHeap, [newPath, nr, nc])
                     
         
-        return False
