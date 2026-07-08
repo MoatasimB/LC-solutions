@@ -24,7 +24,7 @@ class Solution:
             elif ch == "%":
                 k = _len - k - 1
             elif ch == "#":
-                if k + 1 > (_len + 1) // 2:
+                if k >= (_len + 1) // 2:
                     k -= _len // 2
                 _len = (_len + 1) // 2
             else:
@@ -39,6 +39,11 @@ class Solution:
         # k = 3
 
 
+
         # dcddcd _len = 6
         #    ^
         
+        # _ _ _  _ _ _  len = 6
+        # _ _ _ _  _ _ _ _ len = 8
+
+        # len + 1 // 2
