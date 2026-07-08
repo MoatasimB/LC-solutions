@@ -6,10 +6,8 @@ class Solution:
 
         def dfs(i, j, mpp):
             if i == n and j == m:
-                if len(set(mpp.values())) == len(set(pattern)):
-                    print(set(mpp.values()), set(pattern))
-                    return True
-                return False
+                return len(set(mpp.values())) == len(set(pattern))
+                
             if i == n or j == m:
                 return False
             
