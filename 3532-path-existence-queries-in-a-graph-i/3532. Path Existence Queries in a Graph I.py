@@ -31,16 +31,14 @@ class DSU:
 class Solution:
     def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[bool]:
 
-        idx_nums = [[x, i] for i, x in enumerate(nums)]
 
-        idx_nums.sort()
         dsu = DSU(n)
         for i in range(1, n):
-            prevNum, prevIdx = idx_nums[i - 1]
-            currNum, currIdx = idx_nums[i]
+            prevNum = nums[i - 1]
+            currNum = nums[i]
 
             if abs(prevNum - currNum) <= maxDiff:
-                dsu.union(prevIdx, currIdx)
+                dsu.union(i - 1, i)
         
 
         return [dsu.isConnected(x, y) for x, y in queries]
