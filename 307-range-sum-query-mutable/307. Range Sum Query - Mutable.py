@@ -47,6 +47,12 @@ class SegTree:
         mid = (left_idx + right_idx) // 2
         left_child_idx = node_idx * 2
         right_child_idx = node_idx * 2 + 1
+
+        if range_right <= mid:
+            return self._findRangeQuery(left_child_idx, left_idx, mid, range_left, range_right)
+        elif mid < range_left:
+            return self._findRangeQuery(right_child_idx, mid + 1, right_idx, range_left, range_right)
+
         left = self._findRangeQuery(left_child_idx, left_idx, mid, range_left, range_right)
         right = self._findRangeQuery(right_child_idx, mid + 1, right_idx, range_left, range_right)
         return left + right
