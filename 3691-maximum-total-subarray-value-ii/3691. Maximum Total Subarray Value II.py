@@ -36,10 +36,6 @@ class SegmentTree:
         left_child_idx = node_idx * 2
         right_child_idx = node_idx * 2 + 1
         
-        if rr <= mid:
-            return self.queryMin(left_child_idx, li, mid, lr, rr)
-        elif lr >= mid + 1:
-            return self.queryMin(right_child_idx, mid + 1, ri, lr, rr)
 
         left_query = self.queryMin(left_child_idx, li, mid, lr, rr)
         right_query = self.queryMin(right_child_idx, mid + 1, ri, lr, rr)
@@ -59,10 +55,7 @@ class SegmentTree:
         mid = (li + ri) // 2
         left_child_idx = node_idx * 2
         right_child_idx = node_idx * 2 + 1
-        if rr <= mid:
-            return self.queryMax(left_child_idx, li, mid, lr, rr)
-        elif lr >= mid + 1:
-            return self.queryMax(right_child_idx, mid + 1, ri, lr, rr)
+
         
         left_query = self.queryMax(left_child_idx, li, mid, lr, rr)
         right_query = self.queryMax(right_child_idx, mid + 1, ri, lr, rr)
