@@ -3,26 +3,24 @@ class Solution:
         
         ans = []
         n = len(word)
-        def dfs(i, curr):
-            if i >= n:
+        def dfs(i, curr, count):
+            if i == n:
+                if count > 0:
+                    curr.append(str(count))
+
                 ans.append("".join(curr[:]))
+                if count > 0:
+                    curr.pop()
                 return
             
-            for j in range(i, n):
-                count = j - i + 1
+            dfs(i + 1, curr, count + 1)
+
+            if count > 0:
                 curr.append(str(count))
-                if j + 1 < n:
-                    curr.append(word[j + 1])
-                dfs(j + 2, curr)
-            
-                if j + 1 < n:
-                    curr.pop()
+            curr.append(word[i])
+            dfs(i + 1, curr, 0)
+            curr.pop()
+            if count > 0:
                 curr.pop()
-                
-                
-                curr.append(word[i:j + 1])
-                dfs(j + 1, curr)
-                curr.pop()
-        
-        dfs(0, [])
-        return list(set(ans))
+        dfs(0, [], 0)
+        return ans
