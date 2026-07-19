@@ -1,20 +1,22 @@
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
-        
-        lastOcc = {}
+        last = {}
+
         for i in range(len(s)):
-            lastOcc[s[i]] = i
+            last[s[i]] = i
+
         
         stack = []
         seen = set()
 
         for i in range(len(s)):
             if s[i] not in seen:
-                while stack and stack[-1] > s[i] and i < lastOcc[stack[-1]]:
+
+                while stack and stack[-1] >= s[i] and last[stack[-1]] > i:
                     x = stack.pop()
                     seen.remove(x)
                 
-                seen.add(s[i])
                 stack.append(s[i])
-        
+                seen.add(s[i])
+            print(seen)
         return "".join(stack)
