@@ -1,22 +1,22 @@
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
-        last = {}
-
-        for i in range(len(s)):
-            last[s[i]] = i
-
         
-        stack = []
-        seen = set()
+        mpp = {ch: i for i, ch in enumerate(s)}
+        unique = len(mpp)
+        n = len(s)
 
-        for i in range(len(s)):
-            if s[i] not in seen:
+        ans = []
+        have = set()
 
-                while stack and stack[-1] >= s[i] and last[stack[-1]] > i:
-                    x = stack.pop()
-                    seen.remove(x)
-                
-                stack.append(s[i])
-                seen.add(s[i])
-            print(seen)
-        return "".join(stack)
+        for i, ch in enumerate(s):
+            if ch in have:
+                continue
+            
+            while ans and (ans[-1] > ch and mpp[ans[-1]] > i):
+                have.remove(ans[-1])
+                ans.pop()
+
+            ans.append(ch)
+            have.add(ch)
+        
+        return "".join(ans)
