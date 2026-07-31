@@ -1,12 +1,6 @@
 class Solution:
     def minimumPushes(self, word: str) -> int:
         
-        freq = Counter(word)
 
-        ans = 0
 
-        for i, count in enumerate(sorted(freq.values(), reverse=True)):
-            mult = (i // 8) + 1
-            ans += mult * count
-
-        return ans
+        return sum(((i // 8) + 1) * count for i, count in enumerate(sorted(Counter(word).values(), reverse=True)))
