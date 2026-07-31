@@ -1,19 +1,11 @@
 class Solution:
     def minimumPushes(self, word: str) -> int:
         
-        freq = defaultdict(int)
+        freq = Counter(word)
 
-        for ch in word:
-            freq[ch] += 1
-        
-        sorted_counts = sorted([[val, ch] for ch, val in freq.items()], reverse=True)
-
-        #8 values
         ans = 0
 
-        for i, x in enumerate(sorted_counts):
-            count, ch = x
-
+        for i, count in enumerate(sorted(freq.values(), reverse=True)):
             mult = (i // 8) + 1
             ans += mult * count
 
