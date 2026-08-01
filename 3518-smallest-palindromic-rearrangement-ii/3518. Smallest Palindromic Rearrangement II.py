@@ -15,6 +15,7 @@ class Solution:
             middle = s[n//2]
         ans = []
 
+        # curr * y = limit
         
         def countWays(limit, len_, remaining):
             count = 1
@@ -25,7 +26,7 @@ class Solution:
                 # len choose val
                 
 
-                count *= calculate(len_, val)
+                count *= calculate(len_, val, math.ceil(limit / count))
                 if count >= limit:
                     return limit
                 len_ -= val
@@ -38,13 +39,15 @@ class Solution:
         # 4 choose 2  = 4 * 3 
         #                 2 * 1
 
-        def calculate(n, m):
+        def calculate(n, m, threshold):
             ans = 1
             m = min(m, n - m)
 
             for i in range(1, m + 1):
 
                 ans = ans * (n - i + 1) // (i)
+                if ans > threshold:
+                    return threshold
             
             return ans
 
