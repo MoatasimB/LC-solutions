@@ -1,28 +1,30 @@
 class Solution:
     def stoneGameIII(self, stoneValue: List[int]) -> str:
-        
-        n = len(stoneValue)
         memo = {}
         def dfs(i):
-
-            if i >= n:
+            if i >= len(stoneValue):
                 return 0
+
             if i in memo:
                 return memo[i]
-            curr = float("-inf")
-            stones = 0
-            for j in range(i, min(n, i + 3)):
-                stones += stoneValue[j]
-                curr = max(curr, stones - dfs(j + 1))
             
-            memo[i] = curr
-            return curr
+            #each player can take up to 1-3 stones
+            score = float("-inf")
+            curr = 0
+            for j in range(i, min(i + 3, len(stoneValue))):
+                curr += stoneValue[j]
+                score = max(score, curr - dfs(j + 1))
+                
+            
+            memo[i] = score
+            return score
         
-        ans = dfs(0)
-        print(ans)
-        if ans > 0 :
+        #Alice score;
+        aliceScore = dfs(0)
+        if aliceScore > 0:
             return "Alice"
-        elif ans < 0:
+        elif aliceScore < 0:
             return "Bob"
-        
+
         return "Tie"
+
