@@ -30,7 +30,6 @@ class LRUCache:
         if key in self.mpp:
             node = self.mpp[key]
             self.remove(node)
-            del self.mpp[key]
         
         node = Node(key, value)
         self.add(node)
