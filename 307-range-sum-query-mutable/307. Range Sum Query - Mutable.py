@@ -22,7 +22,7 @@ class SegTree:
         self._update(1, 0, self.n - 1, idx, val)
     def _update(self, node_idx, left_idx, right_idx, idx, val):
         if left_idx == right_idx:
-            self.tree[node_idx] += val
+            self.tree[node_idx] = val
             return
         mid = (left_idx + right_idx) // 2
         left_child_idx = node_idx * 2
@@ -58,15 +58,10 @@ class NumArray:
 
     def __init__(self, nums: List[int]):
         self.SegTree = SegTree(nums)
-        self.nums = nums
         
 
     def update(self, index: int, val: int) -> None:
-        curr = self.nums[index]
-        diff = val - curr
-        self.nums[index] = val
-        self.SegTree.update(index, diff)
-
+        self.SegTree.update(index, val)
         
 
     def sumRange(self, left: int, right: int) -> int:
