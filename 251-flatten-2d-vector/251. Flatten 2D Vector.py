@@ -8,25 +8,18 @@ class Vector2D:
 
     def next(self) -> int:
         self.update()
-        while self.row < self.n and len(self.vec[self.row]) == 0:
-            self.row += 1
-            self.idx = 0
         val = self.vec[self.row][self.idx]
         self.idx += 1
-        self.update()
         return val
 
         
     def update(self):
-        curr_row_len = len(self.vec[self.row])
-        if self.idx == curr_row_len:
-            self.idx = 0
+        while self.row < self.n and (len(self.vec[self.row]) == 0 or self.idx == len(self.vec[self.row])):
             self.row += 1
+            self.idx = 0
     
     def hasNext(self) -> bool:       
-        while self.row < self.n and len(self.vec[self.row]) == 0:
-            self.row += 1
-            self.idx = 0
+        self.update()
 
         return self.row < self.n
         
