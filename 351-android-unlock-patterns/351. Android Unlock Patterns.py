@@ -22,7 +22,7 @@ class Solution:
             if m <= count <= n:
                 ans += 1
             
-            for neighbor in [1,2,3,4,5,6,7,8,9]:
+            for neighbor in range(1, 10):
                 if node == neighbor or neighbor in seen:
                     continue
                 if neighbor not in mpp[node] or ((node + neighbor) // 2) in seen:
