@@ -1,31 +1,29 @@
 class ValidWordAbbr:
 
     def __init__(self, dictionary: List[str]):
-        self.words = set(dictionary)
-        self.mpp = defaultdict(set)
+        self.mpp = defaultdict(set) #key : set
         for word in dictionary:
-            abbrev = self.makeAbbrev(word)
-            self.mpp[abbrev].add(word)
-        print(self.words)
-    def isUnique(self, word: str) -> bool:
-        wordAbbrev = self.makeAbbrev(word)
-        if wordAbbrev not in self.mpp:
-            return True
-        if wordAbbrev in self.mpp:
-            if len(self.mpp[wordAbbrev]) > 1 or word not in self.mpp[wordAbbrev]:
-                return False
-            return True
-        
+            key = self.makeKey(word)
+            self.mpp[key].add(word)
 
-        # return self.makeAbbrev(word) not in self.abbreviations or word in self.words
-    def makeAbbrev(self, word):
-        if len(word) == 2:
+    def makeKey(self, word):
+        word_len = len(word)
+        if word_len == 2:
             return word
+        else:
+            return word[0] + str(word_len - 2) + word[word_len - 1]
+
+    def isUnique(self, word: str) -> bool:
+        key = self.makeKey(word)
+        if key not in self.mpp:
+            return True
         
-        middle = len(word) - 2
-
-        return word[0] + str(middle) + word[-1]
-
+        if word in self.mpp[key] and len(self.mpp[key]) == 1:
+            return True
+        
+        return False
+        
+        
 
 
 # Your ValidWordAbbr object will be instantiated and called as such:
