@@ -39,12 +39,12 @@ class Codec:
         def dfs():
             nonlocal i
             if lst[i] == "N":
-                i += 1
                 return None
             
             node = TreeNode(int(lst[i]))
             i += 1
             node.left = dfs()
+            i += 1
             node.right = dfs()
             return node
 
