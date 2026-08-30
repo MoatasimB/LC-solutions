@@ -5,78 +5,78 @@ class SegTree:
         self.tree = [0] * (4 * self.n)
         self.buildTree(1, 0, self.n - 1)
     
-    def getChildren(self, nodeIdx, l, r):
-        mid = (l + r) // 2
-        leftChild = nodeIdx * 2
-        rightChild = nodeIdx * 2 + 1
-        return [leftChild, rightChild, mid]
-
-    def buildTree(self, nodeIdx, l, r):
-        if l == r:
-            self.tree[nodeIdx] = self.arr[l]
-            return self.tree[nodeIdx]
-        
-        leftChild, rightChild, mid = self.getChildren(nodeIdx, l, r)
-
-        left = self.buildTree(leftChild, l, mid)
-        right = self.buildTree(rightChild, mid + 1, r)
-
-        self.tree[nodeIdx] = left + right
-        return self.tree[nodeIdx]
-    
-    def update(self, idx, val):
-        return self._update(1, 0, self.n - 1, idx, val)
-    
-    def _update(self, nodeIdx, l, r, idx, val):
-        if l == r:
-            self.tree[nodeIdx] = val
+    def buildTree(self, node_idx, left_idx, right_idx):
+        if left_idx == right_idx:
+            self.tree[node_idx] = self.arr[left_idx]
             return
         
-        leftChild, rightChild, mid = self.getChildren(nodeIdx, l, r)
+        mid = (left_idx + right_idx) // 2
+        left_child_idx = node_idx * 2
+        right_child_idx = node_idx * 2 + 1
+        self.buildTree(left_child_idx, left_idx, mid)
+        self.buildTree(right_child_idx, mid + 1, right_idx)
 
+        self.tree[node_idx] = self.tree[left_child_idx] + self.tree[right_child_idx]
+    
+    def update(self, idx, val):
+        self._update(1, 0, self.n - 1, idx, val)
+    def _update(self, node_idx, left_idx, right_idx, idx, val):
+        if left_idx == right_idx:
+            self.tree[node_idx] += val
+            return
+        mid = (left_idx + right_idx) // 2
+        left_child_idx = node_idx * 2
+        right_child_idx = node_idx * 2 + 1
         if idx <= mid:
-            self._update(leftChild, l, mid, idx, val)
+            self._update(left_child_idx, left_idx, mid, idx, val)
         else:
-            self._update(rightChild, mid + 1, r, idx, val)
+            self._update(right_child_idx, mid + 1, right_idx, idx, val)
         
-        left = self.tree[leftChild]
-        right = self.tree[rightChild]
-
-        self.tree[nodeIdx] = left + right
+        self.tree[node_idx] = self.tree[left_child_idx] + self.tree[right_child_idx]
     
-    def query(self, l, r):
-        return self._query(1, 0, self.n - 1, l, r)
+    def rangeQuery(self, left, right):
+        return self._findRangeQuery(1, 0, self.n - 1, left, right)
     
-    def _query(self, nodeIdx, l, r, ql, qr):
-
-        if qr < l or ql > r:
+    def _findRangeQuery(self, node_idx, left_idx, right_idx, range_left, range_right):
+        if range_right < left_idx or range_left > right_idx:
             return 0
         
-        if ql <= l <= r <= qr:
-            return self.tree[nodeIdx]
+        if range_left <= left_idx <= right_idx <= range_right:
+            return self.tree[node_idx]
         
-        leftChild, rightChild, mid = self.getChildren(nodeIdx, l, r)
+        mid = (left_idx + right_idx) // 2
+        left_child_idx = node_idx * 2
+        right_child_idx = node_idx * 2 + 1
 
-        return self._query(leftChild, l, mid, ql, qr) + self._query(rightChild, mid + 1, r, ql, qr)
+        if range_right <= mid:
+            return self._findRangeQuery(left_child_idx, left_idx, mid, range_left, range_right)
+        elif mid < range_left:
+            return self._findRangeQuery(right_child_idx, mid + 1, right_idx, range_left, range_right)
 
-
-
+        left = self._findRangeQuery(left_child_idx, left_idx, mid, range_left, range_right)
+        right = self._findRangeQuery(right_child_idx, mid + 1, right_idx, range_left, range_right)
+        return left + right
+    
 
 
 
 class NumArray:
 
     def __init__(self, nums: List[int]):
-        self.segTree = SegTree(nums)
+        self.SegTree = SegTree(nums)
+        self.nums = nums
         
 
     def update(self, index: int, val: int) -> None:
-        self.segTree.update(index, val)
+        curr = self.nums[index]
+        diff = val - curr
+        self.nums[index] = val
+        self.SegTree.update(index, diff)
+
         
 
     def sumRange(self, left: int, right: int) -> int:
-        return self.segTree.query(left, right)
-        
+        return self.SegTree.rangeQuery(left, right)
 
 
 # Your NumArray object will be instantiated and called as such:
