@@ -28,11 +28,12 @@ class Solution:
             r, c, curr_energy, curr_dist, mask = q.popleft()
             if mask == final:
                 return curr_dist
-            if curr_energy == 0:
-                continue
+            
             for dx, dy in dirs:
                 nr, nc = r + dx, c + dy
                 if valid(nr, nc) and classroom[nr][nc] != "X":
+                    if curr_energy == 0:
+                        continue
                     new_dist = curr_dist + 1
                     new_energy = curr_energy - 1
                     new_mask = mask
@@ -43,7 +44,7 @@ class Solution:
                         new_mask = mask | (1 << power)
                     
                     
-                  
+                    
                     
                     # print(best[(nr, nc, new_mask)], nr, nc, new_mask, new_energy)
                     if best[(nr, nc, new_mask)] < new_energy:
