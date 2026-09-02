@@ -2,28 +2,79 @@ class TicTacToe:
 
     def __init__(self, n: int):
         self.n = n
-        self.rows = [0] * n
-        self.cols = [0] * n
-        self.diagonal = 0
-        self.anti_diagonal = 0
+        self.o_set = set()
+        self.x_set = set()
 
     def move(self, row: int, col: int, player: int) -> int:
-        p = 1 if player == 1 else -1
-
-        self.rows[row] += p
-        self.cols[col] += p
-        if row == col:
-            self.diagonal += p
-        if abs(row + col) == self.n - 1:
-            self.anti_diagonal += p
+        player_set = self.x_set if player == 1 else self.o_set
+        player_set.add((row, col))
+        return self.check(row, col, player)
         
-        if abs(self.rows[row]) == self.n or abs(self.cols[col]) == self.n or abs(self.diagonal) == self.n or abs(self.anti_diagonal) == self.n:
-            return 1 if p == 1 else 2
+
+        
+    
+    def check(self, row, col, player):
+        player_set = self.x_set if player == 1 else self.o_set
+        player_num = player
+        #check neg diagonal
+        x, y = row - 1, col - 1
+        count = 1
+        while (x, y) in player_set:
+            x -= 1
+            y -= 1
+            count += 1
+        x, y = row + 1, col + 1
+        while (x, y) in player_set:
+            x += 1
+            y += 1
+            count += 1
+        if count == self.n:
+            return player_num
+
+        #check pos diagonal
+
+        x, y = row - 1, col + 1
+        count = 1
+        while (x, y) in player_set:
+            x -= 1
+            y += 1
+            count += 1
+        x, y = row + 1, col - 1
+        while (x, y) in player_set:
+            x += 1
+            y -= 1
+            count += 1
+        if count == self.n:
+            return player_num
+        #check horizontal
+        x, y = row, col - 1
+
+        count = 1
+        while (x, y) in player_set:
+            y -= 1
+            count += 1
+        x, y = row, col + 1
+        while (x, y) in player_set:
+            y += 1
+            count += 1
+        if count == self.n:
+            return player_num
+
+
+        #check vertical
+        x, y = row - 1, col
+        count = 1
+        while (x, y) in player_set:
+            x -= 1
+            count += 1
+        x, y = row + 1, col
+        while (x, y) in player_set:
+            x += 1
+            count += 1
+        if count == self.n:
+            return player_num
         
         return 0
-
-        
-
 
 # Your TicTacToe object will be instantiated and called as such:
 # obj = TicTacToe(n)
