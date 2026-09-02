@@ -17,64 +17,46 @@ class TicTacToe:
         player_set = self.x_set if player == 1 else self.o_set
         player_num = player
         #check neg diagonal
-        x, y = row - 1, col - 1
         count = 1
-        while (x, y) in player_set:
-            x -= 1
-            y -= 1
-            count += 1
-        x, y = row + 1, col + 1
-        while (x, y) in player_set:
-            x += 1
-            y += 1
-            count += 1
+        count += self.checkDelta(row, col, 1, 1, player_set)
+        count += self.checkDelta(row, col, -1, -1, player_set)
         if count == self.n:
             return player_num
 
         #check pos diagonal
-
-        x, y = row - 1, col + 1
         count = 1
-        while (x, y) in player_set:
-            x -= 1
-            y += 1
-            count += 1
-        x, y = row + 1, col - 1
-        while (x, y) in player_set:
-            x += 1
-            y -= 1
-            count += 1
+        count += self.checkDelta(row, col, -1, 1, player_set)
+        count += self.checkDelta(row, col, 1, -1, player_set)
         if count == self.n:
             return player_num
-        #check horizontal
-        x, y = row, col - 1
 
+        
+        
+        #check horizontal
         count = 1
-        while (x, y) in player_set:
-            y -= 1
-            count += 1
-        x, y = row, col + 1
-        while (x, y) in player_set:
-            y += 1
-            count += 1
+        count += self.checkDelta(row, col, 0, -1, player_set)
+        count += self.checkDelta(row, col, 0, 1, player_set)
         if count == self.n:
             return player_num
 
 
         #check vertical
-        x, y = row - 1, col
         count = 1
-        while (x, y) in player_set:
-            x -= 1
-            count += 1
-        x, y = row + 1, col
-        while (x, y) in player_set:
-            x += 1
-            count += 1
+        count += self.checkDelta(row, col, 1, 0, player_set)
+        count += self.checkDelta(row, col, -1, 0, player_set)
         if count == self.n:
             return player_num
         
         return 0
+    
+    def checkDelta(self, row, col, dx, dy, player_set):
+        x, y = row + dx, col + dy
+        count = 0
+        while (x, y) in player_set:
+            x += dx
+            y += dy
+            count += 1
+        return count
 
 # Your TicTacToe object will be instantiated and called as such:
 # obj = TicTacToe(n)
