@@ -5,8 +5,8 @@ class SnakeGame:
         self.height = height
         self.food_ptr = 0
         self.food = food
-        self.snake_head = [0, 0]
-        self.snake_body = deque() # head <------- tail
+        self.positions = set([(0,0)])
+        self.snake_body = deque([[0, 0]]) # head <------- tail
         self.dirs = {"U" : (-1,0), "D": (1,0), "L": (0, -1), "R":(0,1)}
         self.score = 0
     def valid(self, r, c):
@@ -14,12 +14,13 @@ class SnakeGame:
 
     def move(self, direction: str) -> int:
         food_pos = self.food[self.food_ptr] if self.food_ptr < len(self.food) else None
-        curr_pos = self.snake_head
+        curr_pos = self.snake_body[0]
         dx, dy = self.dirs[direction]
         nr, nc = curr_pos[0] + dx, curr_pos[1] + dy
         if not self.valid(nr, nc):
             return -1
-        self.snake_body.appendleft([curr_pos[0], curr_pos[1]])
+        self.snake_body.appendleft([nr, nc])
+        self.positions.add((curr_pos[0], curr_pos[1]))
 
         if food_pos == [nr, nc]:
             self.score += 1
@@ -27,12 +28,13 @@ class SnakeGame:
 
         else:
             if self.snake_body:
-                self.snake_body.pop()
+                r, c = self.snake_body.pop()
+                self.positions.remove((r, c))
         
 
-        if [nr, nc] in self.snake_body:
+        if (nr, nc) in self.positions:
             return -1
-        self.snake_head = [nr, nc]
+        
         return self.score
 
         
