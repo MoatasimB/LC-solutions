@@ -1,25 +1,24 @@
 class PhoneDirectory:
 
     def __init__(self, maxNumbers: int):
-        self.free = [i for i in range(maxNumbers)]
-        self.used = [False] * maxNumbers
+        self.used = set()
+        self.numbers = [i for i in range(maxNumbers)]
 
     def get(self) -> int:
-        if len(self.free) == 0:
-            return -1
-        x = self.free.pop()
-        self.used[x] = True
-        return x
+        num = -1
+        if self.numbers:
+            num = self.numbers.pop()
+            self.used.add(num)
+        return num
 
     def check(self, number: int) -> bool:
-        return not self.used[number]
+        return number not in self.used
         
 
     def release(self, number: int) -> None:
-        if self.used[number]:
-            self.used[number] = False
-            self.free.append(number)
-        
+        if number in self.used:
+            self.used.remove(number)
+            self.numbers.append(number)
 
 
 # Your PhoneDirectory object will be instantiated and called as such:
