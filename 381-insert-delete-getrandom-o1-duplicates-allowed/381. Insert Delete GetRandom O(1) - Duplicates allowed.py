@@ -1,33 +1,34 @@
-
 class RandomizedCollection:
 
     def __init__(self):
-        self.indices = defaultdict(set)
+        self.mpp = defaultdict(set) #val = [set]
         self.lst = []
         
 
     def insert(self, val: int) -> bool:
-        self.indices[val].add(len(self.lst))
+        is_not_in = True
+        if val in self.mpp and len(self.mpp[val]) != 0:
+            is_not_in = False
+        idx = len(self.lst)
+        self.mpp[val].add(idx)
         self.lst.append(val)
-        return len(self.indices[val]) == 1
+        return is_not_in
 
-        
-
+    # [1, 3, 2, 3, 3]
     def remove(self, val: int) -> bool:
-        if not self.indices[val]:
+        if val not in self.mpp or len(self.mpp[val]) == 0:
             return False
-        idx_to_remove = self.indices[val].pop()
- 
-        last_val = self.lst[-1]
-        last_idx = len(self.lst) - 1
-        self.indices[last_val].add(idx_to_remove)
-        self.indices[last_val].remove(last_idx)
+        last_elem = self.lst[-1]
+        remove_idx = self.mpp[val].pop()
 
-        self.lst[idx_to_remove], self.lst[last_idx] = self.lst[last_idx], self.lst[idx_to_remove]
+        self.mpp[last_elem].add(remove_idx)
+        self.mpp[last_elem].remove(len(self.lst) - 1)
 
+        self.lst[remove_idx] = last_elem
         self.lst.pop()
 
         return True
+
         
 
     def getRandom(self) -> int:
