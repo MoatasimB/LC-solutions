@@ -3,33 +3,35 @@ class RandomizedSet:
     def __init__(self):
         self.mpp = {} #val : idx
         self.lst = []
-
+        
 
     def insert(self, val: int) -> bool:
         if val in self.mpp:
             return False
-        self.mpp[val] = len(self.lst)
+        idx = len(self.lst)
+        self.mpp[val] = idx
         self.lst.append(val)
-        
         return True
+        
 
     def remove(self, val: int) -> bool:
         if val not in self.mpp:
             return False
-        idx_to_remove = self.mpp[val]
-        n = len(self.lst)
-        last_idx = n - 1
-        last_val = self.lst[last_idx]
+        
+        last_element = self.lst[-1]
 
-        self.lst[idx_to_remove] = self.lst[last_idx]
-        self.mpp[last_val] = idx_to_remove
-
-        self.lst.pop()
+        remove_element_idx = self.mpp[val]
+        self.lst[remove_element_idx] = last_element
+        self.mpp[last_element] = remove_element_idx
         del self.mpp[val]
+        self.lst.pop()
         return True
 
+        
+
     def getRandom(self) -> int:
-        return random.choice(self.lst)
+        idx = random.randint(0, len(self.lst) - 1)
+        return self.lst[idx]
         
 
 
