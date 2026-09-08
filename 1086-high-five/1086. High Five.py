@@ -1,16 +1,23 @@
 class Solution:
     def highFive(self, items: List[List[int]]) -> List[List[int]]:
         
-        students = defaultdict(list)
+
+        table = defaultdict(list)
 
         for student, score in items:
-            heapq.heappush(students[student], score)
-            if len(students[student]) > 5:
-                heapq.heappop(students[student])
-        
+            table[student].append(score)
+
         ans = []
-        for student, scores in students.items():
-            ans.append([student, sum(scores) // 5])
+        for key, val in table.items():
+            val.sort(reverse=True)
+            print(val)
+
+            s = 0
+            for x in range(5):
+                s += val[x]
+            avg = s//5
+            ans.append([key, avg])
         
-        ans.sort()
+        
+        ans.sort(key=lambda x: x[0])
         return ans
