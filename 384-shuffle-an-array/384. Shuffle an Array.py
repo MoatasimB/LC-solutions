@@ -1,27 +1,23 @@
 class Solution:
 
     def __init__(self, nums: List[int]):
-        self.og = nums
         self.curr = nums
+        self.original = nums.copy()
         
 
     def reset(self) -> List[int]:
-        self.curr = self.og
+        self.curr = self.original.copy()
         return self.curr
+        
 
     def shuffle(self) -> List[int]:
-        seen = set()
-        ans = []
-        while len(ans) != len(self.og):
-            idx = random.randint(0,len(self.og)-1)
-            while idx in seen:
-                idx = random.randint(0,len(self.og)-1)
-            
-            ans.append(self.og[idx])
-            seen.add(idx)
-
-        return ans
-
+        
+        for i in range(len(self.curr)):
+            idx = random.randint(i, len(self.curr) - 1)
+            self.curr[i], self.curr[idx] = self.curr[idx], self.curr[i]
+        
+        return self.curr
+        
 
 
 # Your Solution object will be instantiated and called as such:
