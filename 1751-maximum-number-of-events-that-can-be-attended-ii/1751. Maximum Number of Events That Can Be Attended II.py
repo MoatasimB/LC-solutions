@@ -22,7 +22,7 @@ class Solution:
 
         memo = {}
         def dfs(i, count):
-            if i >= n or count >= k:
+            if i >= n or count == 0:
                 return 0
             if (i, count) in memo:
                 return memo[(i, count)]
@@ -34,7 +34,7 @@ class Solution:
             # n_idx = i + 1
             # while n_idx < n and intervals[n_idx][0] <= r:
             #     n_idx += 1
-            pick = w + dfs(n_idx, count + 1)
+            pick = w + dfs(n_idx, count - 1)
 
             #skip
             skip = dfs(i + 1, count)
@@ -42,4 +42,4 @@ class Solution:
             memo[(i, count)] = score
             return score
         
-        return dfs(0, 0)
+        return dfs(0, k)
