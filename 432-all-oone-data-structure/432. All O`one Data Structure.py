@@ -1,138 +1,102 @@
 class Node:
-    def __init__(self, count): #contains all the strings with count = val
-        self.count = count
-        self.strings = set()
+    def __init__(self, level):
         self.next = None
         self.prev = None
-
+        self.keys = set()
+        self.level = level
 
 class AllOne:
 
     def __init__(self):
-        #create head -> min ..... max -> tail
         self.head = Node(-1)
         self.tail = Node(-1)
         self.head.next = self.tail
         self.tail.prev = self.head
-
-        self.nodeGroups = {} #key : node it is in
-
-        self.stringCounts = defaultdict(int) #key : count
+        self.strings = {} #key : node it currently is in
         
 
     def inc(self, key: str) -> None:
-        if key not in self.nodeGroups:
-            
-            #check if we dont have a 1 group
-            if self.head.next.count != 1:
-                #then create a 1 group
+        if key not in self.strings:
+            if self.head.next.level != 1:
                 self.addNewGroup(self.head, 1)
-
-            #add string to a 1 group
-            group1 = self.head.next
-            group1.strings.add(key)
-            # stringCounts[key] += 1
-            self.nodeGroups[key] = group1
-
+            firstLevel = self.head.next
+            firstLevel.keys.add(key)
+            self.strings[key] = firstLevel 
         else:
-            currentGroup = self.nodeGroups[key]
+            currGroup = self.strings[key]
+            newLevel = currGroup.level + 1
+            currGroup.keys.remove(key)
 
-            #check if the next doesnt group exists and then add if the case
-            if currentGroup.next.count != currentGroup.count + 1:
-                self.addNewGroup(currentGroup, currentGroup.count + 1)
-            
-            #now add this string to this new group and remove from old
-            currentGroup.strings.remove(key)
-            
-            newGroup = currentGroup.next
-            newGroup.strings.add(key)
-            # stringCounts[key] += 1
-            self.nodeGroups[key] = newGroup
+            if currGroup.next.level != newLevel:
+                self.addNewGroup(currGroup, newLevel)
+            newGroup = currGroup.next
 
-            #We also want to see if the oldGroup is empty now, if it is we remove it
-            if len(currentGroup.strings) == 0:
-                self.removeGroup(currentGroup)
+            if len(currGroup.keys) == 0:
+                self.removeNode(currGroup)
+
+            newGroup.keys.add(key)
+            self.strings[key] = newGroup
+            
+
+
+        
 
     def dec(self, key: str) -> None:
-        currentGroup = self.nodeGroups[key]
-
-        # if it is in group1 we just remove it from dic and ll
-        if currentGroup.count == 1:
-            #remove from dic
-            del self.nodeGroups[key]
-            #remove from ll
-            currentGroup.strings.remove(key)
-
-            #if we have nothing in this group we remove it
-            if len(currentGroup.strings) == 0:
-                self.removeGroup(currentGroup)
-        
-        else:
-        #if it is another random group check if previous one exists
-            if currentGroup.count != currentGroup.prev.count + 1:
-                self.addPrevGroup(currentGroup, currentGroup.count - 1)
+        currGroup = self.strings[key]
+        newLevel = currGroup.level - 1
+        currGroup.keys.remove(key)
+        if newLevel == 0:
+            del self.strings[key]
             
-            currentGroup.strings.remove(key)
-            newGroup = currentGroup.prev
-
-            newGroup.strings.add(key)
-
-            self.nodeGroups[key] = newGroup
-            if len(currentGroup.strings) == 0:
-                self.removeGroup(currentGroup)
-
-
+        else: 
+            if currGroup.prev.level != newLevel:
+                self.addNodePrev(currGroup, newLevel)
+            newGroup = currGroup.prev
+            self.strings[key] = newGroup
+            newGroup.keys.add(key)
         
+        if len(currGroup.keys) == 0:
+                self.removeNode(currGroup)
+    
 
     def getMaxKey(self) -> str:
         if self.tail.prev == self.head:
             return ""
-
-        for s in self.tail.prev.strings:
-            return s
-        
+        maxNode = self.tail.prev
+        for key in maxNode.keys:
+            return key
 
     def getMinKey(self) -> str:
         if self.head.next == self.tail:
             return ""
-        for s in self.head.next.strings:
-            return s
-    
+        minNode = self.head.next
+        for key in minNode.keys:
+            return key
     def addNewGroup(self, prevNode, val):
-        #Adds a new group
-        node = Node(val)
-
         nextNode = prevNode.next
-        prevNode.next = node
-        nextNode.prev = node
-
-        node.next = nextNode
-        node.prev = prevNode
-    
-    def addPrevGroup(self, nextNode, val):
         node = Node(val)
-
-        prevNode = nextNode.prev
-
+        
         prevNode.next = node
-        nextNode.prev = node
-
         node.prev = prevNode
+
         node.next = nextNode
-
-
+        nextNode.prev = node
     
-    def removeGroup(self, group):
+    def removeNode(self, node):
+        prevNode = node.prev
+        nextNode = node.next
 
-        prevNode = group.prev
-        nextNode = group.next
         prevNode.next = nextNode
         nextNode.prev = prevNode
-    
 
-    
+    def addNodePrev(self, nextNode, val):
+        prevNode = nextNode.prev
+        node = Node(val)
+        prevNode.next = node
+        node.prev = prevNode
 
-        
+        node.next = nextNode
+        nextNode.prev = node
 
 
 # Your AllOne object will be instantiated and called as such:
