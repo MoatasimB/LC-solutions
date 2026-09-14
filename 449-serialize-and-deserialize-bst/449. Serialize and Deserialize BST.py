@@ -11,34 +11,38 @@ class Codec:
         """Encodes a tree to a single string.
         """
         ans = []
+        if not root:
+            return ""
 
         def dfs(root):
             if not root:
-                ans.append("N#")
+                ans.append("N")
                 return
-            ans.append(str(root.val) + "#")
             dfs(root.left)
             dfs(root.right)
+            ans.append(str(root.val))
+
         
         dfs(root)
-        return "".join(ans)
+        return "#".join(ans)
 
     def deserialize(self, data: str) -> Optional[TreeNode]:
         """Decodes your encoded data to tree.
         """
-        i = 0
+        if not data:
+            return None
         data = data.split("#")
         print(data)
         def dfs():
-            nonlocal i
-            if data[i] == "N":
+            if not data[-1]:
+                return None
+            if data and data[-1] == "N":
+                data.pop()
                 return None
 
-            node = TreeNode(data[i])
-            i += 1
-            node.left = dfs()
-            i += 1
+            node = TreeNode(int(data.pop()))
             node.right = dfs()
+            node.left = dfs()
             return node
         
         return dfs()
@@ -51,3 +55,9 @@ class Codec:
 # tree = ser.serialize(root)
 # ans = deser.deserialize(tree)
 # return ans
+
+# .........2
+# .....1......3
+
+# N N 1 N N 3 2
+
