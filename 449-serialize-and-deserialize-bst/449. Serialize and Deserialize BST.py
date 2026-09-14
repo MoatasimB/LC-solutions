@@ -34,8 +34,7 @@ class Codec:
         data = data.split("#")
         print(data)
         def dfs():
-            if not data[-1]:
-                return None
+
             if data and data[-1] == "N":
                 data.pop()
                 return None
