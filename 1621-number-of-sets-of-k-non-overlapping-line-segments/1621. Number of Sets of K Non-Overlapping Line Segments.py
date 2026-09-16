@@ -1,10 +1,25 @@
 class Solution:
     def numberOfSets(self, n: int, k: int) -> int:
         
-        dp = [[[0] * 2 for _ in range(k)] for _ in range(n)]
-        for i in range(n):
+        dp = [[[0] * 2 for _ in range(k + 1)] for _ in range(n + 1)]
+        for i in range(n + 1):
             for m in range(2):
                 dp[i][0][m] = 1
+        
+        for i in range(n - 1, -1, -1):
+            for j in range(1, k + 1):
+                for p in range(2):
+                    ans = 0
+                    ans += dp[i + 1][j][1]
+                    #if we have a starting point
+                    if p:
+                        #or we can decide to end it and go to the next state
+                        ans += dp[i][j - 1][0]
+                    if not p:
+                        #we can continue to skip
+                        ans += dp[i + 1][j][0]
+                    dp[i][j][p] = ans % (10**9 + 7)
+        return dp[0][k][0] % (10**9 + 7)
         
         memo = {}
         def dfs(i, count, placed):
