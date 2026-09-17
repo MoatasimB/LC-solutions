@@ -47,14 +47,7 @@ class LFUCache:
         self.min = 0
         self.nodes = {} #key : node
         
-        
-
-    def get(self, key: int) -> int:
-        if key not in self.nodes:
-            return -1
-        node = self.nodes[key]
-        val = node.val
-
+    def updateNode(self, node):
         #increment this nodes freq counter
         currLevel = node.useCount
         nextLevel = node.useCount + 1
@@ -69,6 +62,14 @@ class LFUCache:
 
         self.levels[nextLevel].addNode(node)
 
+    def get(self, key: int) -> int:
+        if key not in self.nodes:
+            return -1
+        node = self.nodes[key]
+        val = node.val
+
+        self.updateNode(node)
+
         return val
         
 
@@ -78,19 +79,7 @@ class LFUCache:
             node = self.nodes[key]
             node.val = value
 
-            #move to the next level
-            currLevel = node.useCount
-            nextLevel = node.useCount + 1
-            node.useCount += 1
-
-            currLRU = self.levels[currLevel]
-            currLRU.removeNode(node)
-
-            if currLRU.isEmpty():
-                if self.min == currLevel:
-                    self.min += 1
-
-            self.levels[nextLevel].addNode(node)
+            self.updateNode(node)
         else:
             if len(self.nodes) == self.cap:
                 minLevel = self.levels[self.min]
