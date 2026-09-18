@@ -27,22 +27,21 @@ class Solution:
             substrings.append((begin, end, end - begin + 1))
         
         substrings.append((0, n - 1, n))
-        # substrings = list(substrings)
         substrings.sort(key=lambda x:(x[1], x[2]))
         ans = []
-        
+        prevStart = -1
+        prevEnd = -1
         for start, end, length in substrings:
             if not ans:
-                ans.append([start, end])
+                ans.append(s[start: end + 1])
+                prevStart = start
+                prevEnd = end
             else:
-                prevS, prevE = ans[-1]
-                if start <= prevE:
+                if start <= prevEnd:
                     continue
-                ans.append([start, end])
+                ans.append(s[start: end + 1])
+                prevStart = start
+                prevEnd = end
 
         
-        final = []
-        for start, end in ans:
-            final.append(s[start: end + 1])
-        
-        return final
+        return ans
