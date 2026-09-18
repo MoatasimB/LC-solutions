@@ -2,7 +2,7 @@ class Solution:
     def maxNumOfSubstrings(self, s: str) -> list[str]:
         
 
-        substrings = set()
+        substrings = []
         n = len(s)
         first = {}
         for i, ch in enumerate(s):
@@ -24,10 +24,10 @@ class Solution:
                     continue
 
                 idx += 1
-            substrings.add((begin, end, end - begin + 1))
+            substrings.append((begin, end, end - begin + 1))
         
-        substrings.add((0, n - 1, n))
-        substrings = list(substrings)
+        substrings.append((0, n - 1, n))
+        # substrings = list(substrings)
         substrings.sort(key=lambda x:(x[1], x[2]))
         ans = []
         
