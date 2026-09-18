@@ -1,34 +1,28 @@
 class Codec:
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    mpp = {}
-    def createKey(self):
-        key = ""
-        for i in range(6):
-            key += self.chars[random.randint(0, 61)]
-        return key
 
+    s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    mpp = {}
+    def getKey(self):
+        key = []
+        for i in range(6):
+            key.append(self.s[random.randint(0, len(self.s) - 1)])
+        
+        return "".join(key)
     def encode(self, longUrl: str) -> str:
         """Encodes a URL to a shortened URL.
         """
-        key = self.createKey()
+        key = self.getKey()
         while key in self.mpp:
-            key = self.createKey()
+            key = self.getKey()
         
         self.mpp[key] = longUrl
-
         return "http://tinyurl.com/" + key
-
-
-
-
-        
 
     def decode(self, shortUrl: str) -> str:
         """Decodes a shortened URL to its original URL.
         """
-        lst = shortUrl.split("http://tinyurl.com/")
-        return self.mpp[lst[1]]
-        
+        string = shortUrl.split("http://tinyurl.com/")
+        return self.mpp[string[1]]
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
