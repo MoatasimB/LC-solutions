@@ -27,7 +27,7 @@ class Solution:
             substrings.append((begin, end, end - begin + 1))
         
         substrings.append((0, n - 1, n))
-        substrings.sort(key=lambda x:(x[1], x[2]))
+        substrings.sort(key=lambda x:(x[1]))
         ans = []
         prevStart = -1
         prevEnd = -1
