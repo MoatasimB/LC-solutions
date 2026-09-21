@@ -1,69 +1,91 @@
 class Node:
-    def __init__(self, name):
-        self.children = {}
-        self.isFile = False
-        self.subDir = SortedList()
-        self.contents = []
-        self.name = name
+    def __init__(self, val):
+        self.val = val
+        self.children = {} #all the sub directories/files : node obj of their rep
+        self.file = False
+        self.fileContent = []
 
 class FileSystem:
 
     def __init__(self):
-        self.root = Node("/")
+        self.head = Node("/")
         
 
-    def ls(self, path: str) -> list[str]:
-        curr = self.root
-        
+    def ls(self, path: str) -> List[str]:
+        curr = self.head
+
         path = path.split("/")
-        for x in path:
-            if x:
-                curr = curr.children[x]
         
-        if curr.isFile:
-            return [curr.name]
-        else:
-            return list(curr.subDir)
+        for d in path:
+            if d == "":
+                continue
+            
+            curr = curr.children[d]
+        
+        if curr.file:
+            return [curr.val]
+        
+        ans = []
+        print(curr.children)
+        for child in curr.children:
+            ans.append(child)
+        
+        return sorted(ans)
 
         
 
     def mkdir(self, path: str) -> None:
-        curr = self.root
         
+        curr = self.head
+
         path = path.split("/")
-        # print(path)
-        for x in path:
-            if x:
-                if x not in curr.children:
-                    curr.children[x] = Node(x)
-                    curr.subDir.add(x)
-                curr = curr.children[x]
+
+        for d in path:
+            if d == "":
+                continue
+            
+            if d not in curr.children:
+                curr.children[d] = Node(d)
+            
+            curr = curr.children[d]
+
+
+        
 
     def addContentToFile(self, filePath: str, content: str) -> None:
-        curr = self.root
-        
-        path = filePath.split("/")
-        
-        for x in path:
-            if x:
-                if x not in curr.children:
-                    curr.children[x] = Node(x)
-                    curr.subDir.add(x)
-                curr = curr.children[x]
+        curr = self.head
 
-        curr.isFile = True
-        curr.contents.append(content)
+        path = filePath.split("/")
+
+        for d in path:
+            if d == "":
+                continue
+            
+            if d not in curr.children:
+                curr.children[d] = Node(d)
+            
+            curr = curr.children[d]
+        
+        curr.file = True
+        curr.fileContent.append(content)
+        
 
     def readContentFromFile(self, filePath: str) -> str:
-        curr = self.root
+        
+        curr = self.head
+
         path = filePath.split("/")
+
+        for d in path:
+            if d == "":
+                continue
+            
+            # if d not in curr.children:
+            #     curr.children[d] = Node(d)
+            
+            curr = curr.children[d]
         
-        for x in path:
-            if x:
-                curr = curr.children[x]
-        
-        return "".join(curr.contents)
-        
+        return "".join(curr.fileContent)
 
 
 # Your FileSystem object will be instantiated and called as such:
