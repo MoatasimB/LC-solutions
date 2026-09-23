@@ -1,72 +1,61 @@
 class Node:
-    def __init__(self, val):
+    def __init__(self, val=-1):
         self.val = val
         self.next = None
         self.prev = None
+
 class MyCircularQueue:
 
     def __init__(self, k: int):
-        self.head = Node(-1)
-        self.tail = Node(-1)
+        self.head = Node()
+        self.tail = Node()
         self.head.next = self.tail
         self.tail.prev = self.head
-        self.cap = 0
+        self.len = 0
         self.k = k
         
 
     def enQueue(self, value: int) -> bool:
-        if self.cap == self.k:
+        if self.len == self.k:
             return False
-        newNode = Node(value)
-
         prevNode = self.tail.prev
+        node = Node(value)
+        self.tail.prev = node
+        node.next = self.tail
 
-        prevNode.next = newNode
-        newNode.prev = prevNode
-        newNode.next = self.tail
-        self.tail.prev = newNode
+        prevNode.next = node
+        node.prev = prevNode
         
-        # nextNode = self.head.next
-        # print(newNode.val, nextNode.val)
-        # self.head.next = newNode
-        # newNode.prev = self.head
-        
-        # newNode.next = nextNode
-        # nextNode.prev = newNode
-        self.cap += 1
-        # self.pprint()
+        self.len += 1
         return True
-        
-        
 
     def deQueue(self) -> bool:
-        if self.isEmpty():
+        if self.len == 0:
             return False
-        nodeToRemove = self.head.next
-        nextNode = nodeToRemove.next
-        self.head.next = nextNode
-        nextNode.prev = self.head
-        self.cap -= 1
+        
+        self.head.next = self.head.next.next
+        self.head.next.prev = self.head
+        self.len -= 1
         return True
-    def Front(self) -> int:
-        return self.head.next.val if not self.isEmpty() else -1
         
 
+    def Front(self) -> int:
+        return self.head.next.val
+        
+
+
     def Rear(self) -> int:
-        return self.tail.prev.val if not self.isEmpty() else -1
+        return self.tail.prev.val
+        
 
     def isEmpty(self) -> bool:
-        return self.cap == 0
+        return self.len == 0
         
 
     def isFull(self) -> bool:
-        return self.cap == self.k
+        return self.len == self.k
         
-    def pprint(self):
-        curr = self.head
-        while curr:
-            print(f"{curr.val} ->")
-            curr = curr.next
+
 
 # Your MyCircularQueue object will be instantiated and called as such:
 # obj = MyCircularQueue(k)
