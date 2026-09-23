@@ -5,13 +5,13 @@ class Solution:
 
         l = 0
         total = sum(nums)
-        if total == x:
-            return n
+        # if total == x:
+        #     return n
         curr = 0
         ans = float("inf")
         for r in range(n):
             curr += nums[r]
-            while l < r and total - curr < x:
+            while l <= r and total - curr < x:
                 curr -= nums[l]
                 l += 1
             
