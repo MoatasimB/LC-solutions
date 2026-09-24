@@ -1,8 +1,8 @@
 class Solution:
     def minimumTime(self, n: int, relations: list[list[int]], time: list[int]) -> int:
         
-        if n == 1:
-            return time[0]
+        # if n == 1:
+        #     return time[0]
         graph = defaultdict(list)
         indeg = [0] * (n + 1)
         timeForNode = [0] * (n + 1)
