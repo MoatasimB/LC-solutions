@@ -1,98 +1,105 @@
-class Node:
-    def __init__(self, val, cellMap):
-        self.val = val
-        self.cellMap = cellMap
-
 class Excel:
 
     def __init__(self, height: int, width: str):
-        self.mat = [[Node(0, defaultdict(int)) for _ in range(ord(width) - ord("A") + 1)] for _ in range(height)]
+        width = ord(width) - ord("A") + 1
+        self.mat = [[0] * width for _ in range(height)]
+        self.depends = defaultdict(dict) #node : all the cells it depends on
         self.stack = []
-
-    def set(self, row: int, column: str, val: int) -> None:
-        column = ord(column) - ord("A")
-        row -= 1
-        node = self.mat[row][column]
-        node.val = val
-        node.cellMap = defaultdict(int)
-
-        self.toposort(row, column, set())
-
-        self.do_stack()
-        
-
-    def get(self, row: int, column: str) -> int:
-        column = ord(column) - ord("A")
-        row -= 1
-        return self.mat[row][column].val
-
-
-
-        
-
-    def sum(self, row: int, column: str, numbers: List[str]) -> int:
-        nums = self.get_nums(numbers)
-        column = ord(column) - ord("A")
-        row -= 1
-        node = self.mat[row][column]
-
-        node.val = 0
-        node.cellMap = defaultdict(int)
-
-        for r, c in nums:
-            node.cellMap[(r, c)] += 1
-        self.calculate_sum(row, column)
-        self.toposort(r, c, set())
-        self.do_stack()
-
-        return node.val
-        
-
-    def get_nums(self, lst):
-        ans = []
-
-        for item in lst:
-            if ":" not in item:
-                row = int(item[1:]) - 1
-                col = ord(item[0]) - ord("A")
-                ans.append([row, col])
-            else:
-                start, end = item.split(":")
-                startR, startC = int(start[1:]) - 1, ord(start[0]) - ord("A")
-                endR, endC = int(end[1:]) - 1, ord(end[0]) - ord("A")
-
-                for row in range(startR, endR + 1):
-                    for col in range(startC, endC + 1):
-                        ans.append([row, col])
-        return ans
     
-    def toposort(self,r, c, seen):
-        if (r, c) in seen:
-            return
-        seen.add((r, c))
-
-        for nr in range(len(self.mat)):
-            for nc in range(len(self.mat[0])):
-                node = self.mat[nr][nc]
-                if (r, c) in node.cellMap:
-                    self.toposort(nr, nc, set())
-        self.stack.append([r, c])
+    def getPos(self, row: int, column: str) -> List[int]:
+        r = row - 1
+        c = ord(column) - ord("A") 
+        return [r, c]
     
-    def do_stack(self):
+    def applyChange(self, row: int, col: int) -> None:
+        self.topo(row, col)
+        self.calcStack()
+    
+    def topo(self, row: int, col: int) -> None:
+        for i in range(len(self.mat)):
+            for j in range(len(self.mat[0])):
+                if (row, col) in self.depends[(i, j)]:
+                    self.topo(i, j)
+        self.stack.append((row, col))
+    
+    def calcStack(self) -> None:
         while self.stack:
             r, c = self.stack.pop()
-            self.calculate_sum(r, c)
+            self.calc(r, c)
     
-    def calculate_sum(self, r, c):
-        total = 0
-        node = self.mat[r][c]
-        if len(node.cellMap) > 0:
-            for cell, count in node.cellMap.items():
-                nr = cell[0]
-                nc = cell[1]
-                total += self.mat[nr][nc].val * count
-            self.mat[r][c].val = total
+    def calc(self, r: int, c: int) -> None:
+        if len(self.depends[(r, c)]) == 0:
+            return
+        self.mat[r][c] = 0
+        for node, count in self.depends[(r, c)].items():
+            nr, nc = node
+            self.mat[r][c] += (self.mat[nr][nc] * count)
 
+
+    def removePrev(self, r: int, c: int) -> None:
+        self.depends[(r, c)] = {}
+
+    def set(self, row: int, column: str, val: int) -> None:
+        r, c = self.getPos(row, column)
+        #when I set this value I no longer depend on any of those other nodes
+        #I go through those nodes and remove the current node as a node that should get updated if one of those is updated
+        self.removePrev(r, c)
+
+        self.mat[r][c] = val
+        self.applyChange(r, c)
+
+    
+    
+    def get(self, row: int, column: str) -> int:
+        r, c = self.getPos(row, column)
+
+        return self.mat[r][c]
+        
+
+    def sum(self, row: int, column: str, numbers: list[str]) -> int:
+        r, c = self.getPos(row, column)
+        cells = defaultdict(int)
+        for value in numbers:
+            if ":" not in value:
+                r1 = int(value[1:])
+                c1 = value[0]
+                p1, p2 = self.getPos(r1, c1)
+                cells[(p1, p2)] += 1
+            else:
+                lst = value.split(":")
+                topR = int(lst[0][1:])
+                topC = lst[0][0]
+                botR = int(lst[1][1:])
+                botC = lst[1][0]
+                tR, tC = self.getPos(topR, topC)
+                bR, bC = self.getPos(botR, botC)
+
+                for i in range(tR, bR + 1):
+                    for j in range(tC, bC + 1):
+                        cells[(i, j)] += 1
+        total = 0
+        self.removePrev(r, c)
+        for key, count in cells.items():
+            x, y = key
+            total += self.mat[x][y] * count
+            self.depends[(r, c)][(x, y)] =  count
+        
+        self.mat[r][c] = total
+        self.applyChange(r, c)
+        return self.mat[r][c]
+
+        
+  
+#     A   B   C   D   E
+# 1.  1
+
+# 2.      0     
+
+# 3
+
+# 4
+
+# 5
 # Your Excel object will be instantiated and called as such:
 # obj = Excel(height, width)
 # obj.set(row,column,val)
