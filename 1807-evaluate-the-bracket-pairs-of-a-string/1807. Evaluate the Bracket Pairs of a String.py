@@ -1,29 +1,33 @@
 class Solution:
-    def evaluate(self, s: str, knowledge: list[list[str]]) -> str:
+    def evaluate(self, s: str, knowledge: List[List[str]]) -> str:
         
         mpp = {}
+
         for key, val in knowledge:
             mpp[key] = val
         
-
         stack = []
-        final = []
-        n = len(s)
 
         i = 0
-        while i < n:
+
+        while i < len(s):
             if s[i] == "(":
-                j = i
-                while j < n and s[j] != ")":
-                    j += 1
-                word = s[i + 1: j]
+                i += 1
+                curr = []
+                while i < len(s) and s[i] != ")":
+                    curr.append(s[i])
+                    i += 1
+                word = "".join(curr)
+                
                 if word in mpp:
-                    final.extend(mpp[word])
+                    stack.append(mpp[word])
                 else:
-                    final.append("?")
-                i = j + 1
+                    stack.append("?")
+
+                i += 1
             else:
-                final.append(s[i])
+                stack.append(s[i])
                 i += 1
         
-        return "".join(final)
+
+        return "".join(stack)
