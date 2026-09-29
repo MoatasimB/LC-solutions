@@ -1,81 +1,55 @@
 class Node:
     def __init__(self):
         self.children = {}
-        self.end = False
-        self.sentences = defaultdict(int)
+        self.sentences = defaultdict(int) #sentence/freq
 
 class Trie:
     def __init__(self):
         self.root = Node()
     
-    def add(self, sentence, freq):
+    def addSentence(self, sentence, count):
         curr = self.root
+
         for ch in sentence:
             if ch not in curr.children:
                 curr.children[ch] = Node()
-            
-            curr.sentences[sentence] += freq
             curr = curr.children[ch]
+            curr.sentences[sentence] += count
         
-        curr.sentences[sentence] += freq
-        curr.end = True
 
 class AutocompleteSystem:
 
-    def __init__(self, sentences: List[str], times: List[int]):
-      
-        self.mpp = defaultdict(int) #sentence : freq
-        for i in range(len(sentences)):
-            self.mpp[sentences[i]] = times[i]
+    def __init__(self, sentences: list[str], times: list[int]):
         self.trie = Trie()
-        for i, sentence in enumerate(sentences):
-            self.trie.add(sentence, self.mpp[sentence])
-
+        for i in range(len(sentences)):
+            self.trie.addSentence(sentences[i], times[i])
+        
         self.currNode = self.trie.root
         self.currSentence = []
 
-    def input(self, c: str) -> List[str]:
+    def input(self, c: str) -> list[str]:
+        # print(c, self.currSentence)
         if c == "#":
-            newSentence = "".join(self.currSentence)
-            if newSentence not in self.mpp:
-                freq = 1
-                self.mpp[newSentence] = 1
-                self.trie.add(newSentence, freq)
-               
-            else:
-                self.mpp[newSentence] += 1
-                freq = self.mpp[newSentence]
-                self.trie.add(newSentence, 1)
-            # print(self.seenIdx)
-            # print(self.sentences)
-            # print(self.mpp)
-            self.currNode = self.trie.root
+            sentence = "".join(self.currSentence)
             self.currSentence = []
+            self.currNode = self.trie.root
+            self.trie.addSentence(sentence, 1)
             return []
-            
-        
         else:
             self.currSentence.append(c)
-            # print(c)
-            if c in self.currNode.children:
+            if c not in self.currNode.children:
+                self.currNode.children[c] = Node()
                 self.currNode = self.currNode.children[c]
-                # print(self.currNode.sentences)
-                ans = []
-                currSentences =[ (count, sentence) for sentence, count in self.currNode.sentences.items()]
-                # print("_________________________")
-                # print(currSentences)
-                
-                currSentences.sort(key=lambda x: (-x[0], x[1]))
-                # print(currSentences)
-                # print("_________________________")
-
-                return [sentence for _, sentence in currSentences[:3]]
-
-            else:
-                self.currNode = Node()
                 return []
-
-        
+            else:
+                self.currNode = self.currNode.children[c]
+                #get top 3
+                ans = []
+                sortedSentences = sorted(self.currNode.sentences.items(), key = lambda x: (-x[1], x[0]))
+                # print(sortedSentences[:3])
+                for i in range(min(3, len(sortedSentences))):
+                    ans.append(sortedSentences[i][0])
+                return ans
 
 
 # Your AutocompleteSystem object will be instantiated and called as such:
