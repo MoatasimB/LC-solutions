@@ -7,41 +7,40 @@ class Solution:
             return 0 <= r < m and 0 <= c < n
         
         memo = {}
-        def dfs(r, c, left, right):
-            if (r, c, left, right) in memo:
-                return memo[(r, c, left, right)]
-            if right > left:
+        def dfs(r, c, count):
+            if (r, c, count) in memo:
+                return memo[(r, c, count)]
+            if count < 0:
                 return False
             if (r, c) == (m - 1, n - 1):
-                return left == right
+                return count == 0
 
             dr, dc = r + 1, c
             rr, rc = r, c + 1
 
             if valid(dr, dc):
                 if grid[dr][dc] == "(":
-                    if dfs(dr, dc, left + 1, right):
+                    if dfs(dr, dc, count + 1):
                         return True
                 else:
-                    if dfs(dr, dc, left, right + 1):
+                    if dfs(dr, dc, count - 1):
                         return True
             
             if valid(rr, rc):
                 if grid[rr][rc] == "(":
-                    if dfs(rr, rc, left + 1, right):
+                    if dfs(rr, rc, count + 1):
                         return True
                 else:
-                    if dfs(rr, rc, left, right + 1):
+                    if dfs(rr, rc, count - 1):
                         return True
-            memo[(r, c, left, right)] = False
+            memo[(r, c, count)] = False
             return False
         
-        left_count = 0
-        right_count = 0
+        count = 0
         if grid[0][0] == "(":
-            left_count += 1
+            count += 1
         else:
-            right_count += 1
-        return dfs(0, 0, left_count, right_count)
+            count -= 1
+        return dfs(0, 0, count)
                     
 
