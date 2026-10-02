@@ -1,21 +1,17 @@
 class Solution:
-    def generateParenthesis(self, n: int) -> List[str]:
+    def generateParenthesis(self, n: int) -> list[str]:
         
         ans = []
-        def dfs(left, right, curr):
-            if left == right == n:
-                ans.append("".join(curr[:]))
+
+        def dfs(curr, count):
+            if len(curr) == 2 * n:
+                if count == 0:
+                    ans.append("".join(curr[:]))
                 return
             
-            if left < n:
-                curr.append("(")
-                dfs(left + 1, right, curr)
-                curr.pop()
-            
-            if right < left:
-                curr.append(")")
-                dfs(left, right + 1, curr)
-                curr.pop()
+            dfs(curr + ["("], count + 1)
+            if count > 0:
+                dfs(curr + [")"], count - 1)
         
-        dfs(0, 0, [])
+        dfs([], 0)
         return ans
