@@ -1,30 +1,52 @@
 class Solution:
     def checkValidString(self, s: str) -> bool:
+        n = len(s)
+        # memo = {}
+        # def dfs(i, count):
+        #     if (i, count) in memo:
+        #         return memo[(i, count)]
+        #     if i == n:
+        #         return count == 0
+        #     if count < 0:
+        #         return False
+        #     ch = s[i]
+        #     if ch == "(":
+        #         if dfs(i + 1, count + 1):
+        #             return True
+        #     elif ch == ")":
+        #         if dfs(i + 1, count - 1):
+        #             return True
+        #     else:
+        #         if dfs(i + 1, count - 1) or dfs(i + 1, count + 1) or dfs(i + 1, count):
+        #             return True
+        #     memo[(i, count)] = False
+        #     return False
+        # return dfs(0,0)
+
         
-        memo = {}
-        def dfs(i, left):
-            if (i, left) in memo:
-                return memo[(i, left)]
-            if i == len(s):
-                return left == 0
-            if left < 0:
-                return False
+        stack = []
+        stars = []
 
-            ch = s[i]
-
+        for i, ch in enumerate(s):
             if ch == "(":
-                if dfs(i + 1, left + 1):
-                    memo[(i, left)] = True
-                    return True
+                stack.append(i)
             elif ch == ")":
-                if dfs(i + 1, left - 1):
-                    memo[(i, left)] = True
-                    return True
+                if stack and s[stack[-1]] == "(":
+                    stack.pop()
+                elif stars:
+                    stars.pop()
+                else:
+                    return False
             else:
-                if dfs(i + 1, left + 1) or dfs(i + 1, left - 1) or dfs(i + 1, left):
-                    memo[(i, left)] = True
-                    return True
-            memo[(i, left)] = False
-            return False
+                stars.append(i)
         
-        return dfs(0, 0)
+        i = 0
+        j = 0
+        while i < len(stack) and j < len(stars):
+            if stack[i] < stars[j]:
+                i += 1
+                j += 1
+            else:
+                j += 1
+        return i == len(stack)
+        
