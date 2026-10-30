@@ -22,10 +22,7 @@ class Solution:
         def dfs(i, curr):
 
             nonlocal ans
-            # if i == len(nums):
-            #     nonlocal ans
-            #     ans += curr
-            #     return 
+           
             n = str(nums[i])
             depth = int(n[0])
             pos = int(n[1])
@@ -39,7 +36,7 @@ class Solution:
 
                 if child_depth > depth + 1:
                     break
-                if child_depth == depth + 1 and child_pos in mpp[pos]:
+                if child_depth == depth + 1 and child_pos in [pos * 2 - 1, pos * 2]:
                     #we are looking at the child
                     has_child = True
                     dfs(j, curr + val)
@@ -47,21 +44,7 @@ class Solution:
             if not has_child:
                 ans += curr + val
                 
-            # print(i, curr)
-            # #go left
-            # left_child = i * 2 + 1
-            # has_left = (left_child < len(nums) and int(str(nums[left_child])[0]) == depth + 1)
-            # if has_left:
-            #     dfs(left_child, curr + val)
-            # #go right
-            # right_child = i * 2 + 2
-            # has_right = (right_child < len(nums) and int(str(nums[right_child])[0]) == depth + 1)
-            # if has_right:
-            #     dfs(right_child, curr + val)
-            # if not has_left and not has_right:
-            #     print(i, nums[i], curr)
-            #     ans += (curr + val)
-            # print(i, curr)
+          
         dfs(0, 0)
         return ans
 
