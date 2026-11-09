@@ -9,8 +9,8 @@ class Solution:
         for r in range(n):
 
             if nums[r] == 0:
-                while zero_idx!= None and zero_idx >= l:
-                    l += 1
+                if zero_idx != None:
+                    l = zero_idx + 1 if zero_idx else 1
                 zero_idx = r
             ans = max(ans, r - l + 1)
         
